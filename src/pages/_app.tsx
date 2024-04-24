@@ -3,55 +3,66 @@ import "../styles/loading.css";
 import "../styles/select-input.css";
 import '../styles/markdown.css';
 
-// Point: change this file if there is any need to adjust the markdown style.
-import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
+import Header from "../components/Header";
 import type { AppProps } from "next/app";
-import { useMemo, useState } from "react";
-import {
-  FewchaWalletAdapter,
-  PontemWalletAdapter,
-  MartianWalletAdapter,
-  WalletProvider,
-  AptosWalletAdapter,
-} from "@manahippo/aptos-wallet-adapter";
-import { ModalContext, ModalState } from "../components/ModalContext";
-function WalletSelector({ Component, pageProps }: AppProps) {
+// import Content from "./components/Content";
 
-  
-  const [modalState, setModalState] = useState<ModalState>({
-    walletModal: false,
-  });
-  const wallets = useMemo(
-    () => [
-      new AptosWalletAdapter(),
-      new MartianWalletAdapter(),
-      new PontemWalletAdapter(),
-      new FewchaWalletAdapter(),
-    ],
-    []
-  );
-  const modals = useMemo(
-    () => ({
-      modalState,
-      setModalState: (modalState: ModalState) => {
-        setModalState(modalState);
-      },
-    }),
-    [modalState]
-  );
+// wallet adapter
+import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
+// wallets
+import { PetraWallet } from "petra-plugin-wallet-adapter";
+import { PontemWallet } from "@pontem/wallet-adapter-plugin";
+import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
+import { RiseWallet } from "@rise-wallet/wallet-adapter";
+import { FewchaWallet } from "fewcha-plugin-wallet-adapter";
+import { MSafeWalletAdapter } from "msafe-plugin-wallet-adapter";
+import { NightlyWallet } from "@nightlylabs/aptos-wallet-adapter-plugin";
+import { OpenBlockWallet } from "@openblockhq/aptos-wallet-adapter";
+import { TokenPocketWallet } from "@tp-lab/aptos-wallet-adapter";
+import { TrustWallet } from "@trustwallet/aptos-wallet-adapter";
+import { WelldoneWallet } from "@welldone-studio/aptos-wallet-adapter";
+
+import { WalletConnector } from "@aptos-labs/wallet-adapter-mui-design";
+
+// define the wallets
+const theWallets = [
+  new PetraWallet(),
+  new PontemWallet(),
+  new RiseWallet(),
+  new FewchaWallet(),
+  new MartianWallet(),
+  new MSafeWalletAdapter(),
+  new NightlyWallet(),
+  new OpenBlockWallet(),
+  new TokenPocketWallet(),
+  new TrustWallet(),
+  new WelldoneWallet(),
+];
+
+
+
+
+function WalletSelector({ Component, pageProps }: AppProps) {
 
   return (
     <div>
-      <WalletProvider wallets={wallets} autoConnect={false}>
-        <ModalContext.Provider value={modals}>
-          <div className="px-8">
-            <NavBar />
-            <Component {...pageProps} className="bg-base-300" />
-          </div>
-        </ModalContext.Provider>
-      </WalletProvider>
-    <Footer />
+      {/* <WalletConnector /> */}
+      {/* <WalletProvider wallets={wallets} autoConnect={false}> */}
+      <AptosWalletAdapterProvider
+        plugins={theWallets}
+        autoConnect={false}
+        onError={(error) => {
+          console.log("Custom error handling", error);
+        }}
+      >
+        <Header />
+        <br></br>
+        <div className="px-8">
+        <Component {...pageProps} className="bg-base-300" />
+        </div>
+      </AptosWalletAdapterProvider>
+    {/* <Footer /> */}
     </div>
     
   );
