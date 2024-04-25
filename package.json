@@ -32,7 +32,7 @@
     "antd": "^5.1.4",
     "aptos": "^1.18.0",
     "axios": "^0.27.2",
-    "daisyui": "^2.24.0",
+    "daisyui": "^4.10.2",
     "dotenv": "^16.0.1",
     "ethers": "^6.0.8",
     "fewcha-plugin-wallet-adapter": "^0.1.3",
@@ -40,12 +40,12 @@
     "mime": "^3.0.0",
     "mongodb": "^4.9.0",
     "msafe-plugin-wallet-adapter": "0.1.0",
-    "next": "^12.3.1-canary.0",
+    "next": "14.2.3",
     "nft.storage": "^7.0.0",
     "petra-plugin-wallet-adapter": "^0.4.5",
     "rainbowkit": "^0.0.1",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.22.3",
@@ -78,7 +78,7 @@
     "eslint-plugin-tailwindcss": "^3.8.3",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.2",
-    "typescript": "4.7.2",
+    "typescript": "^5.4.5",
     "vercel": "^28.15.1"
   }
 }

@@ -1,4 +1,4 @@
-import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
+import { WalletSelector } from "./WalletSelector";
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
 import { Layout, Row, Col } from "antd";
 
