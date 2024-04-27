@@ -10,9 +10,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-white border-black border-2 border-b-4 active:border-b-4 hover:bg-slate-100 text-slate-500",
-        primary:"border-1 bg-white text-primary-foreground hover:bg-white/90 border-black border-b-4 active:border-b-0",
+        primary:"border bg-white text-primary-foreground hover:bg-white/90 border-black border-b-4 active:border-b-0",
         primaryOutline:" bg-white text-sky-500 hover:bg-slate-100",
-        secondary:"border-1 bg-bggreen text-primary-foreground hover:bg-bggreen/90 border-black border-b-4 active:border-b-0",
+        secondary:"border bg-bggreen text-primary-foreground hover:bg-bggreen/90 border-black border-b-4 active:border-b-0",
         secondaryOutline:"bg-white text-bggreen hover:bg-slate-100",
         ghost:"bg-transparent text-slate-500 border-2",
       },
