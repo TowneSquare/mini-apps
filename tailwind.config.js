@@ -24,6 +24,10 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         bgorange: "#e1dac4",
+        bgbutton: "#d6d3c8",
+        bgpink:"#746aa9",
+        fgpink:"#b5afd0",
+        bggreen:"#82cbca",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -74,10 +78,7 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/typography"),
-    require("daisyui"),
-  ],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     themes: ["light"],
   },
