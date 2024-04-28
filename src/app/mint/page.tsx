@@ -77,15 +77,21 @@ const MintPage = () => {
               </div>
 
               <div className="flex w-full items-center justify-center">
-                <Button disabled={true} variant="primary" className="text-black">
+                <Button
+                  disabled={true}
+                  variant="primary"
+                  className="text-black"
+                >
                   <MinusOutlined />
                 </Button>
-                <span className="font-bold text-white inline-block mx-8">1</span>
+                <span className="mx-8 inline-block font-bold text-white">
+                  1
+                </span>
                 <Button variant="primary" className="text-black">
                   <PlusOutlined />
                 </Button>
               </div>
-              <Button className="w-full my-8" variant="secondary">
+              <Button className="my-8 w-full" variant="secondary">
                 Mint
               </Button>
             </div>
