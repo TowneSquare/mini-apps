@@ -10,7 +10,7 @@ const MintPage = () => {
         <Image src={HeaderBg} width={126} height={80} alt="Header" />
         <CloseOutlined className="text-2xl" />
       </header>
-      <main className=" bg-bgorange pt-20">
+      <main className="bg-bgorange pt-20">
         <div
           className="flex flex-col space-y-2 px-8 pb-8"
           style={{
