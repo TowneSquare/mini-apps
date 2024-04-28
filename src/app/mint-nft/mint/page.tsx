@@ -1,7 +1,7 @@
 import Image from "next/image";
-import HeaderBg from "../../../public/assets/header_icon.png";
-import unknownSothballs from "../../../public/assets/unknown_sothballs.png";
-import { Button } from "../..//components/ui/button";
+import HeaderBg from "@/public/assets/header_icon.png";
+import unknownSothballs from "@/public/assets/unknown_sothballs.png";
+import { Button } from "@/src/components/ui/button";
 import { CloseOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons";
 const MintPage = () => {
   return (

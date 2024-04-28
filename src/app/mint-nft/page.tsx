@@ -78,7 +78,7 @@ export default function MintHome() {
 
         <div className="fixed bottom-0 left-0 right-0 mx-auto h-20 w-11/12 translate-y-full  animate-[button-appear-up_0.3s_1.2s_ease-in-out_forwards] rounded-2xl bg-sky-900 px-5 py-4">
           <button className="bg-bggreen h-full w-full rounded-xl font-extrabold text-white">
-            <Link href="/mint">CONTINUE</Link>
+            <Link href="/mint-nft/mint">CONTINUE</Link>
           </button>
         </div>
       </div>
