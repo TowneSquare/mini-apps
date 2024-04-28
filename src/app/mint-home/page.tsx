@@ -8,7 +8,7 @@ import SlothLeft2Img from "../../../public/assets/home/sloth_left2.png";
 import SlothRight1Img from "../../../public/assets/home/sloth_right1.png";
 import SlothRight2Img from "../../../public/assets/home/sloth_right2.png";
 
-export default function Home() {
+export default function MintHome() {
   return (
     <main
       className="h-screen overflow-hidden bg-bgorange"
