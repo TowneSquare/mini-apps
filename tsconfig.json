@@ -29,8 +29,10 @@
     "**/*.ts",
     "**/*.tsx",
     "scripts/create_market.mjs",
-    ".next/types/**/*.ts"
-, "tailwind.config.js", "tailwind.config.js"  ],
+    ".next/types/**/*.ts",
+    "tailwind.config.js",
+    "tailwind.config.js"
+  ],
   "exclude": [
     "node_modules"
   ]
