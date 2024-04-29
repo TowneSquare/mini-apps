@@ -73,10 +73,50 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "home-title-animation-x": {
+          "0%": { transform: "translateX(100%) translateY(50%)" },
+          "22%": { transform: "translateX(-10%) translateY(50%)" },
+          "25%": { transform: "translateX(0) translateY(50%)" },
+          "50%": { transform: "translateX(0) translateY(50%)" },
+          "100%": { transform: "translateX(0) translateY(0%)" },
+        },
+        "home-title-animation-y": {
+          from: { transform: "translateY(50%)" },
+          to: { transform: "translateY(0)" },
+        },
+        "appear-up": {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
+        },
+        "sloth-appear-up": {
+          from: { transform: "translateY(100%)", top: "20%" },
+          to: { transform: "translateY(0)", top: "0" },
+        },
+        "button-appear-up": {
+          from: { transform: "translateY(100%)", bottom: "0rem" },
+          to: { transform: "translateY(0)", bottom: "1rem" },
+        },
+        "appear-left": {
+          from: { transform: "translateX(-100%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "appear-left-sm": {
+          from: { transform: "translateX(-100%)", left: "0rem" },
+          to: { transform: "translateX(0)", left: "2rem" },
+        },
+        "appear-right": {
+          from: { transform: "translateX(100%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "appear-right-sm": {
+          from: { transform: "translateX(100%),", right: "0rem" },
+          to: { transform: "translateX(0)", right: "1.5rem" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "home-title-ani": "home-title-animation-x 0.8s ease-out forwards",
       },
     },
   },

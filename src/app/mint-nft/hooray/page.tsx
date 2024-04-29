@@ -1,5 +1,5 @@
-import bg from "../../../public/assets/hooray/bg.png";
-import centerImage from "../../../public/assets/hooray/ball-brown.png";
+import bg from "@/public/assets/hooray/bg.png";
+import centerImage from "@/public/assets/hooray/ball-brown.png";
 
 
 export default function Page() {
