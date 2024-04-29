@@ -8,7 +8,7 @@ export default function Home() {
         <Link href="/mint-nft">NFT Mint APP</Link>
       </Button>
       <Button variant="secondary">
-        <Link href="/nft-game">NFT Game APP</Link>
+        <Link href="/battle-game">NFT Game APP</Link>
       </Button>
     </main>
   );
