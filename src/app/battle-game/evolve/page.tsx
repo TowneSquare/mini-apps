@@ -4,6 +4,7 @@ import HeaderBg from "@/public/assets/header_icon.png";
 import { Button } from "@/src/components/ui/button";
 import SlothRight2Img from "@/public/assets/home/sloth_right2.png";
 import BgFallImg from "@/public/assets/battle-evovling/bg-fall.png";
+import Link from "next/link";
 
 export default function EvolvePage() {
   return (
@@ -14,7 +15,7 @@ export default function EvolvePage() {
       </header>
       <main
         style={{
-          background: `radial-gradient(circle closest-side at 50% 40%,#5776b1 8%, #516aa2 60%, #3e4878 172%),url(${BgFallImg.src})`,
+          background: `url(${BgFallImg.src}),radial-gradient(circle closest-side at 50% 40%,#5776b1 8%, #516aa2 60%, #3e4878 172%)`,
         }}
         className="relative flex min-h-screen flex-col py-20"
       >
@@ -45,7 +46,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>
           <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
@@ -69,7 +70,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>{" "}
           <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
@@ -93,7 +94,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>{" "}
           <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
@@ -117,7 +118,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>{" "}
           <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
@@ -141,7 +142,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>{" "}
           <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
@@ -165,7 +166,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>{" "}
           <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
@@ -189,7 +190,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>{" "}
           <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
@@ -213,7 +214,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>{" "}
           <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
@@ -237,7 +238,7 @@ export default function EvolvePage() {
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
             >
-              EVOLVE
+              <Link href="/battle-game/compose">EVOLVE</Link>
             </Button>
           </div>
         </div>
