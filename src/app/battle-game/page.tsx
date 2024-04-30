@@ -1,16 +1,12 @@
 import Image from "next/image";
-import { CloseOutlined } from "@ant-design/icons";
-import HeaderBg from "@/public/assets/header_icon.png";
-import EvilAndSloths from "@/public/assets/battle-evovling/sloth-evil.png";
+import EvilAndSloths from "@/public/assets/battle-game/sloth-evil.png";
 import { RouteButton } from "@/src/components/RouteButton";
+import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 
 export default function BattleGamePage() {
   return (
     <>
-      <header className="fixed z-10 flex h-20 w-full flex-row items-center justify-between px-4 backdrop-blur-sm">
-        <Image src={HeaderBg} width={126} height={80} alt="Header" />
-        <CloseOutlined className="text-2xl text-white" />
-      </header>
+      <CommonPageHeader className="z-10" />
       <main className="relative min-h-screen bg-[#1b2537] pt-20 pb-32">
         <div
           className="absolute bottom-0 z-[1] mx-auto h-[50rem] w-full rounded-tl-[3rem] rounded-tr-[3rem] bg-[#4c6299]"
@@ -42,7 +38,7 @@ export default function BattleGamePage() {
           <div className="rounded-t-xl bg-[#29294f] px-4 pt-2">
             <div className="flex h-12 w-full items-center justify-between">
               <span className="text-lg font-bold text-white">Battle</span>
-              <span className="text-base border-bggreen text-bggreen rounded-full border-2 px-4 font-medium">
+              <span className="border-bggreen text-bggreen rounded-full border-2 px-4 text-base font-medium">
                 You're eligible
               </span>
             </div>

@@ -1,15 +1,12 @@
 import Image from "next/image";
-import HeaderBg from "@/public/assets/header_icon.png";
 import unknownSothballs from "@/public/assets/unknown_sothballs.png";
 import { Button } from "@/src/components/ui/button";
-import { CloseOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 const MintPage = () => {
   return (
     <>
-      <header className="fixed flex h-20 w-full flex-row items-center justify-between px-4 backdrop-blur-sm">
-        <Image src={HeaderBg} width={126} height={80} alt="Header" />
-        <CloseOutlined className="text-2xl" />
-      </header>
+      <CommonPageHeader closeIconColor="text-black" />
       <main className="bg-bgorange pt-20">
         <div
           className="flex flex-col space-y-2 px-8 pb-8"
