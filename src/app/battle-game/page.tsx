@@ -2,6 +2,7 @@ import Image from "next/image";
 import EvilAndSloths from "@/public/assets/battle-game/sloth-evil.png";
 import { RouteButton } from "@/src/components/RouteButton";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
+import { CountDown } from "@/src/components/CountDown";
 
 export default function BattleGamePage() {
   return (
@@ -44,25 +45,10 @@ export default function BattleGamePage() {
             </div>
             <div className="flex h-56 w-full flex-col items-center justify-center pb-3">
               <h1 className="text-lg font-bold text-white">Battle starts</h1>
-              <span className="text-lg text-white">19 April⋅00:00 GMT</span>
-              <div className="mt-9 grid grid-cols-4 divide-x divide-slate-400/25 rounded-xl bg-[#555372] text-slate-300">
-                <div className="flex flex-col items-center justify-center px-3 py-2">
-                  <span className="text-xl">02</span>
-                  <span>Days</span>
-                </div>
-                <div className="flex flex-col items-center justify-center px-3 py-2">
-                  <span className="text-xl">23</span>
-                  <span>Hours</span>
-                </div>
-                <div className="flex flex-col items-center justify-center px-3 py-2">
-                  <span className="text-xl">56</span>
-                  <span>Minutes</span>
-                </div>
-                <div className="flex flex-col items-center justify-center px-3 py-2">
-                  <span className="text-xl">12</span>
-                  <span>Seconds</span>
-                </div>
-              </div>
+              <span className="mb-9 text-lg text-white">
+                19 April⋅00:00 GMT
+              </span>
+              <CountDown bgcolor='bg-[#555372]' />
             </div>
           </div>
           <div className="rounded-b-xl bg-white px-4 py-5">

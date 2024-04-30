@@ -3,6 +3,7 @@ import unknownSothballs from "@/public/assets/unknown_sothballs.png";
 import { Button } from "@/src/components/ui/button";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
+import { CountDown } from "@/src/components/CountDown";
 const MintPage = () => {
   return (
     <>
@@ -52,28 +53,11 @@ const MintPage = () => {
               </div>
               <div className="flex w-full flex-col items-center justify-center">
                 <h1 className="font-bold text-white">Mint date</h1>
-                <span className="text-white">19 April⋅00:00 GMT</span>
-                <div className="mt-7 mb-3 grid grid-cols-4 divide-x divide-slate-400/25 bg-black text-slate-300">
-                  <div className="flex flex-col items-center justify-center rounded-l-xl px-3 py-2">
-                    <span className="text-xl">02</span>
-                    <span>Days</span>
-                  </div>
-                  <div className="flex flex-col items-center justify-center px-3 py-2">
-                    <span className="text-xl">23</span>
-                    <span>Hours</span>
-                  </div>
-                  <div className="flex flex-col items-center justify-center px-3 py-2">
-                    <span className="text-xl">56</span>
-                    <span>Minutes</span>
-                  </div>
-                  <div className="flex flex-col items-center justify-center rounded-r-xl px-3 py-2">
-                    <span className="text-xl">12</span>
-                    <span>Seconds</span>
-                  </div>
-                </div>
+                <span className="mb-7 text-white">19 April⋅00:00 GMT</span>
+                <CountDown />
               </div>
 
-              <div className="flex w-full items-center justify-center">
+              <div className="mt-3 flex w-full items-center justify-center">
                 <Button
                   disabled={true}
                   variant="primary"

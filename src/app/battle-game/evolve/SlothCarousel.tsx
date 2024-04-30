@@ -8,7 +8,10 @@ export const SlothCarousel = ({ sloths }: { sloths: SlothsData }) => {
       {sloths.map((sloth) => {
         if (sloth.composed) {
           return (
-            <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
+            <div
+              key={sloth.id}
+              className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3"
+            >
               <div className="flex flex-col items-center justify-center justify-self-start">
                 <span className="text-3xl font-black">Your Sloth</span>
                 <span className="mt-2 text-xl font-semibold">
@@ -26,15 +29,20 @@ export const SlothCarousel = ({ sloths }: { sloths: SlothsData }) => {
                 </div>
                 <span className="font-semibold text-[#8869ee]">cNFT</span>
               </div>
-              <div className="flex flex-col items-center justify-center justify-self-end mb-2">
+              <div className="mb-2 flex flex-col items-center justify-center justify-self-end">
                 <span>Edit your cNFT on</span>
-                <span className="text-bggreen font-extrabold">townespase.xyz</span>
+                <span className="text-bggreen font-extrabold">
+                  townespase.xyz
+                </span>
               </div>
             </div>
           );
         } else {
           return (
-            <div className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3">
+            <div
+              key={sloth.id}
+              className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3"
+            >
               <div className="flex flex-col items-center justify-center justify-self-start">
                 <span className="text-3xl font-black">Congratulations</span>
                 <span className="mt-2 text-xl font-semibold">you minted</span>

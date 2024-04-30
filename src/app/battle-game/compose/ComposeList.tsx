@@ -7,7 +7,7 @@ export const ComposeList = ({ slothItems }: { slothItems: SlothItem[] }) => {
   return (
     <div className="mt-6 grid grid-cols-2 gap-4">
       {slothItems.map((sloth) => {
-        return <ComposeItem sloth={sloth} />;
+        return <ComposeItem key={sloth.id} sloth={sloth} />;
       })}
     </div>
   );
