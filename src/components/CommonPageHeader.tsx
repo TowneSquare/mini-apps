@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import { CloseOutlined } from "@ant-design/icons";
 import HeaderBg from "@/public/assets/header_icon.png";
+import { useRouter } from "next/navigation";
 
 export const CommonPageHeader = ({
   className = "",
@@ -9,6 +11,11 @@ export const CommonPageHeader = ({
   className?: string;
   closeIconColor?: string;
 }) => {
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.back();
+  };
   return (
     <header
       className={
@@ -18,7 +25,10 @@ export const CommonPageHeader = ({
       }
     >
       <Image src={HeaderBg} width={126} height={80} alt="Header" />
-      <CloseOutlined className={"text-2xl" + " " + closeIconColor} />
+      <CloseOutlined
+        onClick={handleGoBack}
+        className={"text-2xl" + " " + closeIconColor}
+      />
     </header>
   );
 };

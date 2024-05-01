@@ -1,12 +1,9 @@
-import Image from "next/image";
-import { CloseOutlined } from "@ant-design/icons";
-import HeaderBg from "@/public/assets/header_icon.png";
 import SlothRight2Img from "@/public/assets/home/sloth_right2.png";
 import BgFallImg from "@/public/assets/battle-game/bg-fall.png";
 import { SlothsData } from "../evolve/page";
 import { SlothCarousel } from "../evolve/SlothCarousel";
 import ComposedImg from "@/public/assets/compose/composed.png";
-
+import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 
 export default function EvolvePage() {
   const sloths: SlothsData = [
@@ -19,10 +16,8 @@ export default function EvolvePage() {
   ];
   return (
     <>
-      <header className="fixed z-10 flex h-20 w-full flex-row items-center justify-between px-4 backdrop-blur-sm">
-        <Image src={HeaderBg} width={126} height={80} alt="Header" />
-        <CloseOutlined className="text-2xl text-white" />
-      </header>
+      <CommonPageHeader className="z-10" />
+
       <main
         style={{
           background: `url(${BgFallImg.src}),radial-gradient(circle closest-side at 50% 40%,#5776b1 8%, #516aa2 60%, #3e4878 172%)`,
