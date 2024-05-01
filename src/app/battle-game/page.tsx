@@ -30,8 +30,6 @@ export default function BattleGamePage() {
           src={EvilAndSloths}
           fill
           className="!relative z-[2] !h-auto"
-          objectFit="contain"
-          sizes="100vw"
           alt="evil-and-sloths"
         />
 
@@ -39,7 +37,7 @@ export default function BattleGamePage() {
           <div className="rounded-t-xl bg-[#29294f] px-4 pt-2">
             <div className="flex h-12 w-full items-center justify-between">
               <span className="text-lg font-bold text-white">Battle</span>
-              <span className="border-bggreen text-bggreen rounded-full border-2 px-4 text-base font-medium">
+              <span className="rounded-full border-2 border-bggreen px-4 text-base font-medium text-bggreen">
                 You're eligible
               </span>
             </div>
@@ -48,7 +46,10 @@ export default function BattleGamePage() {
               <span className="mb-9 text-lg text-white">
                 19 April⋅00:00 GMT
               </span>
-              <CountDown bgcolor='bg-[#555372]' />
+              <CountDown
+                bgcolor="bg-[#555372]"
+                deadlineTime={new Date("2024-5-19").getTime()}
+              />
             </div>
           </div>
           <div className="rounded-b-xl bg-white px-4 py-5">

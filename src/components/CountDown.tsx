@@ -1,7 +1,12 @@
 "use client";
+import { useCountdown } from "@/src/hooks/useCountdown";
+
 export const CountDown: React.FC<{
+  deadlineTime: number;
   bgcolor?: string;
-}> = ({ bgcolor = "bg-black" }) => {
+}> = ({ bgcolor = "bg-black",deadlineTime }) => {
+
+  const timeInfo = useCountdown({deadlineTime})
   return (
     <div
       className={
@@ -11,19 +16,19 @@ export const CountDown: React.FC<{
       }
     >
       <div className="flex flex-col items-center justify-center px-3 py-2">
-        <span className="text-xl">02</span>
+        <span className="text-xl">{timeInfo.day}</span>
         <span>Days</span>
       </div>
       <div className="flex flex-col items-center justify-center px-3 py-2">
-        <span className="text-xl">23</span>
+        <span className="text-xl">{timeInfo.hoursStr}</span>
         <span>Hours</span>
       </div>
       <div className="flex flex-col items-center justify-center px-3 py-2">
-        <span className="text-xl">56</span>
+        <span className="text-xl">{timeInfo.minutesStr}</span>
         <span>Minutes</span>
       </div>
       <div className="flex flex-col items-center justify-center px-3 py-2">
-        <span className="text-xl">12</span>
+        <span className="text-xl">{timeInfo.secondsStr}</span>
         <span>Seconds</span>
       </div>
     </div>
