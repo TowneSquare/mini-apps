@@ -25,7 +25,7 @@ export default function Page() {
             />
 
             <div
-                className="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-2xl  text-center font-bold text-[#62C2C4]" >
+                className="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-2xl  text-center font-bold text-[#62C2C4]">
                 Skip
             </div>
         </div>
