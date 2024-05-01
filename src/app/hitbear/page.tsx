@@ -4,11 +4,15 @@ import bearStartImg from "../../../public/assets/game/Untitled_Artwork 14 1.png"
 import num30Img from "../../../public/assets/game/30.png"
 import num01Img from "../../../public/assets/game/01.png"
 import hitHimImg from "../../../public/assets/game/hithim.png"
-import healthImg from "../../../public/assets/game/Component 20-1.png"
+import healthImg from "../../../public/assets/game/full-health.png"
+import fullHealthImage from "../../../public/assets/game/full-health.png";
+import ninetyHealthImage from "../../../public/assets/game/90-health.png";
+import emptyHealthImage from "../../../public/assets/game/empty-health.png";
+
 import logoImg from "../../../public/assets/game/Frame 48096883-2.png"
 import hitBearImg from "../../../public/assets/game/Component 44.png"
 import blinkBearImg from "../../../public/assets/game/Component 44-1.png"
-import boomImg from "../../../public/assets/game/Component 31.png"
+import boomImg from "../../../public/assets/game/boom.svg"
 
 import frontImg from "../../../public/assets/game/Frame 48096887-1.png"
 import bgImg from "../../../public/assets/game/bg.svg"
@@ -57,11 +61,19 @@ const HitBear = () => {
     }, [loaded]);
     const containerRef = useRef<HTMLDivElement>(null); // Ref for the container
     const hitMarkerRef = useRef<HTMLDivElement>(null);
+    const [clickCount, setClickCount] = useState(0);
 
+    const totalClicks = 10; // 总共点击次数，到达这个次数视为满
+    const healthImages = [
+        fullHealthImage,
+        ninetyHealthImage,
+        // ... 添加更多血量状态的图片
+        emptyHealthImage,
+    ];
     const handleClick = (event: { clientX: number; clientY: number }) => {
         const marker = hitMarkerRef.current;
         const container = containerRef.current;
-
+        setClickCount(prev => prev + 1);
         if (container && marker) {
             const rect = container.getBoundingClientRect();
             const offsetX = event.clientX - rect.left; // Adjust for container's left boundary
@@ -96,6 +108,8 @@ const HitBear = () => {
     const handleImageError = (event: any) => {
         console.error('Image load error:', event);
     };
+    const currentHealthIndex = Math.min(healthImages.length - 1,
+        Math.floor(clickCount / totalClicks * healthImages.length));
 
     return (
         <div ref={containerRef} className="flex justify-center h-screen overflow-hidden" style={{
@@ -108,8 +122,11 @@ const HitBear = () => {
             {/* 开始图片 */}
             <img className={`absolute bottom-0 z-20 w-full object-cover ${loaded ? 'hidden' : ''}`}
                  src={bearStartImg.src} alt=""/>
-            <img ref={healthRef} className={`absolute top-0 z-20 w-full object-cover  `}
+            <img className={`absolute top-0 z-20 w-full object-cover  `}
                  src={logoImg.src} alt=""/>
+            <img src={healthImages[currentHealthIndex]} className="absolute top-0 left-1/2" alt="Health Bar"/>
+            <img src={healthImages[currentHealthIndex]} className="absolute top-0 left-1/2 transform -translate-x-1/2"
+                 style={{width: "200px", height: "30px"}} alt="Health Bar"/>
             <img ref={healthRef} className={`absolute top-20 z-20 w-3/4 object-cover  `}
                  src={healthImg.src} alt=""/>
             <img ref={num30Ref} className={`absolute top-52 z-20 w-3/4 object-cover  `}
@@ -137,17 +154,20 @@ const HitBear = () => {
             <img ref={blinkBearRef}
                  src={blinkBearImg.src}
                  alt="Description"
-                 className={`absolute top-52 z-20 w-full object-cover  opacity-0 `}/>
+                 className={`absolute top-56 z-20 w-full object-cover  opacity-0 `}/>
 
             <img ref={hitBearRef}
                  src={hitBearImg.src}
                  alt="Description"
 
-                 className={`absolute top-52 z-20 w-full object-cover  opacity-0 `} onClick={handleClick}/>
+                 className={`absolute top-56 z-20 w-full object-cover  opacity-0 `} onClick={handleClick}/>
             {/*<div ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50'/>*/}
-            <img ref={hitMarkerRef}  className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50' src={boomImg.src} alt="Description"/>
-
+            {/*<img ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50' src={boomImg.src}*/}
+            {/*     alt="Description"/>*/}
+            <img ref={hitMarkerRef} src={boomImg.src}
+                 className="hidden absolute w-20 z-50 " alt="Hit Marker"/>
         </div>
+
 
     )
 }
