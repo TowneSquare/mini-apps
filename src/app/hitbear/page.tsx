@@ -4,10 +4,12 @@ import bearStartImg from "../../../public/assets/game/Untitled_Artwork 14 1.png"
 import num30Img from "../../../public/assets/game/30.png"
 import num01Img from "../../../public/assets/game/01.png"
 import hitHimImg from "../../../public/assets/game/hithim.png"
-import healthImg from "../../../public/assets/game/full-health.png"
-import fullHealthImage from "../../../public/assets/game/full-health.png";
-import ninetyHealthImage from "../../../public/assets/game/90-health.png";
-import emptyHealthImage from "../../../public/assets/game/empty-health.png";
+// import healthImg from "../../../public/assets/game/full-health.png"
+import healthFullImg from "../../../public/assets/game/health-full.png"
+import health60Img from "../../../public/assets/game/health-60.png"
+import health30Img from "../../../public/assets/game/health-30.png"
+import health90Img from "../../../public/assets/game/health-90.png";
+import health0Img from "../../../public/assets/game/health-empty.png";
 
 import logoImg from "../../../public/assets/game/Frame 48096883-2.png"
 import hitBearImg from "../../../public/assets/game/Component 44.png"
@@ -50,12 +52,12 @@ const HitBear = () => {
                 {opacity: 0, duration: 1})
             tl.delay(1)
             tl.to(num01Ref.current,
-                {opacity: 1, duration: 1}).set(num01Ref.current,{opacity:0})
-            tl.to(hitHimRef.current, {opacity: 1, duration: 1}).set(hitHimRef.current,{opacity: 0})
-            tl.to(bearRef.current, {opacity: 0,duration: 0})
-            tl.to(blinkBearRef.current, {opacity: 1,repeat:1}).set(blinkBearRef.current, {opacity: 0})
+                {opacity: 1, duration: 1}).set(num01Ref.current, {opacity: 0})
+            tl.to(hitHimRef.current, {opacity: 1, duration: 1}).set(hitHimRef.current, {opacity: 0})
+            tl.to(bearRef.current, {opacity: 0, duration: 0})
+            tl.to(blinkBearRef.current, {opacity: 1, repeat: 1}).set(blinkBearRef.current, {opacity: 0})
 
-            tl.to(hitBearRef.current, {opacity: 1,duration: 0})
+            tl.to(hitBearRef.current, {opacity: 1, duration: 0})
 
         }
     }, [loaded]);
@@ -63,12 +65,14 @@ const HitBear = () => {
     const hitMarkerRef = useRef<HTMLDivElement>(null);
     const [clickCount, setClickCount] = useState(0);
 
-    const totalClicks = 10; // 总共点击次数，到达这个次数视为满
+    const totalClicks = 5; // 总共点击次数，到达这个次数视为满
     const healthImages = [
-        fullHealthImage,
-        ninetyHealthImage,
+        healthFullImg,
+        health90Img,
+        health60Img,
+        health30Img,
         // ... 添加更多血量状态的图片
-        emptyHealthImage,
+        health0Img,
     ];
     const handleClick = (event: { clientX: number; clientY: number }) => {
         const marker = hitMarkerRef.current;
@@ -84,7 +88,7 @@ const HitBear = () => {
             marker.style.display = 'block';
 
             // GSAP animation
-            gsap.fromTo(marker, { scale: 0.5, opacity: 0 }, {
+            gsap.fromTo(marker, {scale: 0.5, opacity: 0}, {
                 scale: 1.5,
                 opacity: 1,
                 duration: 0.3,
@@ -99,6 +103,27 @@ const HitBear = () => {
                     });
                 }
             });
+
+
+        }
+        const tl = gsap.timeline()
+        tl.to(blinkBearRef.current, {display: 1,duration:0.1,}).set(blinkBearRef.current, {opacity: 0})
+
+        if (clickCount >= totalClicks-1 ) {
+            const tl = gsap.timeline()
+            tl.to(hitBearRef.current, {opacity:0,duration:0.1}).set(blinkBearRef.current, {opacity:0})
+            // gsap.to(hitBearRef.current, {
+            //     duration: 2,
+            //     scale: 1, // 如果初始状态图片是未缩放的，这里应重置为1
+            //     y: '29vh', // 从顶部重新设置到原始的底部位置
+            //     ease: 'power1.in', // 可以选择适合的easing效果，如power1.in为加速入
+            // });
+            // gsap.to(blinkBearRef.current, {
+            //     duration: 2,
+            //     scale: 1,
+            //     y: '29vh',
+            //     ease: 'power1.out',
+            // });
         }
     };
     const handleImageLoad = () => {
@@ -118,23 +143,23 @@ const HitBear = () => {
         }}>
 
             {/* <div className="box w-20 h-20 bg-red-300" /> */}
-            <img className="absolute bottom-0 z-50 w-full object-cover" src={frontImg.src} alt=""/>
+            <img className="absolute bottom-0 z-50 w-full object-cover" src={frontImg.src} alt="" />
             {/* 开始图片 */}
             <img className={`absolute bottom-0 z-20 w-full object-cover ${loaded ? 'hidden' : ''}`}
-                 src={bearStartImg.src} alt=""/>
+                 src={bearStartImg.src} alt="" />
             <img className={`absolute top-0 z-20 w-full object-cover  `}
-                 src={logoImg.src} alt=""/>
-            <img src={healthImages[currentHealthIndex]} className="absolute top-0 left-1/2" alt="Health Bar"/>
-            <img src={healthImages[currentHealthIndex]} className="absolute top-0 left-1/2 transform -translate-x-1/2"
-                 style={{width: "200px", height: "30px"}} alt="Health Bar"/>
-            <img ref={healthRef} className={`absolute top-20 z-20 w-3/4 object-cover  `}
-                 src={healthImg.src} alt=""/>
+                 src={logoImg.src} alt="" />
+            {/* <img src={healthImages[currentHealthIndex]} className="absolute top-0 left-1/2" alt="Health Bar"/> */}
+            <Image src={healthImages[currentHealthIndex]} className="absolute top-24 w-3/4  object-cover"
+                  alt="Health Bar" />
+            {/* <img ref={healthRef} className={`absolute top-20 z-20 w-3/4 object-cover  `} */}
+            {/*     src={healthImg.src} alt="" /> */}
             <img ref={num30Ref} className={`absolute top-52 z-20 w-3/4 object-cover  `}
-                 src={num30Img.src} alt=""/>
+                 src={num30Img.src} alt="" />
             <img ref={num01Ref} className={`absolute top-52 z-20 w-3/4 object-cover  opacity-0 `}
-                 src={num01Img.src} alt=""/>
+                 src={num01Img.src} alt="" />
             <img ref={hitHimRef} className={`absolute top-52 z-20 w-3/4 object-cover  opacity-0 `}
-                 src={hitHimImg.src} alt=""/>
+                 src={hitHimImg.src} alt="" />
             {/* <img ref={bearRef} */}
             {/*        src={bearImg.src} */}
             {/*        alt="Description" */}
@@ -150,22 +175,22 @@ const HitBear = () => {
                    width={500}
                    height={300}
                    loading="eager"
-                   className={`w-full h-full object-contain ${loaded ? '' : 'hidden'}`}/>
+                   className={`w-full h-full object-contain ${loaded ? '' : 'hidden'}`} />
             <img ref={blinkBearRef}
                  src={blinkBearImg.src}
-                 alt="Description"
-                 className={`absolute top-56 z-20 w-full object-cover  opacity-0 `}/>
+                 alt="blinkBear"
+                 className={`absolute top-56 z-50 w-full object-cover  opacity-0 `} onClick={handleClick} />
 
             <img ref={hitBearRef}
                  src={hitBearImg.src}
-                 alt="Description"
+                 alt="hitBear"
 
-                 className={`absolute top-56 z-20 w-full object-cover  opacity-0 `} onClick={handleClick}/>
-            {/*<div ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50'/>*/}
-            {/*<img ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50' src={boomImg.src}*/}
-            {/*     alt="Description"/>*/}
+                 className={`absolute top-56 z-20 w-full object-cover  opacity-0 `} onClick={handleClick} />
+            { /* <div ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50'/> */}
+            { /* <img ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50' src={boomImg.src} */}
+            { /*     alt="Description"/> */}
             <img ref={hitMarkerRef} src={boomImg.src}
-                 className="hidden absolute w-20 z-50 " alt="Hit Marker"/>
+                 className="hidden absolute w-20 z-50 " alt="Hit Marker" />
         </div>
 
 
