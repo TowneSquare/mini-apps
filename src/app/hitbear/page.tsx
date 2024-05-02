@@ -10,13 +10,13 @@ import health60Img from "../../../public/assets/game/health-60.png"
 import health30Img from "../../../public/assets/game/health-30.png"
 import health90Img from "../../../public/assets/game/health-90.png";
 import health0Img from "../../../public/assets/game/health-empty.png";
+import madeItImg from "../../../public/assets/game/ball.png";
+import frontImg from "../../../public/assets/game/Frame 48096887-1.png";
 
 import logoImg from "../../../public/assets/game/Frame 48096883-2.png"
 import hitBearImg from "../../../public/assets/game/Component 44.png"
 import blinkBearImg from "../../../public/assets/game/Component 44-1.png"
 import boomImg from "../../../public/assets/game/boom.svg"
-
-import frontImg from "../../../public/assets/game/Frame 48096887-1.png"
 import bgImg from "../../../public/assets/game/bg.svg"
 import React, {useEffect, useRef, useState} from "react"
 import Image from "next/image";
@@ -31,6 +31,7 @@ const HitBear = () => {
     const hitBearRef = useRef(null);
     const healthRef = useRef(null);
     const blinkBearRef = useRef(null);
+    const madeItRef = useRef(null);
 
     useEffect(() => {
         if (bearRef.current) {
@@ -111,28 +112,20 @@ const HitBear = () => {
 
         if (clickCount >= totalClicks-1 ) {
             const tl = gsap.timeline()
-            tl.to(hitBearRef.current, {opacity:0,duration:0.1}).set(blinkBearRef.current, {opacity:0})
-            // gsap.to(hitBearRef.current, {
-            //     duration: 2,
-            //     scale: 1, // 如果初始状态图片是未缩放的，这里应重置为1
-            //     y: '29vh', // 从顶部重新设置到原始的底部位置
-            //     ease: 'power1.in', // 可以选择适合的easing效果，如power1.in为加速入
-            // });
-            // gsap.to(blinkBearRef.current, {
-            //     duration: 2,
-            //     scale: 1,
-            //     y: '29vh',
-            //     ease: 'power1.out',
-            // });
+            tl.to(hitBearRef.current, {display:"none",duration:0.1}).set(blinkBearRef.current, {display:"none"})
+            tl.to(bearRef.current, {opacity:1,duration:1}).to(bearRef.current, {duration:1,scale:1,y:'29vh',ease:'power1.in'})
+            tl.to(healthRef.current,{opacity:0,duration:0.1}).set(healthRef.current, {display:'none'})
+            // tl.to(madeItRef.current,{duration: 2,opacity:1,display:'block',
+            //     y: '-82vh',
+            //     ease: 'power1.out',})
+            tl.to(madeItRef.current, {y: '10%', duration: 0.5})
         }
     };
     const handleImageLoad = () => {
         console.log("handleImage ", loaded)
         setLoaded(true);
     };
-    const handleImageError = (event: any) => {
-        console.error('Image load error:', event);
-    };
+
     const currentHealthIndex = Math.min(healthImages.length - 1,
         Math.floor(clickCount / totalClicks * healthImages.length));
 
@@ -143,54 +136,60 @@ const HitBear = () => {
         }}>
 
             {/* <div className="box w-20 h-20 bg-red-300" /> */}
-            <img className="absolute bottom-0 z-50 w-full object-cover" src={frontImg.src} alt="" />
+            <img className="absolute bottom-0 z-50 w-full object-cover" src={frontImg.src} alt=""/>
             {/* 开始图片 */}
             <img className={`absolute bottom-0 z-20 w-full object-cover ${loaded ? 'hidden' : ''}`}
-                 src={bearStartImg.src} alt="" />
+                 src={bearStartImg.src} alt=""/>
             <img className={`absolute top-0 z-20 w-full object-cover  `}
-                 src={logoImg.src} alt="" />
+                 src={logoImg.src} alt=""/>
             {/* <img src={healthImages[currentHealthIndex]} className="absolute top-0 left-1/2" alt="Health Bar"/> */}
-            <Image src={healthImages[currentHealthIndex]} className="absolute top-24 w-3/4  object-cover"
-                  alt="Health Bar" />
+            <Image ref={healthRef} src={healthImages[currentHealthIndex]}
+                   className="absolute top-24 w-3/4  object-cover"
+                   alt="Health Bar"/>
             {/* <img ref={healthRef} className={`absolute top-20 z-20 w-3/4 object-cover  `} */}
             {/*     src={healthImg.src} alt="" /> */}
             <img ref={num30Ref} className={`absolute top-52 z-20 w-3/4 object-cover  `}
-                 src={num30Img.src} alt="" />
+                 src={num30Img.src} alt=""/>
             <img ref={num01Ref} className={`absolute top-52 z-20 w-3/4 object-cover  opacity-0 `}
-                 src={num01Img.src} alt="" />
+                 src={num01Img.src} alt=""/>
             <img ref={hitHimRef} className={`absolute top-52 z-20 w-3/4 object-cover  opacity-0 `}
-                 src={hitHimImg.src} alt="" />
-            {/* <img ref={bearRef} */}
-            {/*        src={bearImg.src} */}
-            {/*        alt="Description" */}
-            {/*        onLoad={handleImageLoad} */}
-            {/*        onError={handleImageError} */}
-            {/*        className={`w-full h-full object-contain ${loaded ? '' : 'hidden'}`} /> */}
-            {/* 移动图片 */}
+                 src={hitHimImg.src} alt=""/>
             <Image ref={bearRef}
                    src={bearStartImg.src}
                    alt="Description"
                    onLoad={handleImageLoad}
-                   onError={handleImageError}
                    width={500}
                    height={300}
                    loading="eager"
-                   className={`w-full h-full object-contain ${loaded ? '' : 'hidden'}`} />
+                   className={`w-full h-full object-contain ${loaded ? '' : 'hidden'}`}/>
             <img ref={blinkBearRef}
                  src={blinkBearImg.src}
                  alt="blinkBear"
-                 className={`absolute top-56 z-50 w-full object-cover  opacity-0 `} onClick={handleClick} />
+                 className={`absolute top-56 z-50 w-full object-cover  opacity-0 `} onClick={handleClick}/>
 
             <img ref={hitBearRef}
                  src={hitBearImg.src}
                  alt="hitBear"
+                 className={`absolute top-56 z-20 w-full object-cover  opacity-0 `} onClick={handleClick}/>
+            <div ref={madeItRef} id="slide-up-panel"
+                 className="fixed inset-x-0 bottom-0 transform translate-y-full shadow-lg z-50 flex flex-col w-full h-screen items-center overflow-hidden">
+                <img src={madeItImg.src} alt="Description" className="w-full object-cover "/>
+                <div
+                    className="bg-[#242552] w-full h-full object-cover flex flex-col  items-center overflow-hidden">
+                    {/*<button className="mt-5 bg-blue-500 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded">*/}
+                    {/*    CONTINUE*/}
+                    {/*</button>*/}
+                    <div className=" absolute top-1/2 text-white text-center font-semibold text-3xl md:text-5xl mb-12 md:mb-24">
+                        <p>Hooraaay!</p> You've made it!
+                    </div>
+                    <button
+                        className=" absolute top-1/2 bg-[#62C5C6] mt-32 text-white text-xl  font-bold py-1 px-3 rounded-xl w-10/12 h-14 border border-black border-b-4 ">CONTINUE
+                    </button>
+                </div>
 
-                 className={`absolute top-56 z-20 w-full object-cover  opacity-0 `} onClick={handleClick} />
-            { /* <div ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50'/> */}
-            { /* <img ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50' src={boomImg.src} */}
-            { /*     alt="Description"/> */}
+            </div>
             <img ref={hitMarkerRef} src={boomImg.src}
-                 className="hidden absolute w-20 z-50 " alt="Hit Marker" />
+                 className="hidden absolute w-20 z-50 " alt="Hit Marker"/>
         </div>
 
 
