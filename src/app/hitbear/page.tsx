@@ -1,23 +1,23 @@
 'use client'
 import gsap from "gsap"
-import bearStartImg from "../../../public/assets/game/Untitled_Artwork 14 1.png"
-import num30Img from "../../../public/assets/game/30.png"
-import num01Img from "../../../public/assets/game/01.png"
-import hitHimImg from "../../../public/assets/game/hithim.png"
-// import healthImg from "../../../public/assets/game/full-health.png"
-import healthFullImg from "../../../public/assets/game/health-full.png"
-import health60Img from "../../../public/assets/game/health-60.png"
-import health30Img from "../../../public/assets/game/health-30.png"
-import health90Img from "../../../public/assets/game/health-90.png";
-import health0Img from "../../../public/assets/game/health-empty.png";
-import madeItImg from "../../../public/assets/game/ball.png";
-import frontImg from "../../../public/assets/game/Frame 48096887-1.png";
+import bearStartImg from "@/public/assets/game/bearStartImg.png"
+import num30Img from "@/public/assets/game/30.png"
+import num01Img from "@/public/assets/game/01.png"
+import hitHimImg from "@/public/assets/game/hithim.png"
+// import healthImg from "@/public/assets/game/full-health.png"
+import healthFullImg from "@/public/assets/game/health-full.png"
+import health60Img from "@/public/assets/game/health-60.png"
+import health30Img from "@/public/assets/game/health-30.png"
+import health90Img from "@/public/assets/game/health-90.png";
+import health0Img from "@/public/assets/game/health-empty.png";
+import madeItImg from "@/public/assets/game/ball.png";
+import frontImg from "@/public/assets/game/front.png";
 
-import logoImg from "../../../public/assets/game/Frame 48096883-2.png"
-import hitBearImg from "../../../public/assets/game/Component 44.png"
-import blinkBearImg from "../../../public/assets/game/Component 44-1.png"
-import boomImg from "../../../public/assets/game/boom.svg"
-import bgImg from "../../../public/assets/game/bg.svg"
+import logoImg from "@/public/assets/game/logo.png"
+import hitBearImg from "@/public/assets/game/hitBear.png"
+import blinkBearImg from "@/public/assets/game/blinkBear.png"
+import boomImg from "@/public/assets/game/boom.svg"
+import bgImg from "@/public/assets/game/bg.svg"
 import React, {useEffect, useRef, useState} from "react"
 import Image from "next/image";
 
