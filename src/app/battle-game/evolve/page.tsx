@@ -24,7 +24,7 @@ export default function EvolvePage() {
         style={{
           background: `url(${BgFallImg.src}),radial-gradient(circle closest-side at 50% 40%,#5776b1 8%, #516aa2 60%, #3e4878 172%)`,
         }}
-        className="relative flex min-h-screen flex-col py-20"
+        className="relative flex h-full flex-col py-20"
       >
         <p className="px-8 text-xl font-medium text-white">JamesX99,</p>
         <p className="mt-2 mb-3 px-8 text-3xl font-extrabold text-white">

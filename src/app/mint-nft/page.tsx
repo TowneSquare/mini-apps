@@ -11,7 +11,7 @@ import { RouteButton } from "@/src/components/RouteButton";
 export default function MintHome() {
   return (
     <main
-      className="h-screen overflow-hidden bg-bgorange"
+      className="h-full overflow-hidden bg-bgorange"
       style={{
         background:
           "radial-gradient(circle closest-side at 50% 40%,#f5f3ecff 30%, #f0eee4ff 60%, #e1dac4 130%)",

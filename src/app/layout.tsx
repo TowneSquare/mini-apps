@@ -22,13 +22,12 @@ function WalletSelector({
 }>) {
   return (
     <html lang="en">
-      <WalletProvider>
-        <Header />
-        <br></br>
-        <body>
-          {children}
-        </body>
-      </WalletProvider>
+      <body>
+        <WalletProvider>
+          <Header />
+          <main className="h-screen pt-20">{children}</main>
+        </WalletProvider>
+      </body>
     </html>
   );
 }
