@@ -11,13 +11,12 @@ import health30Img from "../../../public/assets/game/health-30.png"
 import health90Img from "../../../public/assets/game/health-90.png";
 import health0Img from "../../../public/assets/game/health-empty.png";
 import madeItImg from "../../../public/assets/game/Frame 48096887-1.png";
+import frontImg from "../../../public/assets/game/Frame 48096887-1.png";
 
 import logoImg from "../../../public/assets/game/Frame 48096883-2.png"
 import hitBearImg from "../../../public/assets/game/Component 44.png"
 import blinkBearImg from "../../../public/assets/game/Component 44-1.png"
 import boomImg from "../../../public/assets/game/boom.svg"
-
-import frontImg from "../../../public/assets/game/Frame 48096887-1.png"
 import bgImg from "../../../public/assets/game/bg.svg"
 import React, {useEffect, useRef, useState} from "react"
 import Image from "next/image";
@@ -119,7 +118,8 @@ const HitBear = () => {
             // tl.to(madeItRef.current,{duration: 2,opacity:1,display:'block',
             //     y: '-82vh',
             //     ease: 'power1.out',})
-            tl.to(madeItRef.current, {y: 0, duration: 0.5}).to(madeItRef.current,{y:'100%',duration:0.5});
+            tl.to(madeItRef.current, {y: 0, duration: 0.5})
+                // .to(madeItRef.current,{y:'100%',duration:0.5});
             // gsap.to(hitBearRef.current, {
             //     duration: 2,
             //     scale: 1, // 如果初始状态图片是未缩放的，这里应重置为1
@@ -210,11 +210,14 @@ const HitBear = () => {
             {/*    </div>*/}
             {/*</div>*/}
             <div ref={madeItRef} id="slide-up-panel"
-                 className="fixed inset-x-0 bottom-0 transform translate-y-full bg-white shadow-lg z-50 hidden flex flex-col items-center overflow-hidden">
+                 className="fixed inset-x-0 bottom-0 transform translate-y-full shadow-lg z-50 flex flex-col w-full h-screen items-center overflow-hidden">
                 <img src={madeItImg.src} alt="Description" className="w-full object-cover"/>
-                <button className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Click Me!
-                </button>
+                <div className="bg-amber-400 w-full h-full object-cover flex flex-col items-center overflow-hidden">
+                    <button className="mt-5 bg-blue-500 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded">
+                        CONTINUE
+                    </button>
+                </div>
+
             </div>
             { /* <div ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50'/> */}
             { /* <img ref={hitMarkerRef} className='hidden absolute w-6 h-6 bg-red-500 rounded-full z-50' src={boomImg.src} */}
