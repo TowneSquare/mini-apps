@@ -3,7 +3,6 @@ import "../styles/loading.css";
 import "../styles/select-input.css";
 import "../styles/markdown.css";
 import type { Metadata } from "next";
-
 // import { Footer } from "../components/Footer";
 import Header from "../components/Header";
 // import Content from "./components/Content";
@@ -24,6 +23,8 @@ function WalletSelector({
   return (
     <html lang="en">
       <WalletProvider>
+        <Header />
+        <br></br>
         <body>
           {children}
         </body>
