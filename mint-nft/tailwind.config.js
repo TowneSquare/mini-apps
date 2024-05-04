@@ -92,6 +92,16 @@ module.exports = {
           from: { transform: "translateY(100%)", top: "20%" },
           to: { transform: "translateY(0)", top: "0" },
         },
+        "sloth-bubble-appear-up": {
+          "0%": { transform: "translateY(100%)", top: "100%" },
+          "25%": { transform: "translateY(0)", top: "38%" },
+          "80%": { transform: "translateY(0) translateX(0)", top: "38%" },
+          "100%": { transform: "translateY(0) translateX(-100%)", top: "38%" },
+        },
+        "sloth-smile-appear-left": {
+          from: { transform: "translateX(100%)"},
+          to: { transform: "translateX(0)"},
+        },
         "button-appear-up": {
           from: { transform: "translateY(100%)", bottom: "0rem" },
           to: { transform: "translateY(0)", bottom: "1rem" },

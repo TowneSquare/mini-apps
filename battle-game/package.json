@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint --ext .ts src --max-warnings=0",
     "vercel": "vercel"
-  }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ,
+  },
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
     "@aptos-labs/wallet-adapter-ant-design": "^2.2.0",
@@ -62,6 +62,7 @@
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "remark-rehype": "^11.0.0",
+    "swr": "^2.2.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "viem": "2.x"

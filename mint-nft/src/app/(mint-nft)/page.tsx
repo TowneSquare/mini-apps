@@ -1,7 +1,9 @@
 import Image from "next/image";
 import LogoBg from "@/public/assets/home/home_logo.png";
 import TitleImg from "@/public/assets/home/home_title.png";
-import SlothImg from "@/public/assets/home/sloth.png";
+import SlothWithNoMounthImg from "@/public/assets/home/sloth_with_no_mounth.png";
+import BubbleMounthImg from "@/public/assets/home/bubble_mouth.png";
+import EvilSmileImg from "@/public/assets/home/evil_smile.png";
 import SlothLeft1Img from "@/public/assets/home/sloth_left1.png";
 import SlothLeft2Img from "@/public/assets/home/sloth_left2.png";
 import SlothRight1Img from "@/public/assets/home/sloth_right1.png";
@@ -30,7 +32,7 @@ export default function MintHome() {
             alt="Logo"
           />
         </div>
-        <div className="animate-home-title-ani z-10 mt-5 flex h-[41%] flex-col items-center justify-center text-3xl font-black">
+        <div className="z-10 mt-5 flex h-[41%] animate-home-title-ani flex-col items-center justify-center text-3xl font-black">
           <span>Built with</span>
           <span className="text-textpink">composability</span>
           <span>
@@ -41,10 +43,31 @@ export default function MintHome() {
 
       <div className="relative h-[60%]">
         <div className="absolute top-[20%] h-[80%] w-full translate-y-full animate-[sloth-appear-up_0.4s_0.8s_ease-in-out_forwards]">
-          <Image src={SlothImg} fill={true} objectFit="contain" alt="title" />
+          <Image
+            src={SlothWithNoMounthImg}
+            fill={true}
+            objectFit="contain"
+            alt="title"
+          />
+        </div>
+        <div className="absolute top-[100%] left-[25%] h-[10%] w-[80%] translate-y-full animate-[sloth-bubble-appear-up_1.6s_0.8s_ease-in-out_forwards]">
+          <Image
+            src={BubbleMounthImg}
+            fill={true}
+            objectFit="contain"
+            alt="title"
+          />
+        </div>
+        <div className="absolute top-0 left-[1%] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_2.0s_ease-in-out_forwards]">
+          <Image
+            src={EvilSmileImg}
+            fill={true}
+            objectFit="contain"
+            alt="title"
+          />
         </div>
 
-        <div className="bg-bggreen absolute bottom-0 h-[30%] w-[120%] -translate-x-[15%] animate-[appear-up_0.3s_ease-in-out_forwards] rounded-tl-[99%] rounded-tr-[190%]"></div>
+        <div className="absolute bottom-0 h-[30%] w-[120%] -translate-x-[15%] animate-[appear-up_0.3s_ease-in-out_forwards] rounded-tl-[99%] rounded-tr-[190%] bg-bggreen"></div>
         <Image
           className="fixed bottom-[1.5rem] left-0 -translate-x-full animate-[appear-left-sm_0.3s_0.8s_ease-in-out_forwards]"
           src={SlothLeft2Img}
