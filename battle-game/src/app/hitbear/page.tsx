@@ -22,6 +22,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 import Link from "next/link";
+import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
 
 const HitBear = () => {
   const bearRef = useRef(null);
@@ -72,8 +73,8 @@ const HitBear = () => {
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the container
   const hitMarkerRef = useRef<HTMLDivElement>(null);
   const [clickCount, setClickCount] = useState(0);
-
-  const totalClicks = 5; // 总共点击次数，到达这个次数视为满
+  const {evilBlood, battleClickHandler } = useBattleEvil();
+  // const totalClicks = 5; // 总共点击次数，到达这个次数视为满
   const healthImages = [
     healthFullImg,
     health90Img,
@@ -85,7 +86,8 @@ const HitBear = () => {
   const handleClick = (event: { clientX: number; clientY: number }) => {
     const marker = hitMarkerRef.current;
     const container = containerRef.current;
-    setClickCount((prev) => prev + 1);
+    // setClickCount((prev) => prev + 1);
+    battleClickHandler();
     if (container && marker) {
       const rect = container.getBoundingClientRect();
       const offsetX = event.clientX - rect.left; // Adjust for container's left boundary
@@ -122,7 +124,8 @@ const HitBear = () => {
       { opacity: 0 },
     );
 
-    if (clickCount >= totalClicks - 1) {
+    // if (clickCount >= totalClicks - 1) {
+    if (evilBlood <= 0) {
       const tl = gsap.timeline();
       tl.to(hitBearRef.current, { display: "none", duration: 0.1 }).set(
         blinkBearRef.current,
@@ -149,10 +152,10 @@ const HitBear = () => {
     setLoaded(true);
   };
 
-  const currentHealthIndex = Math.min(
-    healthImages.length - 1,
-    Math.floor((clickCount / totalClicks) * healthImages.length),
-  );
+  // const currentHealthIndex = Math.min(
+  //   healthImages.length - 1,
+  //   Math.floor((clickCount / totalClicks) * healthImages.length),
+  // );
 
   return (
     <>
@@ -179,12 +182,31 @@ const HitBear = () => {
         />
 
         {/* <img src={healthImages[currentHealthIndex]} className="absolute top-0 left-1/2" alt="Health Bar"/> */}
-        <Image
+        {/* <Image
           ref={healthRef}
           src={healthImages[currentHealthIndex]}
           className="absolute top-40 w-3/4  object-cover"
           alt="Health Bar"
-        />
+        /> */}
+        <div className="absolute top-40 flex w-full flex-col items-center justify-center">
+          <span
+            className="text-center text-2xl text-white"
+            style={{
+              textShadow:
+                "1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;",
+            }}
+          >
+            HP:{evilBlood}
+          </span>
+          <div className="relative mx-auto h-10 w-72 skew-x-[-38deg] rounded-lg border-4 border-black bg-[#9ba3b9]">
+            <div
+              className="h-full bg-[#9a000c]"
+              style={{
+                width: `${Number((evilBlood / 10000).toFixed(2)) * 100}` + "%",
+              }}
+            ></div>
+          </div>
+        </div>
         {/* <img ref={healthRef} className={`absolute top-20 z-20 w-3/4 object-cover  `} */}
         {/*     src={healthImg.src} alt="" /> */}
         <img

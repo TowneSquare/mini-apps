@@ -9,6 +9,7 @@ import Header from "../components/Header";
 
 // WalletProvider
 import { WalletProvider } from "../provider/WalletAdapterProvider";
+import { BattleEvilProvider } from "../hooks/battleEvilProvider";
 
 export const metadata: Metadata = {
   title: "Mini apps",
@@ -24,8 +25,10 @@ function WalletSelector({
     <html lang="en">
       <body>
         <WalletProvider>
-          <Header />
-          <main className="h-screen pt-20">{children}</main>
+          <BattleEvilProvider>
+            <Header />
+            <main className="h-screen pt-20">{children}</main>
+          </BattleEvilProvider>
         </WalletProvider>
       </body>
     </html>

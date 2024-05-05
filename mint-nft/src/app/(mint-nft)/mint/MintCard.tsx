@@ -4,7 +4,6 @@ import { Button } from "@/src/components/ui/button";
 import { API_URL } from "@/src/config/constants";
 import { fetcher } from "@/src/lib/utils";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { Card } from "antd";
 import { useState } from "react";
 import useSWR from "swr";
 type MintType = "cool-list" | "public-mint";

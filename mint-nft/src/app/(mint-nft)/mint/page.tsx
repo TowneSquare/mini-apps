@@ -1,4 +1,3 @@
-import Image from "next/image";
 import sothballs from "@/public/assets/home/sloth_left2.png";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 import { MintCard } from "./MintCard";
