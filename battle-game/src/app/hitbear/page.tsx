@@ -200,11 +200,20 @@ const HitBear = () => {
           </span>
           <div className="relative mx-auto h-10 w-72 skew-x-[-38deg] rounded-lg border-4 border-black bg-[#9ba3b9]">
             <div
-              className="h-full bg-[#9a000c]"
+              className="rounded-sm relative h-full bg-[#9a000c] overflow-hidden"
               style={{
                 width: `${Number((evilBlood / 10000).toFixed(2)) * 100}` + "%",
               }}
+            >
+            <div
+              className="h-full w-full absolute -bottom-[85%] bg-red-400/80"
+              
             ></div>
+            <div
+              className="rounded-sm h-full w-full absolute top-2 left-2 bg-red-500/50"
+              
+            ></div>
+            </div>
           </div>
         </div>
         {/* <img ref={healthRef} className={`absolute top-20 z-20 w-3/4 object-cover  `} */}
