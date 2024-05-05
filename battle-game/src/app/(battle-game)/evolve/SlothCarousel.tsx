@@ -31,7 +31,7 @@ export const SlothCarousel = ({ sloths }: { sloths: SlothsData }) => {
               </div>
               <div className="mb-2 flex flex-col items-center justify-center justify-self-end">
                 <span>Edit your cNFT on</span>
-                <span className="text-bggreen font-extrabold">
+                <span className="font-extrabold text-bggreen">
                   townespase.xyz
                 </span>
               </div>
