@@ -42,7 +42,7 @@ export default function BattleGamePage() {
         <RouteButton
           // disabled={true}
           title="BATTLE (22 SEC)"
-          path="/evolve"
+          path="/hitbear"
           bottomClass="bottom-8"
         />
       </main>

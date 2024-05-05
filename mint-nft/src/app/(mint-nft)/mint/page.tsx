@@ -1,4 +1,3 @@
-import Image from "next/image";
 import sothballs from "@/public/assets/home/sloth_left2.png";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 import { MintCard } from "./MintCard";
@@ -12,7 +11,7 @@ const MintPage = () => {
   ];
   return (
     <>
-      <CommonPageHeader closeIconColor="text-black" />
+      <CommonPageHeader className="z-10" closeIconColor="text-black" />
       <main className="bg-bgorange pt-20">
         <div
           className="flex flex-col space-y-2 "
@@ -38,57 +37,10 @@ const MintPage = () => {
           <MintPorgress total={6666} value={190} />
 
           <MintCard
-            status={"start"}
-            mintName="Cool List"
-            mintTime={new Date("2024-5-19").getTime()}
-          />
-
-          <MintCard
-            status={"in-progress"}
-            mintName="Cool List"
-            mintTime={new Date("2024-5-19").getTime()}
-            mintPrice="6.9"
-            mintable="-"
-            minted="-"
-          />
-
-          <MintCard
-            eligible={true}
-            status={"in-progress"}
-            mintName="Cool List"
-            mintTime={new Date("2024-4-19").getTime()}
-            mintPrice="6.9"
-            mintable="-"
-            minted="-"
+            mintCardType="cool-list"
           />
           <MintCard
-            eligible={true}
-            status={"in-progress"}
-            maxMinted={true}
-            mintName="Cool List"
-            mintTime={new Date("2024-4-19").getTime()}
-            mintPrice="6.9"
-            mintable="-"
-            minted="-"
-          />
-          <MintCard
-            eligible={false}
-            status={"in-progress"}
-            mintName="Cool List"
-            mintTime={new Date("2024-4-19").getTime()}
-            mintPrice="6.9"
-            mintable="-"
-            minted="-"
-          />
-          <MintCard
-            status={"completed"}
-            mintName="Cool List"
-            mintTime={new Date("2024-5-20").getTime()}
-          />
-          <MintCard
-            status={"start"}
-            mintName="Public Mint"
-            mintTime={new Date("2024-5-20").getTime()}
+            mintCardType="public-mint"
           />
         </div>
       </main>

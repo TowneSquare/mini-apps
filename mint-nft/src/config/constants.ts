@@ -19,3 +19,5 @@ export const APTOS_SIGNER_URL="https://aptos-signer.vercel.app/?msg="
 
 export const STATE_SEED = "hero_signer";
 // use to gen resource account.
+
+export const API_URL = process.env.NEXT_PUBLIC_API_URL;

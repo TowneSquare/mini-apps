@@ -1,14 +1,13 @@
 "use client";
 import { CountDown } from "@/src/components/CountDown";
 import { Button } from "@/src/components/ui/button";
+import { API_URL } from "@/src/config/constants";
+import { fetcher } from "@/src/lib/utils";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
-
-export interface MintCardProps extends MintInProgressCardProps {
-  status: "start" | "in-progress" | "completed";
-}
-
-export interface MintInProgressCardProps {
+import useSWR from "swr";
+type MintType = "cool-list" | "public-mint";
+export interface MintCardProps {
   mintName: string;
   eligible?: boolean;
   mintTime: number;
@@ -17,16 +16,65 @@ export interface MintInProgressCardProps {
   mintable?: string;
   maxMinted?: boolean;
 }
-export const MintCard = (props: MintCardProps) => {
-  switch (props.status) {
-    case "start":
-      return <MintStartCard {...props} />;
-    case "in-progress":
-      return <MintInprogressCard {...props} />;
-    case "completed":
-      return <MintCompletedCard {...props} />;
-    default:
-      return null;
+const CardLoading = () => {
+  return (
+    <div className="flex h-20 w-full items-center justify-center">
+      <span className="loading loading-spinner loading-md"></span>
+    </div>
+  );
+};
+const CardLoadingError = () => {
+  return (
+    <div
+      className="</div> flex h-20 w-full items-center
+justify-center"
+    >
+      <span> Failed to load</span>
+    </div>
+  );
+};
+export const MintCard: React.FC<{
+  mintCardType: MintType;
+}> = ({ mintCardType }) => {
+  if (mintCardType == "cool-list") {
+    const mintInfoUrl = API_URL + "?app_name=mint_app&key=cool_mint_time";
+    const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
+    if (isLoading) {
+      return <CardLoading />;
+    }
+    if (error) {
+      <CardLoadingError />;
+    }
+    console.log(data);
+    const propsData = {
+      eligible: true,
+      mintName: "Cool List",
+      mintPrice: "6.9",
+      mintable: "-",
+      minted: "-",
+      mintTime: Number(data.value),
+    };
+
+    return <MintInprogressCard {...propsData} />;
+
+    // return <MintCompletedCard {...propsData} />;
+  } else if (mintCardType == "public-mint") {
+    const mintInfoUrl = API_URL + "?app_name=mint_app&key=public_mint_time";
+    const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
+    if (isLoading) {
+      return <CardLoading />;
+    }
+    if (error) {
+      <CardLoadingError />;
+    }
+    console.log(data);
+    const propsData = {
+      mintName: "Public Mint",
+      mintTime: Number(data.value),
+    };
+    return <MintStartCard {...propsData} />;
+  } else {
+    return <CardLoadingError />;
   }
 };
 
