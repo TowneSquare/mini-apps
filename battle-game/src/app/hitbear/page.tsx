@@ -115,6 +115,12 @@ const HitBear = () => {
           },
         },
       );
+      const tl = gsap.timeline();
+      tl.to(blinkBearRef.current, {
+        opacity: 1,
+        repeat: 1,
+        pointerEvents: "auto",
+      }).set(blinkBearRef.current, { opacity: 0, pointerEvents: "auto" });
     }
     const tl = gsap.timeline();
     tl.to(blinkBearRef.current, { display: 1, duration: 0.1 }).set(
@@ -123,7 +129,7 @@ const HitBear = () => {
     );
 
     // if (clickCount >= totalClicks - 1) {
-      if (evilBlood <= 0) {
+    if (evilBlood <= 0) {
       const tl = gsap.timeline();
       tl.to(hitBearRef.current, { display: "none", duration: 0.1 }).set(
         blinkBearRef.current,
@@ -173,9 +179,7 @@ const HitBear = () => {
           alt=""
         />
         <div className="absolute top-40 flex w-full flex-col items-center justify-center">
-          <span
-            className="text-center text-2xl text-white mb-1 "
-          >
+          <span className="mb-1 text-center text-2xl text-white ">
             HP:{evilBlood}
           </span>
           <div className="relative mx-auto h-10 w-72 skew-x-[-38deg] rounded-lg border-4 border-black bg-[#9ba3b9]">
