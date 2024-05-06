@@ -4,16 +4,8 @@ import bearStartImg from "@/public/assets/game/bearStartImg.png";
 import num30Img from "@/public/assets/game/30.png";
 import num01Img from "@/public/assets/game/01.png";
 import hitHimImg from "@/public/assets/game/hithim.png";
-// import healthImg from "@/public/assets/game/full-health.png"
-// import healthFullImg from "@/public/assets/game/health-full.png";
-// import health60Img from "@/public/assets/game/health-60.png";
-// import health30Img from "@/public/assets/game/health-30.png";
-// import health90Img from "@/public/assets/game/health-90.png";
-// import health0Img from "@/public/assets/game/health-empty.png";
 import madeItImg from "@/public/assets/game/ball.png";
 import frontImg from "@/public/assets/game/front.png";
-
-// import logoImg from "@/public/assets/game/logo.png";
 import hitBearImg from "@/public/assets/game/hitBear.png";
 import blinkBearImg from "@/public/assets/game/blinkBear.png";
 import boomImg from "@/public/assets/game/boom.svg";
@@ -42,7 +34,6 @@ const HitBear = () => {
       });
     }
     if (loaded && bearRef.current) {
-      console.log("触发图片");
       gsap.to(bearRef.current, {
         duration: 2,
         scale: 1.41,
@@ -61,13 +52,19 @@ const HitBear = () => {
         hitHimRef.current,
         { opacity: 0 },
       );
-      tl.to(bearRef.current, { opacity: 0, duration: 0 });
-      tl.to(blinkBearRef.current, { opacity: 1, repeat: 1 }).set(
-        blinkBearRef.current,
-        { opacity: 0 },
-      );
 
-      tl.to(hitBearRef.current, { opacity: 1, duration: 0 });
+      tl.to(bearRef.current, { opacity: 0, duration: 0 });
+      tl.to(blinkBearRef.current, {
+        opacity: 1,
+        repeat: 1,
+        pointerEvents: "auto",
+      }).set(blinkBearRef.current, { opacity: 0, pointerEvents: "auto" });
+
+      tl.to(hitBearRef.current, {
+        opacity: 1,
+        duration: 0,
+        pointerEvents: "auto",
+      });
     }
   }, [loaded]);
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the container
@@ -75,14 +72,6 @@ const HitBear = () => {
   // const [clickCount, setClickCount] = useState(0);
   const {evilBlood, battleClickHandler } = useBattleEvil();
   // const totalClicks = 5; // 总共点击次数，到达这个次数视为满
-  // const healthImages = [
-  //   healthFullImg,
-  //   health90Img,
-  //   health60Img,
-  //   health30Img,
-  //   // ... 添加更多血量状态的图片
-  //   health0Img,
-  // ];
   const handleClick = (event: { clientX: number; clientY: number }) => {
     const marker = hitMarkerRef.current;
     const container = containerRef.current;
@@ -125,7 +114,7 @@ const HitBear = () => {
     );
 
     // if (clickCount >= totalClicks - 1) {
-    if (evilBlood <= 0) {
+      if (evilBlood <= 0) {
       const tl = gsap.timeline();
       tl.to(hitBearRef.current, { display: "none", duration: 0.1 }).set(
         blinkBearRef.current,
@@ -152,23 +141,18 @@ const HitBear = () => {
     setLoaded(true);
   };
 
-  // const currentHealthIndex = Math.min(
-  //   healthImages.length - 1,
-  //   Math.floor((clickCount / totalClicks) * healthImages.length),
-  // );
-
   return (
     <>
       <CommonPageHeader className="z-10" />
       <main
         ref={containerRef}
-        className="flex min-h-screen h-full justify-center overflow-hidden pt-20"
+        className="flex h-full min-h-[calc(100vh-5rem)] justify-center overflow-hidden pt-20"
         style={{
           backgroundImage: `url(${bgImg.src})`,
           backgroundColor: "#384273",
         }}
       >
-        {/* <div className="box w-20 h-20 bg-red-300" /> */}
+        
         <img
           className="absolute bottom-0 z-50 w-full object-cover"
           src={frontImg.src}
@@ -180,37 +164,25 @@ const HitBear = () => {
           src={bearStartImg.src}
           alt=""
         />
-
-        {/* <img src={healthImages[currentHealthIndex]} className="absolute top-0 left-1/2" alt="Health Bar"/> */}
-        {/* <Image
-          ref={healthRef}
-          src={healthImages[currentHealthIndex]}
-          className="absolute top-40 w-3/4  object-cover"
-          alt="Health Bar"
-        /> */}
         <div className="absolute top-40 flex w-full flex-col items-center justify-center">
           <span
             className="text-center text-2xl text-white"
             style={{
               textShadow:
-                "1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;",
+                "1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000",
             }}
           >
             HP:{evilBlood}
           </span>
           <div className="relative mx-auto h-10 w-72 skew-x-[-38deg] rounded-lg border-4 border-black bg-[#9ba3b9]">
             <div
-              className="rounded-sm relative h-full bg-[#9a000c] overflow-hidden"
+              className="relative h-full overflow-hidden rounded-sm bg-[#9a000c]"
               style={{
                 width: `${Number((evilBlood / 10000).toFixed(2)) * 100}` + "%",
               }}
             >
-            <div
-              className="h-full w-full absolute -bottom-[85%] bg-red-400/80"
-             />
-            <div
-              className="rounded-sm h-full w-full absolute top-2 left-2 bg-red-500/50"
-             />
+              <div className="absolute -bottom-[85%] h-full w-full bg-red-400/80" />
+              <div className="absolute left-2 top-2 h-full w-full rounded-sm bg-red-500/50" />
             </div>
           </div>
         </div>
@@ -248,7 +220,7 @@ const HitBear = () => {
           ref={blinkBearRef}
           src={blinkBearImg.src}
           alt="blinkBear"
-          className={`absolute top-56 z-50 w-full object-cover  opacity-0 `}
+          className={`pointer-events-none absolute top-56 z-50 w-full object-cover  opacity-0 `}
           onClick={handleClick}
         />
 
@@ -256,7 +228,7 @@ const HitBear = () => {
           ref={hitBearRef}
           src={hitBearImg.src}
           alt="hitBear"
-          className={`absolute top-56 z-20 w-full object-cover  opacity-0 `}
+          className={`pointer-events-none absolute top-56 z-20 w-full object-cover  opacity-0 `}
           onClick={handleClick}
         />
         <div
@@ -276,7 +248,7 @@ const HitBear = () => {
             <div className="absolute top-1/2 mb-12 text-center text-3xl font-semibold text-white md:mb-24 md:text-5xl">
               <p>Hooraaay!</p> You've made it!
             </div>
-            <button className=" absolute top-1/2 mt-32 h-14 w-10/12 rounded-xl  border border-b-4 border-black bg-[#62C5C6] py-1 px-3 text-xl font-bold text-white ">
+            <button className=" absolute top-1/2 mt-32 h-14 w-10/12 rounded-xl  border border-b-4 border-black bg-[#62C5C6] px-3 py-1 text-xl font-bold text-white ">
               <Link href="/evolve">CONTINUE</Link>
             </button>
           </div>
