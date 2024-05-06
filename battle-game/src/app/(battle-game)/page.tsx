@@ -15,7 +15,7 @@ export default function BattleGamePage() {
             background:
               "radial-gradient(circle closest-side at 50% 40%,#5776b1 8%, #516aa2 60%, #3e4878 172%)",
           }}
-        ></div>
+        />
         <div className="z-[2] mb-10 flex flex-col items-center justify-center">
           <p className="text-xl text-white">JamseX99,</p>
           <p className="mt-2 text-3xl font-semibold text-[#8be5d4]">
@@ -34,7 +34,7 @@ export default function BattleGamePage() {
         />
 
         <BattleCard
-          eligible={true}
+          eligible
           gameStartTime={new Date("2024-5-19").getTime()}
           evolveNumber={23}
         />

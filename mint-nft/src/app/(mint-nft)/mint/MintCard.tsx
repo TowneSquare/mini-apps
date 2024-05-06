@@ -4,6 +4,7 @@ import { Button } from "@/src/components/ui/button";
 import { API_URL } from "@/src/config/constants";
 import { fetcher } from "@/src/lib/utils";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
 type MintType = "cool-list" | "public-mint";
@@ -88,6 +89,11 @@ const MintInprogressCard: React.FC<MintCardProps> = ({
   maxMinted,
 }) => {
   const isStartMint = mintTime - Date.now() < 0;
+  const router = useRouter();
+  const mintActionHandler = (mintAmount:number) => {
+    console.log(mintAmount);
+    router.push("/hooray");
+  }
   return (
     <div>
       <div className="flex flex-col items-center justify-center rounded-t-xl  border-2 border-b-0 border-black bg-bgpink px-4 py-2">
@@ -126,7 +132,7 @@ const MintInprogressCard: React.FC<MintCardProps> = ({
               </>
             ) : (
               <MintButtonCard
-                onMintHandle={(mintAmount) => console.log(mintAmount)}
+                onMintHandle={(mintAmount) => mintActionHandler(mintAmount)}
               />
             )
           ) : (
