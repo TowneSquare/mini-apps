@@ -5,15 +5,15 @@ import num30Img from "@/public/assets/game/30.png";
 import num01Img from "@/public/assets/game/01.png";
 import hitHimImg from "@/public/assets/game/hithim.png";
 // import healthImg from "@/public/assets/game/full-health.png"
-import healthFullImg from "@/public/assets/game/health-full.png";
-import health60Img from "@/public/assets/game/health-60.png";
-import health30Img from "@/public/assets/game/health-30.png";
-import health90Img from "@/public/assets/game/health-90.png";
-import health0Img from "@/public/assets/game/health-empty.png";
+// import healthFullImg from "@/public/assets/game/health-full.png";
+// import health60Img from "@/public/assets/game/health-60.png";
+// import health30Img from "@/public/assets/game/health-30.png";
+// import health90Img from "@/public/assets/game/health-90.png";
+// import health0Img from "@/public/assets/game/health-empty.png";
 import madeItImg from "@/public/assets/game/ball.png";
 import frontImg from "@/public/assets/game/front.png";
 
-import logoImg from "@/public/assets/game/logo.png";
+// import logoImg from "@/public/assets/game/logo.png";
 import hitBearImg from "@/public/assets/game/hitBear.png";
 import blinkBearImg from "@/public/assets/game/blinkBear.png";
 import boomImg from "@/public/assets/game/boom.svg";
@@ -46,7 +46,7 @@ const HitBear = () => {
       gsap.to(bearRef.current, {
         duration: 2,
         scale: 1.41,
-        y: "2vh",
+        y: "16vh",
         ease: "power1.out",
       });
       const tl = gsap.timeline();
@@ -72,17 +72,17 @@ const HitBear = () => {
   }, [loaded]);
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the container
   const hitMarkerRef = useRef<HTMLDivElement>(null);
-  const [clickCount, setClickCount] = useState(0);
+  // const [clickCount, setClickCount] = useState(0);
   const {evilBlood, battleClickHandler } = useBattleEvil();
   // const totalClicks = 5; // 总共点击次数，到达这个次数视为满
-  const healthImages = [
-    healthFullImg,
-    health90Img,
-    health60Img,
-    health30Img,
-    // ... 添加更多血量状态的图片
-    health0Img,
-  ];
+  // const healthImages = [
+  //   healthFullImg,
+  //   health90Img,
+  //   health60Img,
+  //   health30Img,
+  //   // ... 添加更多血量状态的图片
+  //   health0Img,
+  // ];
   const handleClick = (event: { clientX: number; clientY: number }) => {
     const marker = hitMarkerRef.current;
     const container = containerRef.current;
@@ -162,7 +162,7 @@ const HitBear = () => {
       <CommonPageHeader className="z-10" />
       <main
         ref={containerRef}
-        className="flex h-full justify-center overflow-hidden pt-20"
+        className="flex min-h-screen h-full justify-center overflow-hidden pt-20"
         style={{
           backgroundImage: `url(${bgImg.src})`,
           backgroundColor: "#384273",
@@ -207,12 +207,10 @@ const HitBear = () => {
             >
             <div
               className="h-full w-full absolute -bottom-[85%] bg-red-400/80"
-              
-            ></div>
+             />
             <div
               className="rounded-sm h-full w-full absolute top-2 left-2 bg-red-500/50"
-              
-            ></div>
+             />
             </div>
           </div>
         </div>
@@ -272,10 +270,10 @@ const HitBear = () => {
             className="w-full object-cover "
           />
           <div className="flex h-full w-full flex-col items-center overflow-hidden  bg-[#242552] object-cover">
-            {/*<button className="mt-5 bg-blue-500 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded">*/}
-            {/*    CONTINUE*/}
-            {/*</button>*/}
-            <div className=" absolute top-1/2 mb-12 text-center text-3xl font-semibold text-white md:mb-24 md:text-5xl">
+            {/* <button className="mt-5 bg-blue-500 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded"> */}
+            {/* CONTINUE */}
+            {/* </button> */}
+            <div className="absolute top-1/2 mb-12 text-center text-3xl font-semibold text-white md:mb-24 md:text-5xl">
               <p>Hooraaay!</p> You've made it!
             </div>
             <button className=" absolute top-1/2 mt-32 h-14 w-10/12 rounded-xl  border border-b-4 border-black bg-[#62C5C6] py-1 px-3 text-xl font-bold text-white ">
