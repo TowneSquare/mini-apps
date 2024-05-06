@@ -5,7 +5,10 @@ import madeItImg from "@/public/assets/game/ball.png";
 import frontImg from "@/public/assets/game/front.png";
 import hitBearImg from "@/public/assets/game/hitBear.png";
 import blinkBearImg from "@/public/assets/game/blinkBear.png";
-import boomImg from "@/public/assets/game/boom.svg";
+import boomImgA from "@/public/assets/game/boomA.png";
+import boomImgB from "@/public/assets/game/boomB.png";
+import boomImgC from "@/public/assets/game/boomC.png";
+
 import bgImg from "@/public/assets/game/bg.svg";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -70,12 +73,16 @@ const HitBear = () => {
     }
   }, [loaded]);
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the container
-  const hitMarkerRef = useRef<HTMLDivElement>(null);
+  const hitMarkerRefA = useRef<HTMLDivElement>(null);
+  const hitMarkerRefB = useRef<HTMLDivElement>(null);
+  const hitMarkerRefC = useRef<HTMLDivElement>(null);
+  const hitMarkerRefs = [hitMarkerRefA, hitMarkerRefB, hitMarkerRefC];
+
   // const [clickCount, setClickCount] = useState(0);
   const { evilBlood, battleClickHandler } = useBattleEvil();
   // const totalClicks = 5; // 总共点击次数，到达这个次数视为满
   const handleClick = (event: { clientX: number; clientY: number }) => {
-    const marker = hitMarkerRef.current;
+    const marker = hitMarkerRefs[Math.floor(Math.random() * 3)].current;
     const container = containerRef.current;
     // setClickCount((prev) => prev + 1);
     battleClickHandler();
@@ -116,7 +123,7 @@ const HitBear = () => {
     );
 
     // if (clickCount >= totalClicks - 1) {
-    if (evilBlood <= 0) {
+      if (evilBlood <= 0) {
       const tl = gsap.timeline();
       tl.to(hitBearRef.current, { display: "none", duration: 0.1 }).set(
         blinkBearRef.current,
@@ -167,11 +174,7 @@ const HitBear = () => {
         />
         <div className="absolute top-40 flex w-full flex-col items-center justify-center">
           <span
-            className="text-center text-2xl text-white"
-            style={{
-              textShadow:
-                "1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000",
-            }}
+            className="text-center text-2xl text-white mb-1 "
           >
             HP:{evilBlood}
           </span>
@@ -284,8 +287,20 @@ const HitBear = () => {
           </div>
         </div>
         <img
-          ref={hitMarkerRef as React.RefObject<HTMLImageElement>}
-          src={boomImg.src}
+          ref={hitMarkerRefA as React.RefObject<HTMLImageElement>}
+          src={boomImgA.src}
+          className="absolute z-50 hidden w-20 "
+          alt="Hit Marker"
+        />
+        <img
+          ref={hitMarkerRefB as React.RefObject<HTMLImageElement>}
+          src={boomImgB.src}
+          className="absolute z-50 hidden w-20 "
+          alt="Hit Marker"
+        />
+        <img
+          ref={hitMarkerRefC as React.RefObject<HTMLImageElement>}
+          src={boomImgC.src}
           className="absolute z-50 hidden w-20 "
           alt="Hit Marker"
         />
