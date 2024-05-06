@@ -1,14 +1,14 @@
 "use client";
 import gsap from "gsap";
 import bearStartImg from "@/public/assets/game/bearStartImg.png";
-import num30Img from "@/public/assets/game/30.png";
-import num01Img from "@/public/assets/game/01.png";
-import hitHimImg from "@/public/assets/game/hithim.png";
 import madeItImg from "@/public/assets/game/ball.png";
 import frontImg from "@/public/assets/game/front.png";
 import hitBearImg from "@/public/assets/game/hitBear.png";
 import blinkBearImg from "@/public/assets/game/blinkBear.png";
-import boomImg from "@/public/assets/game/boom.svg";
+import boomImgA from "@/public/assets/game/boomA.png";
+import boomImgB from "@/public/assets/game/boomB.png";
+import boomImgC from "@/public/assets/game/boomC.png";
+
 import bgImg from "@/public/assets/game/bg.svg";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -18,9 +18,9 @@ import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
 
 const HitBear = () => {
   const bearRef = useRef(null);
+  const countdownRefs = [...Array(30)].map((_, i) => useRef(null));
   const [loaded, setLoaded] = useState(false);
-  const num30Ref = useRef(null);
-  const num01Ref = useRef(null);
+
   const hitHimRef = useRef(null);
   const hitBearRef = useRef(null);
   const healthRef = useRef(null);
@@ -41,13 +41,18 @@ const HitBear = () => {
         ease: "power1.out",
       });
       const tl = gsap.timeline();
-
-      tl.to(num30Ref.current, { opacity: 0, duration: 1 });
       tl.delay(1);
-      tl.to(num01Ref.current, { opacity: 1, duration: 1 }).set(
-        num01Ref.current,
-        { opacity: 0 },
-      );
+
+      tl.to(countdownRefs[countdownRefs.length - 1].current, {
+        opacity: 0,
+        duration: 1,
+      });
+      // tl.delay(1);
+      for (let index = 0; index < countdownRefs.length - 1; index++) {
+        const ref = countdownRefs[countdownRefs.length - 2 - index].current;
+        tl.to(ref, { opacity: 1, duration: 1 }).set(ref, { opacity: 0 });
+      }
+
       tl.to(hitHimRef.current, { opacity: 1, duration: 1 }).set(
         hitHimRef.current,
         { opacity: 0 },
@@ -68,12 +73,16 @@ const HitBear = () => {
     }
   }, [loaded]);
   const containerRef = useRef<HTMLDivElement>(null); // Ref for the container
-  const hitMarkerRef = useRef<HTMLDivElement>(null);
+  const hitMarkerRefA = useRef<HTMLDivElement>(null);
+  const hitMarkerRefB = useRef<HTMLDivElement>(null);
+  const hitMarkerRefC = useRef<HTMLDivElement>(null);
+  const hitMarkerRefs = [hitMarkerRefA, hitMarkerRefB, hitMarkerRefC];
+
   // const [clickCount, setClickCount] = useState(0);
-  const {evilBlood, battleClickHandler } = useBattleEvil();
+  const { evilBlood, battleClickHandler } = useBattleEvil();
   // const totalClicks = 5; // 总共点击次数，到达这个次数视为满
   const handleClick = (event: { clientX: number; clientY: number }) => {
-    const marker = hitMarkerRef.current;
+    const marker = hitMarkerRefs[Math.floor(Math.random() * 3)].current;
     const container = containerRef.current;
     // setClickCount((prev) => prev + 1);
     battleClickHandler();
@@ -106,6 +115,12 @@ const HitBear = () => {
           },
         },
       );
+      const tl = gsap.timeline();
+      tl.to(blinkBearRef.current, {
+        opacity: 1,
+        repeat: 1,
+        pointerEvents: "auto",
+      }).set(blinkBearRef.current, { opacity: 0, pointerEvents: "auto" });
     }
     const tl = gsap.timeline();
     tl.to(blinkBearRef.current, { display: 1, duration: 0.1 }).set(
@@ -114,7 +129,7 @@ const HitBear = () => {
     );
 
     // if (clickCount >= totalClicks - 1) {
-      if (evilBlood <= 0) {
+    if (evilBlood <= 0) {
       const tl = gsap.timeline();
       tl.to(hitBearRef.current, { display: "none", duration: 0.1 }).set(
         blinkBearRef.current,
@@ -152,7 +167,6 @@ const HitBear = () => {
           backgroundColor: "#384273",
         }}
       >
-        
         <img
           className="absolute bottom-0 z-50 w-full object-cover"
           src={frontImg.src}
@@ -165,13 +179,7 @@ const HitBear = () => {
           alt=""
         />
         <div className="absolute top-40 flex w-full flex-col items-center justify-center">
-          <span
-            className="text-center text-2xl text-white"
-            style={{
-              textShadow:
-                "1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000",
-            }}
-          >
+          <span className="mb-1 text-center text-2xl text-white ">
             HP:{evilBlood}
           </span>
           <div className="relative mx-auto h-10 w-72 skew-x-[-38deg] rounded-lg border-4 border-black bg-[#9ba3b9]">
@@ -186,26 +194,55 @@ const HitBear = () => {
             </div>
           </div>
         </div>
-        {/* <img ref={healthRef} className={`absolute top-20 z-20 w-3/4 object-cover  `} */}
-        {/*     src={healthImg.src} alt="" /> */}
-        <img
+        {countdownRefs.map((ref, i) => {
+          return (
+            <div
+              key={i}
+              ref={ref}
+              className={
+                `absolute top-52 z-20 w-3/4 text-center text-[15rem] text-white` +
+                ` ${i === countdownRefs.length - 1 ? " opacity-100" : " opacity-0"}`
+              }
+              style={{
+                textShadow:
+                  "10px 10px 0 #000, 10px -10px 0 #000, -10px 10px 0 #000, -10px -10px 0 #000, 0 10px 0 #000, 0 -10px 0 #000, 10px 0 #000, -10px 0 #000",
+              }}
+            >
+              {i + 1}
+            </div>
+          );
+        })}
+
+        {/* <div
           ref={num30Ref}
-          className={`absolute top-52 z-20 w-3/4 object-cover  `}
-          src={num30Img.src}
-          alt=""
-        />
-        <img
+          className="absolute top-52 z-20 w-3/4 text-center text-[15rem] text-white"
+          style={{
+            textShadow:
+              "10px 10px 0 #000, 10px -10px 0 #000, -10px 10px 0 #000, -10px -10px 0 #000, 0 10px 0 #000, 0 -10px 0 #000, 10px 0 #000, -10px 0 #000",
+          }}
+        >
+          30
+        </div>
+        <div
           ref={num01Ref}
-          className={`absolute top-52 z-20 w-3/4 object-cover  opacity-0 `}
-          src={num01Img.src}
-          alt=""
-        />
-        <img
+          className={`absolute top-52 z-20 w-3/4 text-center text-[15rem] text-white opacity-0 `}
+          style={{
+            textShadow:
+              "10px 10px 0 #000, 10px -10px 0 #000, -10px 10px 0 #000, -10px -10px 0 #000, 0 10px 0 #000, 0 -10px 0 #000, 10px 0 #000, -10px 0 #000",
+          }}
+        >
+          01
+        </div> */}
+        <div
           ref={hitHimRef}
-          className={`absolute top-52 z-20 w-3/4 object-cover  opacity-0 `}
-          src={hitHimImg.src}
-          alt=""
-        />
+          className="absolute top-[15rem] z-20 w-full text-center text-[9rem] font-bold leading-[8rem] text-white opacity-0"
+          style={{
+            textShadow:
+              "8px 8px 0 #000, 8px -8px 0 #000, -8px 8px 0 #000, -8px -8px 0 #000, 0 8px 0 #000, 0 -8px 0 #000, 8px 0 #000, -8px 0 #000",
+          }}
+        >
+          Hit him!
+        </div>
         <Image
           ref={bearRef}
           src={bearStartImg.src}
@@ -254,8 +291,20 @@ const HitBear = () => {
           </div>
         </div>
         <img
-          ref={hitMarkerRef as React.RefObject<HTMLImageElement>}
-          src={boomImg.src}
+          ref={hitMarkerRefA as React.RefObject<HTMLImageElement>}
+          src={boomImgA.src}
+          className="absolute z-50 hidden w-20 "
+          alt="Hit Marker"
+        />
+        <img
+          ref={hitMarkerRefB as React.RefObject<HTMLImageElement>}
+          src={boomImgB.src}
+          className="absolute z-50 hidden w-20 "
+          alt="Hit Marker"
+        />
+        <img
+          ref={hitMarkerRefC as React.RefObject<HTMLImageElement>}
+          src={boomImgC.src}
           className="absolute z-50 hidden w-20 "
           alt="Hit Marker"
         />
