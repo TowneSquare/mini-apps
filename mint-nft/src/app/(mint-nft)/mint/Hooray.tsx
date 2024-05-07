@@ -1,11 +1,12 @@
 import bg from "@/public/assets/hooray/bg.png";
 import centerImage from "@/public/assets/hooray/ball-brown.png";
-import Link from "next/link";
 
-export default function Page() {
+export const Hooray: React.FC<{ skipHandler: () => void }> = ({
+  skipHandler,
+}) => {
   return (
     <div
-      className="relative flex h-screen flex-col items-center justify-center overflow-hidden"
+      className="absolute top-0 flex h-full w-full flex-col items-center justify-center overflow-hidden pt-20"
       style={{
         backgroundImage: `url(${bg.src})`,
         backgroundSize: "cover",
@@ -22,9 +23,12 @@ export default function Page() {
         alt=""
       />
 
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 transform text-center  text-2xl font-bold text-[#62C2C4]">
-        <Link href="/done">Skip</Link>
+      <div
+        onClick={skipHandler}
+        className="absolute bottom-20 left-1/2 -translate-x-1/2 transform text-center  text-2xl font-bold text-[#62C2C4]"
+      >
+        Skip
       </div>
     </div>
   );
-}
+};

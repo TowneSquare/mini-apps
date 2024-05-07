@@ -3,11 +3,6 @@ import { CountDown } from "@/src/components/CountDown";
 import { Button } from "@/src/components/ui/button";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
-
-export interface MintCardProps extends MintInProgressCardProps {
-  status: "start" | "in-progress" | "completed";
-}
-
 export interface MintInProgressCardProps {
   mintName: string;
   eligible?: boolean;
@@ -17,6 +12,11 @@ export interface MintInProgressCardProps {
   mintable?: string;
   maxMinted?: boolean;
 }
+export interface MintCardProps extends MintInProgressCardProps {
+  status: "start" | "in-progress" | "completed";
+}
+
+
 export const MintCard = (props: MintCardProps) => {
   switch (props.status) {
     case "start":
@@ -47,13 +47,13 @@ const MintInprogressCard: React.FC<MintCardProps> = ({
           <span className="font-bold text-white">{mintName}</span>
           <span
             className={
-              "rounded-full border-2 px-4 text-sm font-medium" +
-              " " +
-              (eligible
+              `rounded-full border-2 px-4 text-sm font-medium` +
+              ` ${ 
+              eligible
                 ? maxMinted
                   ? "border-bggreen bg-bggreen text-white"
                   : "border-bggreen text-bggreen"
-                : "border-orange-500 text-orange-500")
+                : "border-orange-500 text-orange-500"}`
             }
           >
             {eligible
@@ -93,15 +93,15 @@ const MintInprogressCard: React.FC<MintCardProps> = ({
       <div className="rounded-b-xl border-2 border-t-0 border-b-4 border-black bg-white px-4 py-5 text-slate-600">
         <div className="flex items-center justify-between">
           <span className="font-semibold">Mint price</span>
-          <span className="font-black">{mintPrice ? mintPrice : "-"} APT</span>
+          <span className="font-black">{mintPrice || "-"} APT</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="font-semibold">You can mint</span>
-          <span className="font-black">{mintable ? mintable : "-"}</span>
+          <span className="font-black">{mintable || "-"}</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="font-semibold">You minted</span>
-          <span className="font-black">{minted ? minted : "-"}</span>
+          <span className="font-black">{minted || "-"}</span>
         </div>
       </div>
     </div>

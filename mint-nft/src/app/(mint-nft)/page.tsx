@@ -21,16 +21,16 @@ export default function MintHome() {
     >
       <div className="h-[40%] pt-5">
         <div className="relative mx-auto h-[50%] w-3/4">
-          <Image src={TitleImg} fill={true} objectFit="contain" alt="title" />
+          <Image
+            src={TitleImg}
+            priority
+            className="object-contain"
+            fill
+            alt="title"
+          />
         </div>
         <div className="relative mx-auto mt-2 h-[9%] w-3/4">
-          <Image
-            className=""
-            src={LogoBg}
-            fill={true}
-            objectFit="contain"
-            alt="Logo"
-          />
+          <Image src={LogoBg} fill className="object-contain" alt="Logo" />
         </div>
         <div className="z-10 mt-5 flex h-[41%] animate-home-title-ani flex-col items-center justify-center text-3xl font-black">
           <span>Built with</span>
@@ -45,57 +45,49 @@ export default function MintHome() {
         <div className="absolute top-[20%] h-[80%] w-full translate-y-full animate-[sloth-appear-up_0.4s_0.8s_ease-in-out_forwards]">
           <Image
             src={SlothWithNoMounthImg}
-            fill={true}
-            objectFit="contain"
+            fill
+            className="object-contain"
             alt="title"
           />
         </div>
-        <div className="absolute top-[100%] left-[25%] h-[10%] w-[80%] translate-y-full animate-[sloth-bubble-appear-up_1.6s_0.8s_ease-in-out_forwards]">
+        <div className="absolute left-[25%] top-[100%] h-[10%] w-[80%] translate-y-full animate-[sloth-bubble-appear-up_1.6s_0.8s_ease-in-out_forwards]">
           <Image
             src={BubbleMounthImg}
-            fill={true}
-            objectFit="contain"
+            fill
+            className="object-contain"
             alt="title"
           />
         </div>
-        <div className="absolute top-0 left-[1%] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_2.0s_ease-in-out_forwards]">
+        <div className="absolute left-[1%] top-0 h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_2.0s_ease-in-out_forwards]">
           <Image
             src={EvilSmileImg}
-            fill={true}
-            objectFit="contain"
+            fill
+            className="object-contain"
             alt="title"
           />
         </div>
 
-        <div className="absolute bottom-0 h-[30%] w-[120%] -translate-x-[15%] animate-[appear-up_0.3s_ease-in-out_forwards] rounded-tl-[99%] rounded-tr-[190%] bg-bggreen"></div>
+        <div className="absolute bottom-0 h-[30%] w-[120%] -translate-x-[15%] animate-[appear-up_0.3s_ease-in-out_forwards] rounded-tl-[99%] rounded-tr-[190%] bg-bggreen" />
         <Image
-          className="fixed bottom-[1.5rem] left-0 -translate-x-full animate-[appear-left-sm_0.3s_0.8s_ease-in-out_forwards]"
+          className="fixed bottom-[1.5rem] left-0 h-auto w-[11rem] -translate-x-full animate-[appear-left-sm_0.3s_0.8s_ease-in-out_forwards]"
           src={SlothLeft2Img}
-          width={180}
-          height={196}
           alt="Sloth"
         />
 
         <Image
-          className="fixed bottom-0 left-0 -translate-x-full animate-[appear-left_0.3s_0.8s_ease-in-out_forwards]"
+          className="fixed bottom-0 left-0 h-auto w-[7rem] -translate-x-full animate-[appear-left_0.3s_0.8s_ease-in-out_forwards]"
           src={SlothLeft1Img}
-          width={114}
-          height={172}
           alt="Sloth"
         />
 
         <Image
-          className="fixed bottom-8 right-0 translate-x-full animate-[appear-right-sm_0.3s_0.8s_ease-in-out_forwards]"
+          className="fixed bottom-8 right-0 h-auto w-[11rem] translate-x-full animate-[appear-right-sm_0.3s_0.8s_ease-in-out_forwards]"
           src={SlothRight2Img}
-          width={170}
-          height={175}
           alt="Sloth"
         />
         <Image
-          className="fixed bottom-0 right-0 translate-x-full animate-[appear-right_0.3s_0.8s_ease-in-out_forwards]"
+          className="fixed bottom-0 right-0 h-auto w-[7rem] translate-x-full animate-[appear-right_0.3s_0.8s_ease-in-out_forwards]"
           src={SlothRight1Img}
-          width={126}
-          height={194}
           alt="Sloth"
         />
 
