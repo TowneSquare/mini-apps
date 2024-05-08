@@ -21,6 +21,7 @@
     "@nightlylabs/aptos-wallet-adapter-plugin": "^0.2.12",
     "@openblockhq/aptos-wallet-adapter": "^0.1.5",
     "@pontem/wallet-adapter-plugin": "^0.2.0",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@rainbow-me/rainbowkit": "^2.0.1",
     "@rise-wallet/wallet-adapter": "^0.1.2",

@@ -1,10 +1,9 @@
 "use client";
 import { CountDown } from "@/src/components/CountDown";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { API_URL } from "@/src/config/constants";
 import { fetcher } from "@/src/lib/utils";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
 type MintType = "cool-list" | "public-mint";
@@ -17,10 +16,13 @@ export interface MintCardProps {
   mintable?: string;
   maxMinted?: boolean;
 }
+export interface MintInProgressCardProps extends MintCardProps {
+  mintFinishHandler: () => void;
+}
 const CardLoading = () => {
   return (
     <div className="flex h-20 w-full items-center justify-center">
-      <span className="loading loading-spinner loading-md"></span>
+      <span className="loading loading-spinner loading-md" />
     </div>
   );
 };
@@ -36,9 +38,10 @@ justify-center"
 };
 export const MintCard: React.FC<{
   mintCardType: MintType;
-}> = ({ mintCardType }) => {
-  if (mintCardType == "cool-list") {
-    const mintInfoUrl = API_URL + "?app_name=mint_app&key=cool_mint_time";
+  mintFinishHandler: () => void;
+}> = ({ mintCardType, mintFinishHandler }) => {
+  if (mintCardType === "cool-list") {
+    const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
     const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
     if (isLoading) {
       return <CardLoading />;
@@ -54,13 +57,14 @@ export const MintCard: React.FC<{
       mintable: "-",
       minted: "-",
       mintTime: Number(data.value),
+      mintFinishHandler,
     };
 
     return <MintInprogressCard {...propsData} />;
 
     // return <MintCompletedCard {...propsData} />;
-  } else if (mintCardType == "public-mint") {
-    const mintInfoUrl = API_URL + "?app_name=mint_app&key=public_mint_time";
+  } else if (mintCardType === "public-mint") {
+    const mintInfoUrl = `${API_URL}?app_name=mint_app&key=public_mint_time`;
     const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
     if (isLoading) {
       return <CardLoading />;
@@ -79,7 +83,7 @@ export const MintCard: React.FC<{
   }
 };
 
-const MintInprogressCard: React.FC<MintCardProps> = ({
+const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
   mintName,
   eligible,
   mintTime,
@@ -87,13 +91,13 @@ const MintInprogressCard: React.FC<MintCardProps> = ({
   mintable,
   minted,
   maxMinted,
+  mintFinishHandler,
 }) => {
   const isStartMint = mintTime - Date.now() < 0;
-  const router = useRouter();
-  const mintActionHandler = (mintAmount:number) => {
+  const mintActionHandler = (mintAmount: number) => {
     console.log(mintAmount);
-    router.push("/hooray");
-  }
+    mintFinishHandler();
+  };
   return (
     <div>
       <div className="flex flex-col items-center justify-center rounded-t-xl  border-2 border-b-0 border-black bg-bgpink px-4 py-2">
@@ -101,13 +105,14 @@ const MintInprogressCard: React.FC<MintCardProps> = ({
           <span className="font-bold text-white">{mintName}</span>
           <span
             className={
-              "rounded-full border-2 px-4 text-sm font-medium" +
-              " " +
-              (eligible
-                ? maxMinted
-                  ? "border-bggreen bg-bggreen text-white"
-                  : "border-bggreen text-bggreen"
-                : "border-orange-500 text-orange-500")
+              `rounded-full border-2 px-4 text-sm font-medium` +
+              ` ${
+                eligible
+                  ? maxMinted
+                    ? "border-bggreen bg-bggreen text-white"
+                    : "border-bggreen text-bggreen"
+                  : "border-orange-500 text-orange-500"
+              }`
             }
           >
             {eligible
@@ -144,18 +149,18 @@ const MintInprogressCard: React.FC<MintCardProps> = ({
           <CountDownCard cardName="Mint date" startTime={mintTime} />
         )}
       </div>
-      <div className="rounded-b-xl border-2 border-t-0 border-b-4 border-black bg-white px-4 py-5 text-slate-600">
+      <div className="rounded-b-xl border-2 border-b-4 border-t-0 border-black bg-white px-4 py-5 text-slate-600">
         <div className="flex items-center justify-between">
           <span className="font-semibold">Mint price</span>
-          <span className="font-black">{mintPrice ? mintPrice : "-"} APT</span>
+          <span className="font-black">{mintPrice || "-"} APT</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="font-semibold">You can mint</span>
-          <span className="font-black">{mintable ? mintable : "-"}</span>
+          <span className="font-black">{mintable || "-"}</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="font-semibold">You minted</span>
-          <span className="font-black">{minted ? minted : "-"}</span>
+          <span className="font-black">{minted || "-"}</span>
         </div>
       </div>
     </div>

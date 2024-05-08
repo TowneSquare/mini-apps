@@ -1,4 +1,3 @@
-import { Button } from "@/src/components/ui/button";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 import { type StaticImageData } from "next/image";
 import FurImg from "@/public/assets/compose/fur.png";
@@ -8,12 +7,6 @@ import EyesImg from "@/public/assets/compose/eyes.png";
 import HatImg from "@/public/assets/compose/hat.png";
 import MouthImg from "@/public/assets/compose/mouth.png";
 import { ComposeSloth } from "./ComposeSloth";
-
-export type SlothItem = {
-  id: string;
-  img: StaticImageData;
-  type: SlothItemType;
-};
 export enum SlothItemType {
   Fur = "Fur",
   Eyes = "Eyes",
@@ -22,6 +15,11 @@ export enum SlothItemType {
   Hat = "Hat",
   Background = "Background",
 }
+export type SlothItem = {
+  id: string;
+  img: StaticImageData;
+  type: SlothItemType;
+};
 
 export default function ComposePage() {
   const slothItems: SlothItem[] = [
@@ -41,9 +39,9 @@ export default function ComposePage() {
           background:
             "radial-gradient(circle closest-side at 50% 40%,#5776b1 8%, #516aa2 60%, #3e4878 172%)",
         }}
-        className="relative min-h-screen px-8 pt-20 pb-32"
+        className="relative min-h-screen px-8 pb-32 pt-20"
       >
-        <p className="mt-2 mb-3 text-3xl font-extrabold text-white">
+        <p className="mb-3 mt-2 text-3xl font-extrabold text-white">
           Evolve and compose your Sloth!
         </p>
 
