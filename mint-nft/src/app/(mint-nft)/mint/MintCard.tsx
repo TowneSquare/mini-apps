@@ -6,6 +6,14 @@ import { fetcher } from "@/src/lib/utils";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import useSWR from "swr";
+
+// <!-- smart contract
+
+import { DAPP_ADDRESS, APTOS_NODE_URL} from '../../../config/constants';
+import { Provider, Types, Network } from "aptos";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+// --!>
+
 type MintType = "cool-list" | "public-mint";
 export interface MintCardProps {
   mintName: string;
@@ -39,7 +47,9 @@ justify-center"
 export const MintCard: React.FC<{
   mintCardType: MintType;
   mintFinishHandler: () => void;
-}> = ({ mintCardType, mintFinishHandler }) => {
+  eligible: boolean;
+  minted: number; // Add eligible to the props
+}> = ({ mintCardType, mintFinishHandler, eligible, minted }) => {
   if (mintCardType === "cool-list") {
     const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
     const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
@@ -51,11 +61,11 @@ export const MintCard: React.FC<{
     }
     console.log(data);
     const propsData = {
-      eligible: true,
+      eligible,  // Use the eligible passed from props
       mintName: "Cool List",
-      mintPrice: "6.9",
+      mintPrice: "4.2",
       mintable: "-",
-      minted: "-",
+      minted,
       mintTime: Number(data.value),
       mintFinishHandler,
     };
@@ -207,6 +217,23 @@ const MintButtonCard: React.FC<{
   onMintHandle: (mintAmount: number) => void;
 }> = ({ onMintHandle }) => {
   const [mintAmount, setMintAmount] = useState(0);
+
+  // <!-- smart contract
+  const {signAndSubmitTransaction} = useWallet();
+
+  async function mintNFT(amount) {
+    const transaction = {
+      data: {
+        function: `0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::mint_sloth_ball`,
+        typeArguments: ["0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo"],
+        functionArguments: [amount]
+      },
+    };
+
+    const response = await signAndSubmitTransaction(transaction);
+    console.log(response);
+  }
+
   return (
     <>
       <div className="mt-3 flex w-full items-center justify-center">
@@ -234,7 +261,7 @@ const MintButtonCard: React.FC<{
         </Button>
       </div>
       <Button
-        onClick={() => onMintHandle(mintAmount)}
+        onClick={() => mintNFT(mintAmount)}
         className="my-8 w-full"
         variant="secondary"
       >
@@ -244,7 +271,10 @@ const MintButtonCard: React.FC<{
   );
 };
 export const getStartTime = (startTime: number) => {
-  const startDate = new Date(startTime).toUTCString().split(" ");
-  const startTimeArray = startDate[4].split(":");
-  return `${startDate[1]} ${startDate[2]}⋅${startTimeArray[0]}:${startTimeArray[1]} GMT`;
+  // Convert seconds to milliseconds if the timestamp is not in the correct time range
+  const date = new Date(startTime * 1000);
+  const utcString = date.toUTCString();
+  const parts = utcString.split(" ");
+  const timeParts = parts[4].split(":");
+  return `${parts[1]} ${parts[2]}⋅${timeParts[0]}:${timeParts[1]} GMT`;
 };
