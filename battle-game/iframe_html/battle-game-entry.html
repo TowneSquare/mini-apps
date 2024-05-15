@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style type="text/css">
+      body {
+        font-family: "Exo 2", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+      }
+      #frame-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* background: url("./assets/game-bg.png") 0 0 no-repeat #c70001; */
+        background:
+          url("./assets/game-bg.png") 0 0 no-repeat,
+          linear-gradient(#5776b1, #516aa2, #3e4878);
+        background-size: 100%;
+        height: 100vh;
+        overflow-y: hidden;
+      }
+      .battle-game-entry {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
+      .app-title {
+        padding-left: 1.5rem;
+        height: 5rem;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.6);  
+        color: white;
+      }
+      .app-title-author {
+        width: 100%;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+      }
+      .app-title-author img {
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+      .app-title-author p {
+        margin: 0 0 0 0.5rem;
+        font-size: 1.2rem;
+      }
+      .app-title-name {
+        width: 100%;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: white;
+        margin: 0;
+      }
+      .entry-button {
+        background: #404040;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 5rem;
+      }
+      #button-start {
+        font-family: "Exo 2", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        background: #8b6af0;
+        color: white;
+        width: 90%;
+        border-radius: 10rem;
+        height: 3rem;
+        border: 0;
+        font-weight: 600;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body id="frame-body">
+    <div class="battle-game-entry">
+      <div class="app-title">
+        <div class="app-title-author">
+          <img src="./assets/title-icon.png" alt="" />
+          <p>SIOthian by TowneSquare</p>
+        </div>
+        <p class="app-title-name">Slothball evolution</p>
+      </div>
+      <div class="entry-button">
+        <button id="button-start">Battle & Evove Slothballs</button>
+      </div>
+    </div>
+    <script>
+      const button = document.getElementById("button-start");
+
+      button.addEventListener("click", (event) => {
+        parent.postMessage({ msg: "ENTER_APP" }, "*");
+      });
+    </script>
+  </body>
+</html>

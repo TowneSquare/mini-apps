@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style type="text/css">
+      #frame-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+    <script>
+      function onMessageFromIframe(event) {
+        console.log("messageFromIframe", event);
+        if (event.data && event.data.msg === "ENTER_APP") {
+          console.log("ENTER_APP");
+          const iframe = document.getElementById("mint-nft-entry");
+          iframe.src = "http://localhost:3000/";
+        }
+      }
+
+      window.addEventListener("message", onMessageFromIframe, false);
+    </script>
+  </head>
+  <body id="frame-body">
+    <div class="mint-nft-container">
+      <iframe
+        id="mint-nft-entry"
+        src="./mint-nft-entry.html"
+        frameborder="0"
+        width="360px"
+        height="530px"
+      ></iframe>
+    </div>
+  </body>
+</html>
