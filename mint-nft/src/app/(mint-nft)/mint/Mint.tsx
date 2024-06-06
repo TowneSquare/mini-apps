@@ -5,13 +5,14 @@ import { MintCarousel } from "./MIntCarousel";
 import { MintPorgress } from "./MintProgress";
 import { Hooray } from "./Hooray";
 import { MintDoneDialog } from "./DoneDialog";
+// Import the new utility functions
+import { isWhitelisted, getBalance, mintStartTime, mintEndTime} from './utils/contractUtils';
+// * abstract the contract viewer functions to a single file.
 
-import { Button } from "@/components/ui/button";
+// <!-- smart contract 
 
-// <!-- smart contract
-
-import { DAPP_ADDRESS, APTOS_NODE_URL} from '../../../config/constants';
-import { Provider, Types, Network } from "aptos";
+import {  APTOS_NODE_URL, DAPP_ADDRESS} from '../../../config/constants';
+import { Provider, Types } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 // --!>
 
@@ -19,7 +20,7 @@ export const Mint = () => {
   const [eligible, setEligible] = useState(false);  // State to store eligibility status
   const [minted, setMinted] = useState(0);  // State to store minted count
   // <!-- smart contract
-  const {submitTransaction, signAndSubmitTransaction, account } = useWallet();
+  const {account } = useWallet();
   console.log("account:", account);
   // const provider = new Provider(Network.TESTNET); 
   // TODO update the network
@@ -32,7 +33,7 @@ export const Mint = () => {
 
   async function isWhitelisted(addr: any) {
     const payload: Types.ViewRequest = {
-      function: `0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::is_whitelisted`,
+      function: DAPP_ADDRESS + `::pre_mint::is_whitelisted`,
       type_arguments: [],
       arguments: [addr],
     };
@@ -43,7 +44,7 @@ export const Mint = () => {
 
   async function getBalance(addr: any) {
     const payload: Types.ViewRequest = {
-      function: `0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::minted_tokens`,
+      function: DAPP_ADDRESS + `::pre_mint::minted_tokens`,
       type_arguments: [],
       arguments: [addr],
     };
@@ -52,6 +53,24 @@ export const Mint = () => {
     setMinted(result.length);
   }
 
+  // useEffect(() => {
+  //   if (account) {
+  //     isWhitelisted(account.address)
+  //       .then(isEligible => {
+  //         setEligible(isEligible);
+  //         console.log("isEligible:", isEligible);
+  //   })
+  //       .catch(console.error);
+  //   }
+  // }, [account]);
+  
+  // useEffect(() => {
+  //   if (account) {
+  //     getBalance(account.address)
+  //       .then(mintCount => setMinted(mintCount))
+  //       .catch(console.error);
+  //   }
+  // }, [account]);
   useEffect(() => {
     if (account) {
       isWhitelisted(account.address).catch(console.error);

@@ -8,9 +8,9 @@ export interface MintData {
 }
 export const MintCarousel: React.FC = () => {
   const mintList: MintData[] = [
-    { mintID: "666", mintImg: sothballs },
-    { mintID: "667", mintImg: sothballs },
-    { mintID: "668", mintImg: sothballs },
+    // { mintID: "666", mintImg: sothballs },
+    // { mintID: "667", mintImg: sothballs },
+    { mintID: "0", mintImg: sothballs },
   ];
   const hasNoneNft = mintList.length <= 0;
   return (
@@ -40,7 +40,7 @@ export const MintCarousel: React.FC = () => {
                 src={mintData.mintImg}
                 width={205}
                 height={219}
-                alt="sothball"
+                alt="slothball"
               />
               <div className="flex h-6 w-full justify-center">
                 <span className="text-base font-medium">
