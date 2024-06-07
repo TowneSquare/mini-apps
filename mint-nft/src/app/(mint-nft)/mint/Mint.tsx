@@ -6,7 +6,7 @@ import { MintPorgress } from "./MintProgress";
 import { Hooray } from "./Hooray";
 import { MintDoneDialog } from "./DoneDialog";
 // Import the new utility functions
-import { isWhitelisted, getBalance, mintStartTime, mintEndTime} from './utils/contractUtils';
+// import { isWhitelisted, getBalance, mintStartTime, mintEndTime} from './utils/contractUtils';
 // * abstract the contract viewer functions to a single file.
 
 // <!-- smart contract 
@@ -19,6 +19,9 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 export const Mint = () => {
   const [eligible, setEligible] = useState(false);  // State to store eligibility status
   const [minted, setMinted] = useState(0);  // State to store minted count
+  const [mintStartTime, setMintStartTime] = useState(0);  // State to store mint start time with timestamp.
+  const [mintEndTime, setMintEndTime] = useState(0);  // State to store mint start time with timestamp.
+
   // <!-- smart contract
   const {account } = useWallet();
   console.log("account:", account);
@@ -28,8 +31,31 @@ export const Mint = () => {
   // const client = new Provider({ fullnodeUrl: APTOS_NODE_URL, indexerUrl: NODE_URL /* not used */ });
   // const client = new WalletClient(APTOS_NODE_URL, APTOS_FAUCET_URL);
 
-  
+  const typeCoollistInfo = DAPP_ADDRESS + `::pre_mint::CoolListInfo`;
+  const typePublicInfo = DAPP_ADDRESS + `::pre_mint::PublicInfo`;
 
+  // in testnet is: 0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo
+  async function getMintStartTime(objInfo: string): Promise<number> {
+    const payload: Types.ViewRequest = {
+      function: DAPP_ADDRESS + `::pre_mint::mint_start_time`,
+      type_arguments: [objInfo],
+      arguments: [],
+    };
+    const result = await client.view(payload);
+    console.log("minstarttime:", result);
+    setMintStartTime(result[0]);
+  }
+  
+  async function getMintEndTime(objInfo: string): Promise<number> {
+    const payload: Types.ViewRequest = {
+      function: DAPP_ADDRESS + `::pre_mint::mint_end_time`,
+      type_arguments: [objInfo],
+      arguments: [],
+    };
+    const result = await client.view(payload);
+    console.log("mintendtime:", result);
+    setMintEndTime(result[0]);
+  }
 
   async function isWhitelisted(addr: any) {
     const payload: Types.ViewRequest = {
@@ -50,6 +76,8 @@ export const Mint = () => {
     };
 
     const result = await client.view(payload);
+    console.log("balance:", result);
+    // The result is obj id list.
     setMinted(result.length);
   }
 
@@ -82,6 +110,23 @@ export const Mint = () => {
       getBalance(account.address).catch(console.error);
     }
   }, [account]);  // Depend on account to re-run when account changes
+
+  // TODO: set the mint start time & mint end time dynamic from the contract.
+  useEffect(() => {
+    getMintStartTime(typeCoollistInfo);
+  }, []); 
+
+  useEffect(() => {
+    getMintEndTime(typeCoollistInfo);
+  }, []); 
+
+  useEffect(() => {
+    getMintStartTime(typePublicInfo);
+  }, []); 
+
+  useEffect(() => {
+    getMintEndTime(typePublicInfo);
+  }, []); 
 
   // --!>
 
