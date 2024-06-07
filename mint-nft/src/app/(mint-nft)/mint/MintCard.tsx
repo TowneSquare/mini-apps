@@ -9,9 +9,10 @@ import useSWR from "swr";
 
 // <!-- smart contract
 
-import { DAPP_ADDRESS, APTOS_NODE_URL} from '../../../config/constants';
+import { DAPP_ADDRESS, APTOS_NODE_URL } from "../../../config/constants";
 import { Provider, Types, Network } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { MintProgressStatus } from "./Mint";
 // --!>
 
 type MintType = "cool-list" | "public-mint";
@@ -20,7 +21,7 @@ export interface MintCardProps {
   eligible?: boolean;
   mintTime: number;
   mintPrice?: string;
-  minted?: string;
+  minted?: number;
   mintable?: string;
   maxMinted?: boolean;
 }
@@ -49,7 +50,14 @@ export const MintCard: React.FC<{
   mintFinishHandler: () => void;
   eligible: boolean;
   minted: number; // Add eligible to the props
-}> = ({ mintCardType, mintFinishHandler, eligible, minted }) => {
+  progressStatus: MintProgressStatus;
+}> = ({
+  mintCardType,
+  mintFinishHandler,
+  eligible,
+  minted,
+  progressStatus,
+}) => {
   if (mintCardType === "cool-list") {
     const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
     const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
@@ -61,7 +69,7 @@ export const MintCard: React.FC<{
     }
     console.log(data);
     const propsData = {
-      eligible,  // Use the eligible passed from props
+      eligible, // Use the eligible passed from props
       mintName: "Cool List",
       mintPrice: "4.2",
       mintable: "-",
@@ -69,8 +77,17 @@ export const MintCard: React.FC<{
       mintTime: Number(data.value),
       mintFinishHandler,
     };
+    if (progressStatus === MintProgressStatus.IN_PROGRESS) {
+      return <MintCompletedCard {...propsData} />;
 
-    return <MintInprogressCard {...propsData} />;
+    } else if (progressStatus === MintProgressStatus.FINISHED) {
+      return <MintInprogressCard {...propsData} />;
+    } else if(progressStatus === MintProgressStatus.NOT_STARTED) {
+      return <MintStartCard {...propsData} />;
+    }else {
+      return <MintStartCard {...propsData} />;
+
+    }
 
     // return <MintCompletedCard {...propsData} />;
   } else if (mintCardType === "public-mint") {
@@ -219,14 +236,16 @@ const MintButtonCard: React.FC<{
   const [mintAmount, setMintAmount] = useState(0);
 
   // <!-- smart contract
-  const {signAndSubmitTransaction} = useWallet();
+  const { signAndSubmitTransaction } = useWallet();
 
   async function mintNFT(amount) {
     const transaction = {
       data: {
         function: `0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::mint_sloth_ball`,
-        typeArguments: ["0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo"],
-        functionArguments: [amount]
+        typeArguments: [
+          "0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo",
+        ],
+        functionArguments: [amount],
       },
     };
 
