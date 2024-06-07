@@ -1,6 +1,6 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { WalletSelector } from "./AptosWalletSelector";
-import "@/src/styles/Wallet-selector.css";
+import "@/src/styles/wallet-selector.css";
 import NavTitlePNG from "@/public/assets/nav-title.png";
 
 export default function Header() {
