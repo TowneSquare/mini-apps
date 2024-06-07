@@ -46,7 +46,12 @@ export const Mint = () => {
 
   const typeCoollistInfo = DAPP_ADDRESS + `::pre_mint::CoolListInfo`;
   const typePublicInfo = DAPP_ADDRESS + `::pre_mint::PublicInfo`;
-
+  async function getTokenInfo(objInfo: string) {
+    const result = await client.getAccountResources(objInfo);
+    console.log("resources:", result);
+    const resultResource = await client.getAccountResource(objInfo, "0x4::token::Token");
+    console.log("resource:", resultResource);
+  }
   // in testnet is: 0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo
   async function getMintTime(objInfo: string): Promise<number> {
     const payloadStart: Types.ViewRequest = {
@@ -169,6 +174,10 @@ export const Mint = () => {
     getMintProgress(typeCoollistInfo);
   }, []);
 
+  useEffect(() => {
+    getTokenInfo("0x14ddb5c6bc5b1ee4ab8b3984c65e5faac1f3d5cc9a28735a75869323cdb75ac0");
+  }, []);
+
   // --!>
 
   const [hooray, setHooray] = useState(false);
@@ -208,8 +217,8 @@ export const Mint = () => {
           <MintCard
             mintFinishHandler={mintFinishHandler}
             mintCardType="cool-list"
-            // progressStatus={progressStatusCoollist} // Pass minting progress status to MintCard
-            progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
+            progressStatus={progressStatusCoollist} // Pass minting progress status to MintCard
+            // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
             mintPrice={4.2}
             mintable={3}
             minted={minted} // Pass minted count to MintCard
