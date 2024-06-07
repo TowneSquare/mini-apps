@@ -20,9 +20,9 @@ export interface MintCardProps {
   mintName: string;
   eligible?: boolean;
   mintTime: number;
-  mintPrice?: string;
+  mintPrice?: number;
   minted?: number;
-  mintable?: string;
+  mintable?: number;
   maxMinted?: boolean;
 }
 export interface MintInProgressCardProps extends MintCardProps {
@@ -53,6 +53,7 @@ export const MintCard: React.FC<{
   mintable: number;
   minted: number; // Add eligible to the props
   progressStatus: MintProgressStatus;
+  mintTime:number;
 }> = ({
   mintCardType,
   mintFinishHandler,
@@ -61,23 +62,24 @@ export const MintCard: React.FC<{
   mintable,
   minted,
   progressStatus,
+  mintTime
 }) => {
   if (mintCardType === "cool-list") {
-    const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
-    const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
-    if (isLoading) {
-      return <CardLoading />;
-    }
-    if (error) {
-      <CardLoadingError />;
-    }
+    // const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
+    // const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
+    // if (isLoading) {
+    //   return <CardLoading />;
+    // }
+    // if (error) {
+    //   <CardLoadingError />;
+    // }
     const propsData = {
       eligible, // Use the eligible passed from props
       mintName: "Cool List",
       mintPrice,
       mintable,
       minted,
-      mintTime: Number(data.value),
+      mintTime,
       mintFinishHandler,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
@@ -92,18 +94,19 @@ export const MintCard: React.FC<{
 
     // return <MintCompletedCard {...propsData} />;
   } else if (mintCardType === "public-mint") {
-    const mintInfoUrl = `${API_URL}?app_name=mint_app&key=public_mint_time`;
-    const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
-    if (isLoading) {
-      return <CardLoading />;
-    }
-    if (error) {
-      <CardLoadingError />;
-    }
-    console.log(data);
+    // const mintInfoUrl = `${API_URL}?app_name=mint_app&key=public_mint_time`;
+    // const { data, error, isLoading } = useSWR(mintInfoUrl, fetcher);
+    // if (isLoading) {
+    //   return <CardLoading />;
+    // }
+    // if (error) {
+    //   <CardLoadingError />;
+    // }
+    // console.log(data);
     const propsData = {
       mintName: "Public Mint",
-      mintTime: Number(data.value),
+      // mintTime: Number(data.value),
+      mintTime,
       mintFinishHandler,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
