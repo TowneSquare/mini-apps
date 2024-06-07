@@ -34,6 +34,8 @@ export const Mint = () => {
     useState<MintProgressStatus>(MintProgressStatus.NOT_STARTED); // State to store minting progress status.
   const [coolListMinted, setCoolListMinted] = useState(0);
   const [totalCoolLitCanMinted, setTotalCoolLitCanMinted] = useState(0);
+  const [idList, setIdList] = useState([]); // State to store the list of IDs
+
 
   // <!-- smart contract
   const { account } = useWallet();
@@ -46,11 +48,12 @@ export const Mint = () => {
 
   const typeCoollistInfo = DAPP_ADDRESS + `::pre_mint::CoolListInfo`;
   const typePublicInfo = DAPP_ADDRESS + `::pre_mint::PublicInfo`;
-  async function getTokenInfo(objInfo: string) {
-    const result = await client.getAccountResources(objInfo);
-    console.log("resources:", result);
+  async function getId(objInfo: string) {
+    // const result = await client.getAccountResources(objInfo);
+    // console.log("resources:", result);
     const resultResource = await client.getAccountResource(objInfo, "0x4::token::Token");
-    console.log("resource:", resultResource);
+    console.log("resource:", resultResource.data.index);
+    return resultResource.data.index;
   }
   // in testnet is: 0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo
   async function getMintTime(objInfo: string): Promise<number> {
@@ -128,6 +131,12 @@ export const Mint = () => {
     const result = await client.view(payload);
     console.log("balance:", result);
     // The result is obj id list.
+    for(let i = 0; i < result.length; i++) {
+      const id = await getId(result[i]);
+      setIdList([...idList, id]); 
+    }
+    console.log("idList:", idList);
+    // TODO: prop id list to MintCarousel.
     setMinted(result.length);
   }
 
@@ -175,7 +184,7 @@ export const Mint = () => {
   }, []);
 
   useEffect(() => {
-    getTokenInfo("0x14ddb5c6bc5b1ee4ab8b3984c65e5faac1f3d5cc9a28735a75869323cdb75ac0");
+    getId("0x14ddb5c6bc5b1ee4ab8b3984c65e5faac1f3d5cc9a28735a75869323cdb75ac0");
   }, []);
 
   // --!>
@@ -211,6 +220,8 @@ export const Mint = () => {
           </div>
           {/* <MintCarousel mintList={[]} /> */}
           <MintCarousel />
+          {/*  */}
+
         </div>
         <div className="space-y-3 px-4 pb-4">
           <MintPorgress value={coolListMinted} total={totalCoolLitCanMinted} />
