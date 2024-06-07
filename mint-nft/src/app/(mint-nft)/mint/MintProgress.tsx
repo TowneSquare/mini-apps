@@ -1,6 +1,7 @@
-export const MintPorgress: React.FC = () => {
-  const value = 190;
-  const total = 6666;
+export const MintPorgress: React.FC<{ value: number; total: number }> = ({
+  value,
+  total,
+}) => {
   return (
     <div className="relative mb-3 h-16 items-center overflow-hidden rounded-xl border-2 border-t-4 border-black bg-bgbutton">
       <div
