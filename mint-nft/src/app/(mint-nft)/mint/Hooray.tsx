@@ -1,5 +1,5 @@
 import bg from "@/public/assets/hooray/bg.png";
-import centerImage from "@/public/assets/hooray/ball-brown.png";
+import centerImage from "@/public/assets/hooray/ball-brown2.png";
 
 export const Hooray: React.FC<{ skipHandler: () => void }> = ({
   skipHandler,
@@ -27,7 +27,7 @@ export const Hooray: React.FC<{ skipHandler: () => void }> = ({
         onClick={skipHandler}
         className="absolute bottom-20 left-1/2 -translate-x-1/2 transform text-center  text-2xl font-bold text-[#62C2C4]"
       >
-        Skip
+        CONTINUE
       </div>
     </div>
   );
