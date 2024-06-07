@@ -21,6 +21,8 @@ export const Mint = () => {
   const [minted, setMinted] = useState(0);  // State to store minted count
   const [mintStartTime, setMintStartTime] = useState(0);  // State to store mint start time with timestamp.
   const [mintEndTime, setMintEndTime] = useState(0);  // State to store mint start time with timestamp.
+  const [isInProgressCoollist, setIsInProgressCoollist] = useState(false);  // State to store minting progress status.
+  const [isInProgressPublic, setIsInProgressPublic] = useState(false);  // State to store minting progress status.
 
   // <!-- smart contract
   const {account } = useWallet();
@@ -35,26 +37,40 @@ export const Mint = () => {
   const typePublicInfo = DAPP_ADDRESS + `::pre_mint::PublicInfo`;
 
   // in testnet is: 0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo
-  async function getMintStartTime(objInfo: string): Promise<number> {
-    const payload: Types.ViewRequest = {
+  async function getMintTime(objInfo: string, ): Promise<number> {
+    const payloadStart: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::mint_start_time`,
       type_arguments: [objInfo],
       arguments: [],
     };
-    const result = await client.view(payload);
-    console.log("minstarttime:", result);
-    setMintStartTime(result[0]);
-  }
-  
-  async function getMintEndTime(objInfo: string): Promise<number> {
-    const payload: Types.ViewRequest = {
+    const resultStart = await client.view(payloadStart);
+    console.log("minstarttime:", resultStart);
+    setMintStartTime(resultStart[0]);
+
+    const payloadEnd: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::mint_end_time`,
       type_arguments: [objInfo],
       arguments: [],
     };
-    const result = await client.view(payload);
-    console.log("mintendtime:", result);
-    setMintEndTime(result[0]);
+    const resultEnd = await client.view(payloadEnd);
+    console.log("mintendtime:", resultEnd);
+    setMintEndTime(resultEnd[0]);
+
+    const now = Math.floor(Date.now() / 1000); // Current time in seconds
+
+    if (objInfo === typeCoollistInfo) {
+      if (now >= mintStartTime && now <= mintEndTime) {
+        setIsInProgressCoollist(true);
+      } else {
+        setIsInProgressCoollist(false);
+      }
+    } else if (objInfo === typePublicInfo) {
+      if (now >= mintStartTime && now <= mintEndTime) {
+        setIsInProgressPublic(true);
+      } else {
+        setIsInProgressPublic(false);
+      }
+    }
   }
 
   async function isWhitelisted(addr: any) {
@@ -113,19 +129,11 @@ export const Mint = () => {
 
   // TODO: set the mint start time & mint end time dynamic from the contract.
   useEffect(() => {
-    getMintStartTime(typeCoollistInfo);
+    getMintTime(typeCoollistInfo);
   }, []); 
 
   useEffect(() => {
-    getMintEndTime(typeCoollistInfo);
-  }, []); 
-
-  useEffect(() => {
-    getMintStartTime(typePublicInfo);
-  }, []); 
-
-  useEffect(() => {
-    getMintEndTime(typePublicInfo);
+    getMintTime(typePublicInfo);
   }, []); 
 
   // --!>
@@ -174,6 +182,7 @@ export const Mint = () => {
             mintFinishHandler={mintFinishHandler}
             mintCardType="public-mint"
             minted={minted}  // Pass minted count to MintCard
+            // TODO: judge if MintStartCard or MintInprogressCard by the isInProgressCoollist/isInProgressPublic.
           />
         </div>
         <MintDoneDialog
