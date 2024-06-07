@@ -67,7 +67,6 @@ export const MintCard: React.FC<{
     if (error) {
       <CardLoadingError />;
     }
-    console.log(data);
     const propsData = {
       eligible, // Use the eligible passed from props
       mintName: "Cool List",

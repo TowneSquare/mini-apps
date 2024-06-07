@@ -7,8 +7,10 @@ import { Hooray } from "./Hooray";
 import { MintDoneDialog } from "./DoneDialog";
 // Import the new utility functions
 // import { isWhitelisted, getBalance, mintStartTime, mintEndTime} from './utils/contractUtils';
+// TODO:
 // * abstract the contract viewer functions to a single file.
-
+// * impl can mint.
+// * impl mint_threshold.
 // <!-- smart contract
 
 import { APTOS_NODE_URL, DAPP_ADDRESS } from "../../../config/constants";
@@ -212,7 +214,7 @@ export const Mint = () => {
           <MintCard
             mintFinishHandler={mintFinishHandler}
             mintCardType="public-mint"
-            progressStatus={progressStatusPublic} // Pass minting progress status to MintCard
+            progressStatus={true} // Pass minting progress status to MintCard
             minted={minted} // Pass minted count to MintCard
             eligible={true}
             // TODO: judge if MintStartCard or MintInprogressCard by the isInProgressCoollist/isInProgressPublic.
