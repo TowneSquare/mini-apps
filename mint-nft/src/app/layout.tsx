@@ -28,7 +28,7 @@ function WalletSelector({
       <body className={exo_2.className}>
         <WalletProvider>
           <Header />
-          <main className="h-screen pt-20">{children}</main>
+          <main className="h-screen pt-16">{children}</main>
         </WalletProvider>
       </body>
     </html>
