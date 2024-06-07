@@ -78,15 +78,13 @@ export const MintCard: React.FC<{
       mintFinishHandler,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
-      return <MintCompletedCard {...propsData} />;
-
-    } else if (progressStatus === MintProgressStatus.FINISHED) {
       return <MintInprogressCard {...propsData} />;
-    } else if(progressStatus === MintProgressStatus.NOT_STARTED) {
+    } else if (progressStatus === MintProgressStatus.FINISHED) {
+      return <MintCompletedCard {...propsData} />;
+    } else if (progressStatus === MintProgressStatus.NOT_STARTED) {
       return <MintStartCard {...propsData} />;
-    }else {
+    } else {
       return <MintStartCard {...propsData} />;
-
     }
 
     // return <MintCompletedCard {...propsData} />;
@@ -103,8 +101,17 @@ export const MintCard: React.FC<{
     const propsData = {
       mintName: "Public Mint",
       mintTime: Number(data.value),
+      mintFinishHandler,
     };
-    return <MintStartCard {...propsData} />;
+    if (progressStatus === MintProgressStatus.IN_PROGRESS) {
+      return <MintInprogressCard {...propsData} />;
+    } else if (progressStatus === MintProgressStatus.FINISHED) {
+      return <MintCompletedCard {...propsData} />;
+    } else if (progressStatus === MintProgressStatus.NOT_STARTED) {
+      return <MintStartCard {...propsData} />;
+    } else {
+      return <MintStartCard {...propsData} />;
+    }
   } else {
     return <CardLoadingError />;
   }
