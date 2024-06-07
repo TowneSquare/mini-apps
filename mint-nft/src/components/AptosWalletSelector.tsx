@@ -68,7 +68,7 @@ export function WalletSelector({
         {connected ? buttonText : "Connect Wallet"}
       </button>
       <Drawer
-        height={"33rem"}
+        height={"35rem"}
         className="rounded-t-3xl !bg-black"
         placement="bottom"
         // title={<div className="wallet-modal-title">Connect Wallet</div>}
@@ -125,7 +125,7 @@ const walletView = (
           key={wallet.name}
           onClick={() => onWalletSelected(wallet.name)}
         >
-          <div className="flex justify-between rounded-full bg-[#666665] py-2 px-5">
+          <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
             <div className="wallet-name-wrapper">
               <img src={wallet.icon} width={25} style={{ marginRight: 10 }} />
               <Text className="text-white">{wallet.name}</Text>
@@ -153,7 +153,7 @@ const walletView = (
             : () => window.open(wallet.url)
         }
       >
-        <div className="flex justify-between rounded-full bg-[#666665] py-2 px-5">
+        <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
           <div className="wallet-name-wrapper">
             <img src={wallet.icon} width={25} style={{ marginRight: 10 }} />
             <Text className="wallet-selector-text">{wallet.name}</Text>
