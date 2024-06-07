@@ -9,6 +9,7 @@ import { MintDoneDialog } from "./DoneDialog";
 // import { isWhitelisted, getBalance, mintStartTime, mintEndTime} from './utils/contractUtils';
 // TODO:
 // * abstract the contract viewer functions to a single file.
+// * get my sloth balls
 // * impl can mint.
 // * impl mint_threshold.
 // <!-- smart contract
@@ -207,14 +208,20 @@ export const Mint = () => {
           <MintCard
             mintFinishHandler={mintFinishHandler}
             mintCardType="cool-list"
-            progressStatus={progressStatusCoollist} // Pass minting progress status to MintCard
+            // progressStatus={progressStatusCoollist} // Pass minting progress status to MintCard
+            progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
+            mintPrice={4.2}
+            mintable={3}
             minted={minted} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
           />
           <MintCard
             mintFinishHandler={mintFinishHandler}
             mintCardType="public-mint"
-            progressStatus={true} // Pass minting progress status to MintCard
+            progressStatus={progressStatusPublic} // Pass minting progress status to MintCard
+            // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
+            mintPrice={4.2}
+            mintable={3}
             minted={minted} // Pass minted count to MintCard
             eligible={true}
             // TODO: judge if MintStartCard or MintInprogressCard by the isInProgressCoollist/isInProgressPublic.

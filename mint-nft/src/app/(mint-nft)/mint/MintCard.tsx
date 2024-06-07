@@ -49,12 +49,16 @@ export const MintCard: React.FC<{
   mintCardType: MintType;
   mintFinishHandler: () => void;
   eligible: boolean;
+  mintPrice: number;
+  mintable: number;
   minted: number; // Add eligible to the props
   progressStatus: MintProgressStatus;
 }> = ({
   mintCardType,
   mintFinishHandler,
   eligible,
+  mintPrice,
+  mintable,
   minted,
   progressStatus,
 }) => {
@@ -70,8 +74,8 @@ export const MintCard: React.FC<{
     const propsData = {
       eligible, // Use the eligible passed from props
       mintName: "Cool List",
-      mintPrice: "4.2",
-      mintable: "-",
+      mintPrice,
+      mintable,
       minted,
       mintTime: Number(data.value),
       mintFinishHandler,
