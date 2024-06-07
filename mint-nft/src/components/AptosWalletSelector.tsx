@@ -68,7 +68,7 @@ export function WalletSelector({
         {connected ? buttonText : "Connect Wallet"}
       </button>
       <Drawer
-      height={'33rem'}
+        height={"35rem"}
         className="rounded-t-3xl !bg-black"
         placement="bottom"
         // title={<div className="wallet-modal-title">Connect Wallet</div>}
@@ -92,7 +92,10 @@ export function WalletSelector({
               })}
             </Menu>
             <div className="p-[4px]">
-              <button onClick={onCancel} className="text-lg mt-5 h-[3rem] w-full rounded-full bg-white">
+              <button
+                onClick={onCancel}
+                className="mt-5 h-[3rem] w-full rounded-full bg-white text-lg"
+              >
                 Close
               </button>
             </div>
@@ -122,7 +125,7 @@ const walletView = (
           key={wallet.name}
           onClick={() => onWalletSelected(wallet.name)}
         >
-          <div className="flex justify-between rounded-full bg-[#666665] py-2 px-5">
+          <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
             <div className="wallet-name-wrapper">
               <img src={wallet.icon} width={25} style={{ marginRight: 10 }} />
               <Text className="text-white">{wallet.name}</Text>
@@ -138,11 +141,10 @@ const walletView = (
     // Otherwise don't show anything
     return null;
   } else {
-    // just for mobil
-    return null;
     // The user is on a desktop device
     return (
       <Menu.Item
+        className="!p-0"
         key={wallet.name}
         onClick={
           wallet.readyState === WalletReadyState.Installed ||
@@ -151,18 +153,21 @@ const walletView = (
             : () => window.open(wallet.url)
         }
       >
-        <div className="wallet-menu-wrapper">
+        <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
           <div className="wallet-name-wrapper">
             <img src={wallet.icon} width={25} style={{ marginRight: 10 }} />
             <Text className="wallet-selector-text">{wallet.name}</Text>
           </div>
           {wallet.readyState === WalletReadyState.Installed ||
           wallet.readyState === WalletReadyState.Loadable ? (
-            <Button className="wallet-connect-button">
-              <Text className="wallet-connect-button-text">Connect</Text>
-            </Button>
+            <RightOutlined className="text-white" />
           ) : (
-            <Text className="wallet-connect-install">Install</Text>
+            // <Button className="wallet-connect-button">
+            //   <Text className="wallet-connect-button-text">Connect</Text>
+            // </Button>
+            <RightOutlined className="text-white" />
+
+            // <Text className="wallet-connect-install">Install</Text>
           )}
         </div>
       </Menu.Item>
