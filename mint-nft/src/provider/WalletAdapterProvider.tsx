@@ -5,14 +5,12 @@ import { PetraWallet } from "petra-plugin-wallet-adapter";
 import { PontemWallet } from "@pontem/wallet-adapter-plugin";
 // import { WalletConnector } from "@aptos-labs/wallet-adapter-mui-design";
 // define the wallets
-const theWallets = [
-  new PetraWallet(),
-  new PontemWallet(),
-];
+const theWallets = [new PetraWallet(), new PontemWallet()];
 export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AptosWalletAdapterProvider
       plugins={theWallets}
+      optInWallets={["Petra"]}
       autoConnect={false}
       onError={(error) => {
         console.log("Custom error handling", error);
