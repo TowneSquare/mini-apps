@@ -68,7 +68,7 @@ export function WalletSelector({
         {connected ? buttonText : "Connect Wallet"}
       </button>
       <Drawer
-        height={"35rem"}
+        height={"32rem"}
         className="rounded-t-3xl !bg-black"
         placement="bottom"
         // title={<div className="wallet-modal-title">Connect Wallet</div>}
