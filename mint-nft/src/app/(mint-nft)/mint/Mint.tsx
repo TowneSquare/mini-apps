@@ -44,6 +44,9 @@ export const Mint = () => {
   const [canPublicMint, setCanPublicMint] = useState(0);
   const [idList, setIdList] = useState([]); // State to store the list of IDs
 
+  const [mintThresholdCoolMint, setMintThresholdCoolMint] = useState(0); // State to store mint threshold
+  const [mintThresholdPublicMint, setMintThresholdPublicMint] = useState(0); // State to store mint threshold
+
   // <!-- smart contract
   const { account } = useWallet();
   console.log("account:", account);
@@ -65,7 +68,22 @@ export const Mint = () => {
     console.log("resource:", resultResource.data.index);
     return resultResource.data.index;
   }
-  // in testnet is: 0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo
+
+  async function getMintThreshold(objInfo: string) {
+    const payload: Types.ViewRequest = {
+      function: DAPP_ADDRESS + `::pre_mint::mint_threshold`,
+      type_arguments: [objInfo],
+      arguments: [],
+    };
+    const res = (await client.view(payload)) as Array<number>;
+    console.log("mintthres:", res[0]);
+    if (objInfo === typeCoollistInfo) {
+      setMintThresholdCoolMint(res[0]);
+    } else {
+      setMintThresholdPublicMint(res[0]);
+    }
+  }
+  // in testnet is: 0x3f6cb4c8c47c5100c1f365e7ea14ea15f491d92dba82d5f9ce3363d650a99dc8::pre_mint::CoolListInfo
   async function getMintTime(objInfo: string) {
     const payloadStart: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::mint_start_time`,
@@ -73,7 +91,7 @@ export const Mint = () => {
       arguments: [],
     };
     const resultStart = (await client.view(payloadStart)) as Array<number>;
-    console.log("minstarttime:", resultStart);
+    console.log("mint start time of ", objInfo + ": " +resultStart);
 
     const payloadEnd: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::mint_end_time`,
@@ -81,7 +99,7 @@ export const Mint = () => {
       arguments: [],
     };
     const resultEnd = (await client.view(payloadEnd)) as Array<number>;
-    console.log("mintendtime:", resultEnd);
+    console.log("mint end time of ", objInfo + ": " +resultEnd);
 
     const now = Math.floor(Date.now() / 1000); // Current time in seconds
 
@@ -219,10 +237,15 @@ export const Mint = () => {
     }
   }, [account]); // Depend on account to re-run when account changes
 
-  // TODO: set the mint start time & mint end time dynamic from the contract.
+  // Done: set the mint start time & mint end time dynamic from the contract.
   useEffect(() => {
     getTotalListCanMinted(typeCoollistInfo);
     getTotalListCanMinted(typePublicInfo);
+  }, []);
+
+  useEffect(() => {
+    getMintThreshold(typeCoollistInfo);
+    getMintThreshold(typePublicInfo);
   }, []);
 
   useEffect(() => {
@@ -303,7 +326,8 @@ export const Mint = () => {
             mintCardType="cool-list"
             progressStatus={progressStatusCoollist} // Pass minting progress status to MintCard
             // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
-            mintPrice={4.2}
+            // TODO: set the mint price dynamic from the contract.
+            mintPrice={mintThresholdCoolMint}
             mintable={canCoolMint}
             minted={minted} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
@@ -322,7 +346,8 @@ export const Mint = () => {
             mintCardType="public-mint"
             progressStatus={progressStatusPublic} // Pass minting progress status to MintCard
             // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
-            mintPrice={4.2}
+            // TODO: set the mint price dynamic from the contract.
+            mintPrice={mintThresholdPublicMint}
             mintable={canPublicMint}
             minted={minted} // Pass minted count to MintCard
             eligible={true}
