@@ -181,6 +181,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
             ) : (
               <MintButtonCard
                 onMintHandle={(mintAmount) => mintActionHandler(mintAmount)}
+                mintName={mintName}
               />
             )
           ) : (
@@ -248,18 +249,25 @@ export const CountDownCard: React.FC<{
 
 const MintButtonCard: React.FC<{
   onMintHandle: (mintAmount: number) => void;
-}> = ({ onMintHandle }) => {
+  mintName: string;
+}> = ({ onMintHandle, mintName }) => {
   const [mintAmount, setMintAmount] = useState(0);
-
+  console.log("mintName", mintName);
+  let typeArg = "";
+  if(mintName === "Cool List"){
+    typeArg = DAPP_ADDRESS + "::pre_mint::CoolListInfo";
+  } else {
+    typeArg =  DAPP_ADDRESS + "::pre_mint::PublicInfo";
+  }
   // <!-- smart contract
   const { signAndSubmitTransaction } = useWallet();
 
   async function mintNFT(amount) {
     const transaction = {
       data: {
-        function: `0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::mint_sloth_ball`,
+        function: DAPP_ADDRESS + "::pre_mint::mint_sloth_ball",
         typeArguments: [
-          "0x541dee79b366288d5c2313377941d3bb6f58f6436b0f943bb7fb0689ca60d641::pre_mint::CoolListInfo",
+          typeArg
         ],
         functionArguments: [amount],
       },
@@ -268,7 +276,6 @@ const MintButtonCard: React.FC<{
     const response = await signAndSubmitTransaction(transaction);
     console.log(response);
   }
-
   return (
     <>
       <div className="mt-3 flex w-full items-center justify-center">
