@@ -7,6 +7,7 @@ export interface MintData {
   mintImg: StaticImageData;
 }
 export const MintCarousel: React.FC<{ mintIDs: number[] }> = ({ mintIDs }) => {
+  console.log("mintIDs", mintIDs);
   // const mintList: MintData[] = [
   //   // { mintID: "666", mintImg: sothballs },
   //   // { mintID: "667", mintImg: sothballs },
