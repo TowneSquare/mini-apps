@@ -104,8 +104,11 @@ export const MintCard: React.FC<{
     // }
     // console.log(data);
     const propsData = {
+      eligible, // Use the eligible passed from props
       mintName: "Public Mint",
-      // mintTime: Number(data.value),
+      mintPrice,
+      mintable,
+      minted,
       mintTime,
       mintFinishHandler,
     };
@@ -303,6 +306,7 @@ const MintButtonCard: React.FC<{
   );
 };
 export const getStartTime = (startTime: number) => {
+  console.log("starttime", startTime);  
   // Convert seconds to milliseconds if the timestamp is not in the correct time range
   const date = new Date(startTime * 1000);
   const utcString = date.toUTCString();

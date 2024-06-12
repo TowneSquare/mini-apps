@@ -80,6 +80,7 @@ export const Mint = () => {
     if (objInfo === typeCoollistInfo) {
       setMintThresholdCoolMint(res[0]);
     } else {
+      console.log("mintthrespub:", res[0]);
       setMintThresholdPublicMint(res[0]);
     }
   }
@@ -102,11 +103,15 @@ export const Mint = () => {
     console.log("mint end time of ", objInfo + ": " +resultEnd);
 
     const now = Math.floor(Date.now() / 1000); // Current time in seconds
-
     if (objInfo === typeCoollistInfo) {
+      // setMintCoolEndTime(1717759093);
+      // setMintCoolStartTime(1717759093);
       setMintCoolEndTime(resultEnd[0]);
       setMintCoolStartTime(resultStart[0]);
-      if (now >= mintCoolStartTime && now <= mintCoolEndTime) {
+      console.log("now:", now);
+      console.log("mintCoolEndTime:", resultEnd[0]);
+      if (now >= resultStart[0] && now <= resultEnd[0]) {
+        
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
       } else if (now > mintCoolEndTime) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
@@ -114,9 +119,11 @@ export const Mint = () => {
         setProgressStatusCoollist(MintProgressStatus.NOT_STARTED);
       }
     } else if (objInfo === typePublicInfo) {
+      // setMintPublicEndTime(1717759093);
+      // setMintPublicStartTime(1717759093);
       setMintPublicEndTime(resultEnd[0]);
       setMintPublicStartTime(resultStart[0]);
-      if (now >= mintPublicStartTime && now <= mintPublicEndTime) {
+      if (now >= resultStart[0] && now <= resultEnd[0]) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
       } else if (now > mintPublicEndTime) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
@@ -327,11 +334,13 @@ export const Mint = () => {
             progressStatus={progressStatusCoollist} // Pass minting progress status to MintCard
             // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
             // TODO: set the mint price dynamic from the contract.
-            mintPrice={mintThresholdCoolMint}
+            // mintPrice={mintThresholdCoolMint}
+            mintPrice = {4.2}
             mintable={canCoolMint}
             minted={minted} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
             mintTime={mintCoolStartTime}
+            // mintTime={1717759093}
           />
 
           {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
@@ -347,11 +356,14 @@ export const Mint = () => {
             progressStatus={progressStatusPublic} // Pass minting progress status to MintCard
             // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
             // TODO: set the mint price dynamic from the contract.
-            mintPrice={mintThresholdPublicMint}
+            // mintPrice={mintThresholdPublicMint}
+            mintPrice = {6.9}
             mintable={canPublicMint}
             minted={minted} // Pass minted count to MintCard
             eligible={true}
+            // change this line if need eligible in public mint * 2.
             mintTime={mintPublicStartTime}
+            // mintTime={1717759093}
           />
         </div>
         <MintDoneDialog
