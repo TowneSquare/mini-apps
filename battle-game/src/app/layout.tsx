@@ -29,7 +29,7 @@ function WalletSelector({
         <WalletProvider>
           <BattleEvilProvider>
             <Header />
-            <main className="h-full min-h-screen w-full pt-20">{children}</main>
+            <main className="h-full min-h-screen w-full pt-16">{children}</main>
           </BattleEvilProvider>
         </WalletProvider>
       </body>

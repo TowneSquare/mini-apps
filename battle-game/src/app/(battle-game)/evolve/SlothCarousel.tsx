@@ -4,13 +4,13 @@ import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 export const SlothCarousel = ({ sloths }: { sloths: SlothsData }) => {
   return (
-    <div className="carousel carousel-center max-w-md flex-1 space-x-4 bg-transparent px-8 py-4">
+    <div className="carousel carousel-center max-w-md flex-1 space-x-4 bg-transparent px-8 py-2">
       {sloths.map((sloth) => {
         if (sloth.composed) {
           return (
             <div
               key={sloth.id}
-              className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3"
+              className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pb-3 pt-6"
             >
               <div className="flex flex-col items-center justify-center justify-self-start">
                 <span className="text-3xl font-black">Your Sloth</span>
@@ -41,7 +41,7 @@ export const SlothCarousel = ({ sloths }: { sloths: SlothsData }) => {
           return (
             <div
               key={sloth.id}
-              className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pt-8 pb-3"
+              className="carousel-item flex w-80 flex-col items-center justify-between rounded-3xl border-2 border-b-8 border-black bg-white pb-3 pt-6"
             >
               <div className="flex flex-col items-center justify-center justify-self-start">
                 <span className="text-3xl font-black">Congratulations</span>

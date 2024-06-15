@@ -18,7 +18,12 @@ export const ComposeSloth = ({ slothItems }: { slothItems: SlothItem[] }) => {
       >
         <Image src={ComposedImg} fill objectFit="cover" alt="sloth" />
       </div>
-      <div style={{ display: composed ? "none" : "block" }}>
+      <div
+        style={{
+          display: composed ? "none" : "block",
+          height: composed ? "0" : "auto",
+        }}
+      >
         <ComposeList slothItems={slothItems} />
       </div>
 
