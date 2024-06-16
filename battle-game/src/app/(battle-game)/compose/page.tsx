@@ -39,7 +39,7 @@ export default function ComposePage() {
           background:
             "radial-gradient(circle closest-side at 50% 40%,#5776b1 8%, #516aa2 60%, #3e4878 172%)",
         }}
-        className="relative min-h-screen px-8 pb-32 pt-20"
+        className="relative min-h-[calc(100vh-4rem)] px-8 pb-32 pt-20"
       >
         <p className="mb-3 mt-2 text-3xl font-extrabold text-white">
           Evolve and compose your Sloth!
