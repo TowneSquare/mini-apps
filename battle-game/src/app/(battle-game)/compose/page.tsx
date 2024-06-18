@@ -1,3 +1,4 @@
+"use client";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 import { type StaticImageData } from "next/image";
 import FurImg from "@/public/assets/compose/fur.png";

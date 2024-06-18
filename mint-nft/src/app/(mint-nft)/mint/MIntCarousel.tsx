@@ -1,21 +1,22 @@
-import sothballs from "@/public/assets/home/sloth_left2.png";
+// import sothballs from "@/public/assets/home/sloth_left2.png";
 import Image from "next/image";
-import type { StaticImageData } from "next/image";
+// import type { StaticImageData } from "next/image";
 import unknownSothballs from "@/public/assets/unknown_sothballs.png";
 export interface MintData {
-  mintID: number;
-  mintImg: StaticImageData;
+  mintID: string;
+  // mintImg: StaticImageData;
+  mintImg: string;
 }
-export const MintCarousel: React.FC<{ mintIDs: number[] }> = ({ mintIDs }) => {
-  console.log("mintIDs", mintIDs);
+export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({ mintList }) => {
+  console.log("mintList", mintList);
   // const mintList: MintData[] = [
   //   // { mintID: "666", mintImg: sothballs },
   //   // { mintID: "667", mintImg: sothballs },
   //   { mintID: 0, mintImg: sothballs },
   // ];
-  const mintList: MintData[] = mintIDs.map((mintID) => {
-    return { mintID, mintImg: sothballs };
-  });
+  // const mintList: MintData[] = mintIDs.map((mintID) => {
+  //   return { mintID, mintImg: sothballs };
+  // });
   const hasNoneNft = mintList.length <= 0;
   return (
     <div className="carousel carousel-center rounded-box pb-5">
