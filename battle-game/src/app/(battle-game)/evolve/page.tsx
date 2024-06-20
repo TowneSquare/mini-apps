@@ -28,16 +28,16 @@ export default function EvolvePage() {
     const result = await client.getAccountResources(objInfo);
     console.log("resources:", result);
     const mintDetail: SlothData = { id: "", slothImg: "" };
-    result.forEach((data) => {
-      if (data.type === "0x4::token::TokenIdentifiers") {
+    result.forEach((resource) => {
+      if (resource.type === "0x4::token::TokenIdentifiers") {
         mintDetail.id = (
-          data as unknown as { index: { value: string } }
-        ).index.value;
+          resource as unknown as { data: { index: { value: string } } }
+        ).data.index.value;
       }
-      if (data.type === "0x4::token::Token") {
+      if (resource.type === "0x4::token::Token") {
         mintDetail.slothImg = (
-          data as unknown as { url: { value: string } }
-        ).url.value;
+          resource as unknown as { data: { uri: string } }
+        ).data.uri;
       }
     });
     return mintDetail;

@@ -1,6 +1,6 @@
 "use client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Button, Menu, Drawer, Typography } from "antd";
+import { Button, Menu, Drawer, Typography, Dropdown, MenuProps } from "antd";
 import {
   isRedirectable,
   useWallet,
@@ -56,17 +56,60 @@ export function WalletSelector({
       setModalOpen(false);
     }
   };
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(account?.address || "");
+      console.log("Content copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+  const logout = () => {
+    disconnect();
+  };
   const buttonText = account?.ansName
     ? account?.ansName
-    : truncateAddress(account?.address);
+    : truncateAddress(account?.address || "");
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <button onClick={copyAddress} className="!text-[#aa80ef]">
+          Copy Address
+        </button>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <button onClick={logout} className="!text-[#aa80ef]">
+          Logout
+        </button>
+      ),
+    },
+  ];
   return (
     <>
-      <button
-        className="rounded-box bg-black py-1 px-3 text-[#aa80ef]"
-        onClick={() => onWalletButtonClick()}
-      >
-        {connected ? buttonText : "Connect Wallet"}
-      </button>
+      {connected ? (
+        <Dropdown
+          menu={{
+            items,
+            style: { backgroundColor: "#111827" },
+          }}
+          placement="bottomRight"
+        >
+          <button className="rounded-box bg-black py-1 px-3 text-[#aa80ef]">
+            {buttonText}
+          </button>
+        </Dropdown>
+      ) : (
+        <button
+          className="rounded-box bg-black py-1 px-3 text-[#aa80ef]"
+          onClick={() => onWalletButtonClick()}
+        >
+          {"Connect Wallet"}
+        </button>
+      )}
       <Drawer
         height={"32rem"}
         className="rounded-t-3xl !bg-black"

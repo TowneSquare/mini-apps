@@ -11,7 +11,10 @@ import useSWR from "swr";
 
 import { DAPP_ADDRESS, APTOS_NODE_URL } from "../../../config/constants";
 import { Provider, Types, Network } from "aptos";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import {
+  InputTransactionData,
+  useWallet,
+} from "@aptos-labs/wallet-adapter-react";
 import { MintProgressStatus } from "./Mint";
 // --!>
 
@@ -53,7 +56,7 @@ export const MintCard: React.FC<{
   mintable: number;
   minted: number; // Add eligible to the props
   progressStatus: MintProgressStatus;
-  mintTime:number;
+  mintTime: number;
 }> = ({
   mintCardType,
   mintFinishHandler,
@@ -62,7 +65,7 @@ export const MintCard: React.FC<{
   mintable,
   minted,
   progressStatus,
-  mintTime
+  mintTime,
 }) => {
   if (mintCardType === "cool-list") {
     // const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
@@ -200,11 +203,15 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
         </div>
         <div className="flex items-center justify-between">
           <span className="font-semibold">You can mint</span>
-          <span className="font-black">{mintable || "-"}</span>
+          <span className="font-black">
+            {mintable || mintable == 0 ? mintable : "-"}
+          </span>
         </div>
         <div className="flex items-center justify-between">
           <span className="font-semibold">You minted</span>
-          <span className="font-black">{minted || "-"}</span>
+          <span className="font-black">
+            {minted || minted === 0 ? minted : "-"}
+          </span>
         </div>
       </div>
     </div>
@@ -251,30 +258,29 @@ const MintButtonCard: React.FC<{
   onMintHandle: (mintAmount: number) => void;
   mintName: string;
 }> = ({ onMintHandle, mintName }) => {
-  const [mintAmount, setMintAmount] = useState(0);
+  const [mintAmount, setMintAmount] = useState(1);
   console.log("mintName", mintName);
   let typeArg = "";
-  if(mintName === "Cool List"){
+  if (mintName === "Cool List") {
     typeArg = DAPP_ADDRESS + "::pre_mint::CoolListInfo";
   } else {
-    typeArg =  DAPP_ADDRESS + "::pre_mint::PublicInfo";
+    typeArg = DAPP_ADDRESS + "::pre_mint::PublicInfo";
   }
   // <!-- smart contract
   const { signAndSubmitTransaction } = useWallet();
 
-  async function mintNFT(amount) {
-    const transaction = {
+  async function mintNFT(amount: number) {
+    const transaction: InputTransactionData = {
       data: {
-        function: DAPP_ADDRESS + "::pre_mint::mint_sloth_ball",
-        typeArguments: [
-          typeArg
-        ],
+        function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
+        typeArguments: [typeArg],
         functionArguments: [amount],
       },
     };
 
     const response = await signAndSubmitTransaction(transaction);
     console.log(response);
+    onMintHandle(amount);
   }
   return (
     <>
@@ -283,7 +289,7 @@ const MintButtonCard: React.FC<{
           onClick={() => {
             setMintAmount(mintAmount - 1);
           }}
-          disabled={mintAmount <= 0}
+          disabled={mintAmount <= 1}
           variant="primary"
           className="text-black"
         >
@@ -313,7 +319,7 @@ const MintButtonCard: React.FC<{
   );
 };
 export const getStartTime = (startTime: number) => {
-  console.log("starttime", startTime);  
+  console.log("starttime", startTime);
   // Convert seconds to milliseconds if the timestamp is not in the correct time range
   const date = new Date(startTime * 1000);
   const utcString = date.toUTCString();

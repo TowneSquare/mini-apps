@@ -25,7 +25,7 @@ export const enum MintProgressStatus {
 }
 export const Mint = () => {
   const [eligible, setEligible] = useState(false); // State to store eligibility status
-  const [minted, setMinted] = useState(0); // State to store minted count
+  const [mintedCoollist, setMintedCoollist] = useState(0); // State to store minted count
   const [mintedPublic, setMintedPublic] = useState(0); // State to store minted count
   const [mintPublicStartTime, setMintPublicStartTime] = useState(0); // State to store mint start time with timestamp.
   const [mintPublicEndTime, setMintPublicEndTime] = useState(0); // State to store mint start time with timestamp.
@@ -69,16 +69,16 @@ export const Mint = () => {
     // console.log("resource:", resultResource.data.index.value);
 
     const mintDetail: MintData = { mintID: "", mintImg: "" };
-    result.forEach((data) => {
-      if (data.type === "0x4::token::TokenIdentifiers") {
+    result.forEach((resource) => {
+      if (resource.type === "0x4::token::TokenIdentifiers") {
         mintDetail.mintID = (
-          data as unknown as { index: { value: string } }
-        ).index.value;
+          resource as unknown as { data: { index: { value: string } } }
+        ).data.index.value;
       }
-      if (data.type === "0x4::token::Token") {
+      if (resource.type === "0x4::token::Token") {
         mintDetail.mintImg = (
-          data as unknown as { url: { value: string } }
-        ).url.value;
+          resource as unknown as { data: { uri: string } }
+        ).data.uri;
       }
     });
     return mintDetail;
@@ -186,9 +186,14 @@ export const Mint = () => {
       type_arguments: [objInfo],
       arguments: [addr],
     };
-    const canMintAmount = await client.view(payloadStart);
-    console.log("canMintAmount:", canMintAmount);
-    const canMintAmountNumber = Number(canMintAmount[1]);
+    const [requestSuccess, canMintAmount] = await client.view(payloadStart);
+    console.log(
+      "requestSuccess",
+      requestSuccess,
+      "canMintAmount:",
+      canMintAmount,
+    );
+    const canMintAmountNumber = Number(canMintAmount);
     if (!isNaN(canMintAmountNumber)) {
       if (objInfo === typeCoollistInfo) {
         setCanCoolMint(canMintAmountNumber);
@@ -204,20 +209,23 @@ export const Mint = () => {
       arguments: [addr],
     };
 
-    const result = await client.view(payload) as Array<boolean>;;
+    const result = (await client.view(payload)) as Array<boolean>;
     setEligible(result[0]);
   }
 
-  async function getBalance(addr: any) {
+  async function getBalance(addr: string) {
     console.log("addr", addr);
-    const payload: Types.ViewRequest = {
+    const payloadCoollist: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::minted_tokens`,
       type_arguments: [typeCoollistInfo],
       arguments: [addr],
     };
 
-    const result = await client.view(payload) as Array<Array<string>>;
-    console.log("balance of coollist:", result[0]);
+    const resultCoollist = (await client
+      .view(payloadCoollist)
+      .catch(console.log)) as Array<Array<string>> | undefined;
+
+    console.log("balance of coollist:", resultCoollist && resultCoollist[0]);
 
     const payloadPublic: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::minted_tokens`,
@@ -225,10 +233,14 @@ export const Mint = () => {
       arguments: [addr],
     };
 
-    const resultPublic = await client.view(payloadPublic) as Array<Array<string>>;
-    console.log("balance of public:", resultPublic[0]);
+    const resultPublic = (await client
+      .view(payloadPublic)
+      .catch(console.log)) as Array<Array<string>> | undefined;
+    console.log("balance of public:", resultPublic && resultPublic[0]);
     // The result is obj id list.
-    const combinedIds = [...result[0], ...resultPublic[0]];
+    const coollistIds = resultCoollist ? resultCoollist[0] : [];
+    const publicIds = resultPublic ? resultPublic[0] : [];
+    const combinedIds = [...coollistIds, ...publicIds];
     console.log("combinedIds:", combinedIds);
     // Fetch additional details for each ID and update the state.
     const mintDetails = await Promise.all(
@@ -237,9 +249,8 @@ export const Mint = () => {
     setMintList(mintDetails); // Update the state with the new list of IDs.
     console.log("mintDetails:", mintDetails);
     console.log("mintList:", mintList);
-    // TODO: prop id list to MintCarousel.
-    setMinted(result[0].length);
-    setMintedPublic(resultPublic[0].length);
+    setMintedCoollist(coollistIds.length);
+    setMintedPublic(publicIds.length);
   }
 
   // useEffect(() => {
@@ -268,7 +279,7 @@ export const Mint = () => {
 
   useEffect(() => {
     if (account) {
-      getBalance(account.address).catch(console.error);
+      getBalance(account.address);
       // getBalance(typePublicInfo, account.address).catch(console.error);
     }
   }, [account]); // Depend on account to re-run when account changes
@@ -307,6 +318,7 @@ export const Mint = () => {
   useEffect(() => {
     if (account) {
       getMintable(typeCoollistInfo, account.address);
+      getMintable(typePublicInfo, account.address);
     }
   }, [account]);
 
@@ -324,6 +336,9 @@ export const Mint = () => {
   };
   const mintFinishHandler = () => {
     setHooray(true);
+    if (account) {
+      getBalance(account.address);
+    }
   };
   return (
     <>
@@ -366,7 +381,7 @@ export const Mint = () => {
             // mintPrice={mintThresholdCoolMint}
             mintPrice={4.2}
             mintable={canCoolMint}
-            minted={minted} // Pass minted count to MintCard
+            minted={mintedCoollist} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
             mintTime={mintCoolStartTime}
             // mintTime={1717759093}
