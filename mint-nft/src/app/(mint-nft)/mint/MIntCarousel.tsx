@@ -1,21 +1,21 @@
 import sothballs from "@/public/assets/home/sloth_left2.png";
 import Image from "next/image";
-import type { StaticImageData } from "next/image";
+// import type { StaticImageData } from "next/image";
 import unknownSothballs from "@/public/assets/unknown_sothballs.png";
 export interface MintData {
-  mintID: number;
-  mintImg: StaticImageData;
+  mintID: string;
+  // mintImg: StaticImageData;
+  mintImg: string;
 }
-export const MintCarousel: React.FC<{ mintIDs: number[] }> = ({ mintIDs }) => {
-  console.log("mintIDs", mintIDs);
-  // const mintList: MintData[] = [
-  //   // { mintID: "666", mintImg: sothballs },
-  //   // { mintID: "667", mintImg: sothballs },
-  //   { mintID: 0, mintImg: sothballs },
+export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({
+  mintList,
+}) => {
+  console.log("mintList", mintList);
+  // const mokeMintList: MintData[] = [
+  //   { mintID: "666", mintImg: sothballs.src },
+  //   { mintID: "667", mintImg: sothballs.src },
+  //   { mintID: '0', mintImg: sothballs.src },
   // ];
-  const mintList: MintData[] = mintIDs.map((mintID) => {
-    return { mintID, mintImg: sothballs };
-  });
   const hasNoneNft = mintList.length <= 0;
   return (
     <div className="carousel carousel-center rounded-box pb-5">
@@ -24,9 +24,9 @@ export const MintCarousel: React.FC<{ mintIDs: number[] }> = ({ mintIDs }) => {
       </div>
       {hasNoneNft ? (
         <div className="carousel-item flex flex-col">
-          <Image
+          <img
             className="mx-auto"
-            src={unknownSothballs}
+            src={unknownSothballs.src}
             width={205}
             height={219}
             alt="unknown_sothballs"
@@ -39,7 +39,7 @@ export const MintCarousel: React.FC<{ mintIDs: number[] }> = ({ mintIDs }) => {
         mintList.map((mintData, i) => {
           return (
             <div key={i} className="carousel-item flex flex-col">
-              <Image
+              <img
                 className="mx-auto"
                 src={mintData.mintImg}
                 width={205}

@@ -65,7 +65,7 @@ export const SlothCarousel = ({ sloths }: { sloths: SlothsData }) => {
                 className="h-14 w-[92%] justify-self-end text-lg"
                 variant="secondary"
               >
-                <Link href="/compose">EVOLVE</Link>
+                <Link href={`/compose?slothID=${sloth.id}`}>EVOLVE</Link>
               </Button>
             </div>
           );

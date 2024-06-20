@@ -1,6 +1,6 @@
 "use client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Button, Menu, Drawer, Typography } from "antd";
+import { Button, Menu, Drawer, Typography, Dropdown, MenuProps } from "antd";
 import {
   isRedirectable,
   useWallet,
@@ -56,17 +56,60 @@ export function WalletSelector({
       setModalOpen(false);
     }
   };
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(account?.address || "");
+      console.log("Content copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+  const logout = () => {
+    disconnect();
+  };
   const buttonText = account?.ansName
     ? account?.ansName
-    : truncateAddress(account?.address);
+    : truncateAddress(account?.address || "");
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <button onClick={copyAddress} className="!text-[#aa80ef]">
+          Copy Address
+        </button>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <button onClick={logout} className="!text-[#aa80ef]">
+          Logout
+        </button>
+      ),
+    },
+  ];
   return (
     <>
-      <button
-        className="rounded-box bg-black py-1 px-3 text-[#aa80ef]"
-        onClick={() => onWalletButtonClick()}
-      >
-        {connected ? buttonText : "Connect Wallet"}
-      </button>
+      {connected ? (
+        <Dropdown
+          menu={{
+            items,
+            style: { backgroundColor: "#111827" },
+          }}
+          placement="bottomRight"
+        >
+          <button className="rounded-box bg-black px-3 py-1 text-[#aa80ef]">
+            {buttonText}
+          </button>
+        </Dropdown>
+      ) : (
+        <button
+          className="rounded-box bg-black px-3 py-1 text-[#aa80ef]"
+          onClick={() => onWalletButtonClick()}
+        >
+          {"Connect Wallet"}
+        </button>
+      )}
       <Drawer
         height={"32rem"}
         className="rounded-t-3xl !bg-black"
@@ -125,7 +168,7 @@ const walletView = (
           key={wallet.name}
           onClick={() => onWalletSelected(wallet.name)}
         >
-          <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
+          <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] px-5 py-2">
             <div className="wallet-name-wrapper">
               <img src={wallet.icon} width={25} style={{ marginRight: 10 }} />
               <Text className="text-white">{wallet.name}</Text>
@@ -153,7 +196,7 @@ const walletView = (
             : () => window.open(wallet.url)
         }
       >
-        <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
+        <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] px-5 py-2">
           <div className="wallet-name-wrapper">
             <img src={wallet.icon} width={25} style={{ marginRight: 10 }} />
             <Text className="wallet-selector-text">{wallet.name}</Text>
