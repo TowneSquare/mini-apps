@@ -11,6 +11,7 @@ import Header from "../components/Header";
 
 // WalletProvider
 import { WalletProvider } from "../provider/WalletAdapterProvider";
+import { WalletSelectorModelProvider } from "../provider/WalletModelProvider";
 const exo_2 = Exo_2({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,8 +28,10 @@ function WalletSelector({
     <html lang="en">
       <body className={exo_2.className}>
         <WalletProvider>
-          <Header />
-          <main className="h-screen pt-16">{children}</main>
+          <WalletSelectorModelProvider>
+            <Header />
+            <main className="h-screen pt-16">{children}</main>
+          </WalletSelectorModelProvider>
         </WalletProvider>
       </body>
     </html>

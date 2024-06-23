@@ -3,6 +3,7 @@ import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 // wallets
 import { PetraWallet } from "petra-plugin-wallet-adapter";
 import { PontemWallet } from "@pontem/wallet-adapter-plugin";
+import type React from "react";
 // import { WalletConnector } from "@aptos-labs/wallet-adapter-mui-design";
 // define the wallets
 const theWallets = [new PetraWallet(), new PontemWallet()];

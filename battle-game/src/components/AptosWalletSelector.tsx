@@ -1,6 +1,6 @@
 "use client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Button, Menu, Drawer, Typography, Dropdown, MenuProps } from "antd";
+import { Menu, Drawer, Typography, Dropdown, MenuProps } from "antd";
 import {
   isRedirectable,
   useWallet,
@@ -10,7 +10,11 @@ import {
   AptosStandardSupportedWallet,
 } from "@aptos-labs/wallet-adapter-react";
 import { truncateAddress } from "@/src/utils/aptos";
-import { RightOutlined } from "@ant-design/icons";
+import {
+  CaretDownOutlined,
+  CaretUpOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import DrawTitlePNG from "@/public/assets/draw_title.png";
 import WalletPromptPNG from "@/public/assets/wallet-prompt.png";
 
@@ -26,6 +30,7 @@ export function WalletSelector({
   setModalOpen,
 }: WalletSelectorProps) {
   const [walletSelectorModalOpen, setWalletSelectorModalOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (isModalOpen !== undefined) {
@@ -97,9 +102,17 @@ export function WalletSelector({
             style: { backgroundColor: "#111827" },
           }}
           placement="bottomRight"
+          onOpenChange={(open) => {
+            setDropdownOpen(open);
+          }}
         >
           <button className="rounded-box bg-black px-3 py-1 text-[#aa80ef]">
             {buttonText}
+            {dropdownOpen ? (
+              <CaretUpOutlined className="ml-2 text-white" />
+            ) : (
+              <CaretDownOutlined className="ml-2 text-white" />
+            )}
           </button>
         </Dropdown>
       ) : (
@@ -107,11 +120,11 @@ export function WalletSelector({
           className="rounded-box bg-black px-3 py-1 text-[#aa80ef]"
           onClick={() => onWalletButtonClick()}
         >
-          {"Connect Wallet"}
+          Connect Wallet
         </button>
       )}
       <Drawer
-        height={"32rem"}
+        height="32rem"
         className="rounded-t-3xl !bg-black"
         placement="bottom"
         // title={<div className="wallet-modal-title">Connect Wallet</div>}
@@ -198,8 +211,8 @@ const walletView = (
       >
         <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] px-5 py-2">
           <div className="wallet-name-wrapper">
-            <img src={wallet.icon} width={25} style={{ marginRight: 10 }} />
-            <Text className="wallet-selector-text">{wallet.name}</Text>
+            <img className="rounded-[50%] border-2 border-[#292e5f]" src={wallet.icon} width={25} style={{ marginRight: 10 ,backgroundColor:'#130f2a'}} />
+            <Text className="text-white wallet-selector-text">{wallet.name}</Text>
           </div>
           {wallet.readyState === WalletReadyState.Installed ||
           wallet.readyState === WalletReadyState.Loadable ? (

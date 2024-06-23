@@ -4,10 +4,10 @@ import TitleImg from "@/public/assets/home/home_title.png";
 import SlothWithNoMounthImg from "@/public/assets/home/sloth_with_no_mounth.png";
 import BubbleMounthImg from "@/public/assets/home/bubble_mouth.png";
 import EvilSmileImg from "@/public/assets/home/evil_smile.png";
-import SlothLeft1Img from "@/public/assets/home/sloth_left1.png";
-import SlothLeft2Img from "@/public/assets/home/sloth_left2.png";
-import SlothRight1Img from "@/public/assets/home/sloth_right1.png";
-import SlothRight2Img from "@/public/assets/home/sloth_right2.png";
+import SlothLeft1Img from "@/public/assets/home/panda_sloth_left1.png";
+import SlothLeft2Img from "@/public/assets/home/panda_sloth_left2.png";
+import SlothRight1Img from "@/public/assets/home/panda_sloth_right1.png";
+import SlothRight2Img from "@/public/assets/home/panda_sloth_right2.png";
 import { RouteButton } from "@/src/components/RouteButton";
 
 export default function MintHome() {
@@ -75,7 +75,7 @@ export default function MintHome() {
         />
 
         <Image
-          className="fixed bottom-0 left-0 h-auto w-[7rem] -translate-x-full animate-[appear-left_0.3s_0.8s_ease-in-out_forwards]"
+          className="fixed bottom-[-4rem] left-[-4rem] h-auto w-[13rem] -translate-x-full animate-[appear-left_0.3s_0.8s_ease-in-out_forwards]"
           src={SlothLeft1Img}
           alt="Sloth"
         />
@@ -86,7 +86,7 @@ export default function MintHome() {
           alt="Sloth"
         />
         <Image
-          className="fixed bottom-0 right-0 h-auto w-[7rem] translate-x-full animate-[appear-right_0.3s_0.8s_ease-in-out_forwards]"
+          className="fixed bottom-[-4rem] right-[-4rem] h-auto w-[13rem] translate-x-full animate-[appear-right_0.3s_0.8s_ease-in-out_forwards]"
           src={SlothRight1Img}
           alt="Sloth"
         />
