@@ -19,16 +19,16 @@ export const CommonPageHeader = ({
   return (
     <header
       className={
-        `fixed flex h-20 w-full flex-row items-center justify-between px-4 backdrop-blur-sm` +
+        `fixed flex h-20 w-full flex-row items-center justify-center px-4 backdrop-blur-sm` +
         " " +
         className
       }
     >
       <Image src={HeaderBg} width={126} height={80} alt="Header" />
-      <CloseOutlined
+      {/* <CloseOutlined
         onClick={handleGoBack}
         className={"text-2xl" + " " + closeIconColor}
-      />
+      /> */}
     </header>
   );
 };

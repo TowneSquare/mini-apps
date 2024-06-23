@@ -10,7 +10,11 @@ import {
   AptosStandardSupportedWallet,
 } from "@aptos-labs/wallet-adapter-react";
 import { truncateAddress } from "@/src/utils/aptos";
-import { RightOutlined } from "@ant-design/icons";
+import {
+  CaretDownOutlined,
+  CaretUpOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import DrawTitlePNG from "@/public/assets/draw_title.png";
 import WalletPromptPNG from "@/public/assets/wallet-prompt.png";
 
@@ -26,7 +30,7 @@ export function WalletSelector({
   setModalOpen,
 }: WalletSelectorProps) {
   const [walletSelectorModalOpen, setWalletSelectorModalOpen] = useState(false);
-
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   useEffect(() => {
     if (isModalOpen !== undefined) {
       setWalletSelectorModalOpen(isModalOpen);
@@ -97,9 +101,17 @@ export function WalletSelector({
             style: { backgroundColor: "#111827" },
           }}
           placement="bottomRight"
+          onOpenChange={(open) => {
+            setDropdownOpen(open);
+          }}
         >
           <button className="rounded-box bg-black py-1 px-3 text-[#aa80ef]">
             {buttonText}
+            {dropdownOpen ? (
+              <CaretUpOutlined className="ml-2 text-white" />
+            ) : (
+              <CaretDownOutlined className="ml-2 text-white" />
+            )}
           </button>
         </Dropdown>
       ) : (
@@ -198,8 +210,8 @@ const walletView = (
       >
         <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
           <div className="wallet-name-wrapper">
-            <img src={wallet.icon} width={25} style={{ marginRight: 10 }} />
-            <Text className="wallet-selector-text">{wallet.name}</Text>
+          <img className="rounded-[50%] border-2 border-[#292e5f]" src={wallet.icon} width={25} style={{ marginRight: 10 ,backgroundColor:'#130f2a'}} />
+          <Text className="text-white wallet-selector-text">{wallet.name}</Text>
           </div>
           {wallet.readyState === WalletReadyState.Installed ||
           wallet.readyState === WalletReadyState.Loadable ? (

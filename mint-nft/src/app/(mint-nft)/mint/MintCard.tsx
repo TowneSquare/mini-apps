@@ -16,6 +16,7 @@ import {
   useWallet,
 } from "@aptos-labs/wallet-adapter-react";
 import { MintProgressStatus } from "./Mint";
+import { useWalletSelectorModelContext } from "@/src/provider/WalletModelProvider";
 // --!>
 
 type MintType = "cool-list" | "public-mint";
@@ -267,20 +268,26 @@ const MintButtonCard: React.FC<{
     typeArg = DAPP_ADDRESS + "::pre_mint::PublicInfo";
   }
   // <!-- smart contract
-  const { signAndSubmitTransaction } = useWallet();
-
+  const { signAndSubmitTransaction,account } = useWallet();
+  const {isModalOpen,setModalOpen} = useWalletSelectorModelContext()
   async function mintNFT(amount: number) {
-    const transaction: InputTransactionData = {
-      data: {
-        function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
-        typeArguments: [typeArg],
-        functionArguments: [amount],
-      },
-    };
-
-    const response = await signAndSubmitTransaction(transaction);
-    console.log(response);
-    onMintHandle(amount);
+    if(account) {
+      const transaction: InputTransactionData = {
+        data: {
+          function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
+          typeArguments: [typeArg],
+          functionArguments: [amount],
+        },
+      };
+  
+      const response = await signAndSubmitTransaction(transaction);
+      console.log(response);
+      onMintHandle(amount);
+    }else {
+      if(isModalOpen === false) {
+        setModalOpen && setModalOpen(true)
+      }
+    }
   }
   return (
     <>

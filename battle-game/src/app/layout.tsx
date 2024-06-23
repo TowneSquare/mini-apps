@@ -11,6 +11,8 @@ import Header from "../components/Header";
 // WalletProvider
 import { WalletProvider } from "../provider/WalletAdapterProvider";
 import { BattleEvilProvider } from "../hooks/battleEvilProvider";
+import type React from "react";
+import { WalletSelectorModelProvider } from "../provider/WalletModelProvider";
 const exo_2 = Exo_2({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,10 +29,14 @@ function WalletSelector({
     <html lang="en">
       <body className={exo_2.className}>
         <WalletProvider>
-          <BattleEvilProvider>
-            <Header />
-            <main className="h-full min-h-screen w-full pt-16">{children}</main>
-          </BattleEvilProvider>
+          <WalletSelectorModelProvider>
+            <BattleEvilProvider>
+              <Header />
+              <main className="h-full min-h-screen w-full pt-16">
+                {children}
+              </main>
+            </BattleEvilProvider>
+          </WalletSelectorModelProvider>
         </WalletProvider>
       </body>
     </html>
