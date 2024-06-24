@@ -177,7 +177,7 @@ const walletView = (
     if (mobileSupport) {
       return (
         <Menu.Item
-          className="!p-0"
+          className="!p-0 !rounded-full"
           key={wallet.name}
           onClick={() => onWalletSelected(wallet.name)}
         >
@@ -200,7 +200,7 @@ const walletView = (
     // The user is on a desktop device
     return (
       <Menu.Item
-        className="!p-0"
+        className="!p-0 !rounded-full"
         key={wallet.name}
         onClick={
           wallet.readyState === WalletReadyState.Installed ||

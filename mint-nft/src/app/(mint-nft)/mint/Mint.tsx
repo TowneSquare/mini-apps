@@ -329,12 +329,19 @@ export const Mint = () => {
   // --!>
 
   const [hooray, setHooray] = useState(false);
+  const [mintedData, setMintedData] = useState<MintData[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
   const skipHandler = () => {
     setHooray(false);
     setOpenDialog(true);
   };
-  const mintFinishHandler = () => {
+  const mintFinishHandler = (mintedData: {data:Array<MintData>,typeName:string}) => {
+    setMintedData(mintedData.data);
+    if (mintedData.typeName === "Cool List") {
+      setCoolListMinted((prev) => prev + mintedData.data.length);
+    } else {
+      setPublicListMinted((prev) => prev + mintedData.data.length);
+    }
     setHooray(true);
     if (account) {
       getBalance(account.address);
@@ -415,11 +422,14 @@ export const Mint = () => {
             setOpenDialog(open);
           }}
           open={openDialog}
+          mintedData={mintedData}
         />
       </div>
-      <div className={hooray ? "block" : "hidden"}>
-        <Hooray skipHandler={skipHandler} />
-      </div>
+      {hooray && (
+        <div className="block">
+          <Hooray skipHandler={skipHandler} mintedData={mintedData} />
+        </div>
+      )}
     </>
   );
 };

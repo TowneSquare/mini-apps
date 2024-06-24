@@ -176,7 +176,7 @@ const walletView = (
     if (mobileSupport) {
       return (
         <Menu.Item
-          className="!p-0"
+          className="!p-0 !rounded-full"
           key={wallet.name}
           onClick={() => onWalletSelected(wallet.name)}
         >
@@ -199,7 +199,7 @@ const walletView = (
     // The user is on a desktop device
     return (
       <Menu.Item
-        className="!p-0"
+        className="!p-0 !rounded-full"
         key={wallet.name}
         onClick={
           wallet.readyState === WalletReadyState.Installed ||
@@ -208,7 +208,7 @@ const walletView = (
             : () => window.open(wallet.url)
         }
       >
-        <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
+        <div className="flex h-[3rem] justify-between active:ring-violet-300 rounded-full bg-[#666665] py-2 px-5">
           <div className="wallet-name-wrapper">
           <img className="rounded-[50%] border-2 border-[#292e5f]" src={wallet.icon} width={25} style={{ marginRight: 10 ,backgroundColor:'#130f2a'}} />
           <Text className="text-white wallet-selector-text">{wallet.name}</Text>
