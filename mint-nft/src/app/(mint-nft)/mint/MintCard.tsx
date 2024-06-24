@@ -17,6 +17,7 @@ import {
 } from "@aptos-labs/wallet-adapter-react";
 import { MintProgressStatus } from "./Mint";
 import { useWalletSelectorModelContext } from "@/src/provider/WalletModelProvider";
+import { MintData } from "./MIntCarousel";
 // --!>
 
 type MintType = "cool-list" | "public-mint";
@@ -30,7 +31,10 @@ export interface MintCardProps {
   maxMinted?: boolean;
 }
 export interface MintInProgressCardProps extends MintCardProps {
-  mintFinishHandler: () => void;
+  mintFinishHandler: (mintedData: {
+    data: Array<MintData>;
+    typeName: string;
+  }) => void;
 }
 const CardLoading = () => {
   return (
@@ -51,7 +55,10 @@ justify-center"
 };
 export const MintCard: React.FC<{
   mintCardType: MintType;
-  mintFinishHandler: () => void;
+  mintFinishHandler: (mintedData: {
+    data: Array<MintData>;
+    typeName: string;
+  }) => void;
   eligible: boolean;
   mintPrice: number;
   mintable: number;
@@ -141,9 +148,12 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
   mintFinishHandler,
 }) => {
   const isStartMint = mintTime - Date.now() < 0;
-  const mintActionHandler = (mintAmount: number) => {
-    console.log(mintAmount);
-    mintFinishHandler();
+  const mintActionHandler = (mintedData: {
+    data: Array<MintData>;
+    typeName: string;
+  }) => {
+    console.log(mintedData);
+    mintFinishHandler(mintedData);
   };
   return (
     <div>
@@ -184,7 +194,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
               </>
             ) : (
               <MintButtonCard
-                onMintHandle={(mintAmount) => mintActionHandler(mintAmount)}
+                onMintHandle={(mintedData) => mintActionHandler(mintedData)}
                 mintName={mintName}
               />
             )
@@ -256,7 +266,10 @@ export const CountDownCard: React.FC<{
 };
 
 const MintButtonCard: React.FC<{
-  onMintHandle: (mintAmount: number) => void;
+  onMintHandle: (minteData: {
+    data: Array<MintData>;
+    typeName: string;
+  }) => void;
   mintName: string;
 }> = ({ onMintHandle, mintName }) => {
   const [mintAmount, setMintAmount] = useState(1);
@@ -268,10 +281,31 @@ const MintButtonCard: React.FC<{
     typeArg = DAPP_ADDRESS + "::pre_mint::PublicInfo";
   }
   // <!-- smart contract
-  const { signAndSubmitTransaction,account } = useWallet();
-  const {isModalOpen,setModalOpen} = useWalletSelectorModelContext()
+  const { signAndSubmitTransaction, account } = useWallet();
+  const { isModalOpen, setModalOpen } = useWalletSelectorModelContext();
+  const client = new Provider({ fullnodeUrl: APTOS_NODE_URL });
+  async function getMintDetails(objInfo: string) {
+    const result = await client.getAccountResources(objInfo);
+    console.log("resources:", result);
+    const mintDetail: MintData = { mintID: "", mintImg: "" };
+    result.forEach((resource) => {
+      if (resource.type === "0x4::token::TokenIdentifiers") {
+        mintDetail.mintID = (
+          resource as unknown as { data: { index: { value: string } } }
+        ).data.index.value;
+      }
+      if (resource.type === "0x4::token::Token") {
+        mintDetail.mintImg = (
+          resource as unknown as { data: { uri: string } }
+        ).data.uri;
+      }
+    });
+    return mintDetail;
+  }
   async function mintNFT(amount: number) {
-    if(account) {
+    if (account) {
+      const eventTypeInfo = DAPP_ADDRESS + `::pre_mint::TokenMinted`;
+
       const transaction: InputTransactionData = {
         data: {
           function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
@@ -279,13 +313,42 @@ const MintButtonCard: React.FC<{
           functionArguments: [amount],
         },
       };
-  
+
       const response = await signAndSubmitTransaction(transaction);
       console.log(response);
-      onMintHandle(amount);
-    }else {
-      if(isModalOpen === false) {
-        setModalOpen && setModalOpen(true)
+      const tx = (await client.getTransactionByHash(response.hash)) as {
+        events: Array<{ type: string; data: { token: string[] } }>;
+      };
+
+      // for test
+      // "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17"
+      // "0xa622c59596fab424732118bc29db90a3751da255ca86d03ed652ada828713b9f"
+      // const tx = (await client.getTransactionByHash(
+      //   "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17",
+      // )) as { events: Array<{ type: string; data: { token: string[]} }> };
+      console.log(tx);
+      const events = tx.events;
+      const mintedData: Array<MintData> = [];
+      if (events && events.length > 0) {
+        await Promise.all(
+          events.map(async (event) => {
+            if (event.type === eventTypeInfo) {
+              const mintIDs = event.data.token;
+              await Promise.all(
+                mintIDs.map(async (mintID) => {
+                  const mintDetail = await getMintDetails(mintID);
+                  mintedData.push(mintDetail);
+                }),
+              );
+            }
+          }),
+        );
+      }
+      console.log("mintedData", mintedData);
+      onMintHandle({ data: mintedData, typeName: mintName });
+    } else {
+      if (isModalOpen === false) {
+        setModalOpen && setModalOpen(true);
       }
     }
   }
