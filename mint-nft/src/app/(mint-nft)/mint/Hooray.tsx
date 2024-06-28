@@ -20,7 +20,7 @@ export const Hooray: React.FC<{
       className="absolute top-0 flex h-full w-full flex-col items-center justify-center overflow-hidden pt-20"
       style={{
         backgroundImage: `url(${bg.src})`,
-        backgroundSize: "cover",
+        backgroundSize: "contain",
         backgroundColor: "#4A4071",
       }}
     >

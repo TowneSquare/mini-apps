@@ -93,34 +93,49 @@ module.exports = {
           to: { transform: "translateY(0)", top: "0" },
         },
         "sloth-bubble-appear-up": {
-          "0%": { transform: "translateY(100%)", top: "100%" },
-          "25%": { transform: "translateY(0)", top: "38%" },
-          "80%": { transform: "translateY(0) translateX(0)", top: "38%" },
-          "100%": { transform: "translateY(0) translateX(-100%)", top: "38%" },
+          "0%": { transform: "translateY(100%)", top: "100%", opacity: 1 },
+          "25%": { transform: "translateY(0)", top: "38%", opacity: 1 },
+          "80%": {
+            transform: "translateY(0) translateX(0)",
+            top: "38%",
+            opacity: 1,
+          },
+          "90%": {
+            transform: "translateY(0) translateX(-50%)",
+            top: "38%",
+            opacity: 1,
+          },
+          "100%": {
+            transform: "translateY(0) translateX(-100%)",
+            top: "38%",
+            opacity: 0,
+          },
         },
         "sloth-smile-appear-left": {
-          from: { transform: "translateX(100%)"},
-          to: { transform: "translateX(0)"},
+          "0%": { transform: "translateX(100%)", opacity: 0 },
+          "20%": { transform: "translateX(80)", opacity: 1 },
+          "100%": { transform: "translateX(0)", opacity: 1 },
+
         },
         "button-appear-up": {
           from: { transform: "translateY(100%)", bottom: "0rem" },
           to: { transform: "translateY(0)", bottom: "1rem" },
         },
         "appear-left": {
-          from: { transform: "translateX(-100%)" },
-          to: { transform: "translateX(0)" },
+          from: { transform: "translateX(-100%)",left: "0rem" },
+          to: { transform: "translateX(0)",left: "calc(50vw - 18rem)" },
         },
         "appear-left-sm": {
           from: { transform: "translateX(-100%)", left: "0rem" },
-          to: { transform: "translateX(0)", left: "2rem" },
+          to: { transform: "translateX(0)", left: "calc(50vw - 11rem)" },
         },
         "appear-right": {
-          from: { transform: "translateX(100%)" },
-          to: { transform: "translateX(0)" },
+          from: { transform: "translateX(100%)",right: "0rem" },
+          to: { transform: "translateX(0)",right: "calc(50vw - 17rem)" },
         },
         "appear-right-sm": {
           from: { transform: "translateX(100%),", right: "0rem" },
-          to: { transform: "translateX(0)", right: "1.5rem" },
+          to: { transform: "translateX(0)", right: "calc(50vw - 10rem)" },
         },
       },
       animation: {
