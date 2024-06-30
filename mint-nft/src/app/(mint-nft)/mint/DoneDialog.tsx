@@ -31,14 +31,14 @@ export const MintDoneDialog: React.FC<{
         <DialogContent className="flex h-[40rem] w-[85%] flex-col items-center justify-center overflow-hidden rounded-3xl border-2 border-black bg-white bg-cover bg-center p-5">
           <h2 className="mb-6 text-3xl font-semibold">Well done!!!</h2>
 
-          <div className="relative h-[15rem] w-full flex justify-center">
+          <div className="relative flex h-[15rem] w-full justify-center">
             {/* <Image
               src={centerImage.src}
               alt="Center Image"
               fill
               className="object-contain "
             /> */}
-            <div className="carousel-center carousel rounded-box pb-5">
+            <div className="carousel carousel-center rounded-box pb-5">
               {/* <div className="carousel-item">
           <div className="h-[108px] w-[100px]" />
         </div> */}

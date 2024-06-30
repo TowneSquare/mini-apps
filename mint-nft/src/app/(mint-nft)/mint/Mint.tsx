@@ -253,24 +253,6 @@ export const Mint = () => {
     setMintedPublic(publicIds.length);
   }
 
-  // useEffect(() => {
-  //   if (account) {
-  //     isWhitelisted(account.address)
-  //       .then(isEligible => {
-  //         setEligible(isEligible);
-  //         console.log("isEligible:", isEligible);
-  //   })
-  //       .catch(console.error);
-  //   }
-  // }, [account]);
-
-  // useEffect(() => {
-  //   if (account) {
-  //     getBalance(account.address)
-  //       .then(mintCount => setMinted(mintCount))
-  //       .catch(console.error);
-  //   }
-  // }, [account]);
   useEffect(() => {
     if (account) {
       isWhitelisted(account.address).catch(console.error);
@@ -280,7 +262,6 @@ export const Mint = () => {
   useEffect(() => {
     if (account) {
       getBalance(account.address);
-      // getBalance(typePublicInfo, account.address).catch(console.error);
     }
   }, [account]); // Depend on account to re-run when account changes
 
@@ -322,12 +303,6 @@ export const Mint = () => {
     }
   }, [account]);
 
-  // useEffect(() => {
-  //   getMintDetails("0x14ddb5c6bc5b1ee4ab8b3984c65e5faac1f3d5cc9a28735a75869323cdb75ac0");
-  // }, []);
-
-  // --!>
-
   const [hooray, setHooray] = useState(false);
   const [mintedData, setMintedData] = useState<MintData[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -335,12 +310,24 @@ export const Mint = () => {
     setHooray(false);
     setOpenDialog(true);
   };
-  const mintFinishHandler = (mintedData: {data:Array<MintData>,typeName:string}) => {
+  const mintFinishHandler = (mintedData: {
+    data: Array<MintData>;
+    typeName: string;
+  }) => {
     setMintedData(mintedData.data);
+    setMintList((prev) => [...prev, ...mintedData.data]);
     if (mintedData.typeName === "Cool List") {
-      setCoolListMinted((prev) => prev + mintedData.data.length);
+      setCoolListMinted((prev) =>
+        prev + mintedData.data.length > totalCoolListCanMinted
+          ? totalCoolListCanMinted
+          : prev + mintedData.data.length,
+      );
     } else {
-      setPublicListMinted((prev) => prev + mintedData.data.length);
+      setPublicListMinted((prev) =>
+        prev + mintedData.data.length > totalPublicListCanMinted
+          ? totalPublicListCanMinted
+          : prev + mintedData.data.length,
+      );
     }
     setHooray(true);
     if (account) {
@@ -349,14 +336,14 @@ export const Mint = () => {
   };
   return (
     <>
-      <div className={hooray ? "hidden" : "block"}>
-        <div
-          className="flex flex-col space-y-2 "
-          style={{
-            background:
-              "radial-gradient(circle closest-side at 50% 70%,#f5f3ecff 20%, #f0eee4ff 80%, #e1dac4 175%)",
-          }}
-        >
+      <div
+        className={
+          hooray
+            ? "hidden"
+            : "m-auto block min-h-[calc(100vh-4rem)] max-w-[500px]"
+        }
+      >
+        <div className="flex flex-col space-y-2 ">
           <div className="px-8">
             <h1 className="break-words text-2xl font-bold">
               Start Your Adventure,Mint a SlothBall!
@@ -426,7 +413,7 @@ export const Mint = () => {
         />
       </div>
       {hooray && (
-        <div className="block">
+        <div className="m-auto block h-[calc(100vh-9rem)]">
           <Hooray skipHandler={skipHandler} mintedData={mintedData} />
         </div>
       )}
