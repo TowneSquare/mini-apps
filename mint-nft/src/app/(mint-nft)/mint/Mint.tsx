@@ -346,10 +346,10 @@ export const Mint = () => {
         <div className="flex flex-col space-y-2 ">
           <div className="px-8">
             <h1 className="break-words text-2xl font-bold">
-              Start Your Adventure,Mint a SlothBall!
+              Start Your Adventure, Mint a SlothBall!
             </h1>
             <p className="mt-3">
-              Soon,your Slothball will grow and evolve,taking on a new form as a
+              Soon,your Slothball will grow and evolve, taking on a new form as a
               Sloth!
             </p>
             <h2 className="mt-5 pl-1 text-xl font-semibold">My Solthballs</h2>
