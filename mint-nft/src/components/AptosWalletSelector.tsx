@@ -122,7 +122,7 @@ export function WalletSelector({
     <>
       {connected ? (
         <Dropdown
-          rootClassName="!top-[4.2rem] !rounded-box"
+          rootClassName="!top-[4.2rem] !rounded-box !fixed"
           menu={{
             items,
             style: { backgroundColor: "#111827" },
