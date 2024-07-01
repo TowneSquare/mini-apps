@@ -48,7 +48,7 @@ export default function MintHome() {
           <Image
             src={SlothWithNoMounthImg}
             fill
-            className="object-contain"
+            className="object-cover"
             alt="title"
           />
         </div>

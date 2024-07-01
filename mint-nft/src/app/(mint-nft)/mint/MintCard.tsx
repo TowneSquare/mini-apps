@@ -306,26 +306,26 @@ const MintButtonCard: React.FC<{
     if (account) {
       const eventTypeInfo = DAPP_ADDRESS + `::pre_mint::TokenMinted`;
 
-      // const transaction: InputTransactionData = {
-      //   data: {
-      //     function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
-      //     typeArguments: [typeArg],
-      //     functionArguments: [amount],
-      //   },
-      // };
+      const transaction: InputTransactionData = {
+        data: {
+          function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
+          typeArguments: [typeArg],
+          functionArguments: [amount],
+        },
+      };
 
-      // const response = await signAndSubmitTransaction(transaction);
-      // console.log(response);
-      // const tx = (await client.getTransactionByHash(response.hash)) as {
-      //   events: Array<{ type: string; data: { token: string[] } }>;
-      // };
+      const response = await signAndSubmitTransaction(transaction);
+      console.log(response);
+      const tx = (await client.getTransactionByHash(response.hash)) as {
+        events: Array<{ type: string; data: { token: string[] } }>;
+      };
 
       // for test
       // "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17"
       // "0xa622c59596fab424732118bc29db90a3751da255ca86d03ed652ada828713b9f"
-      const tx = (await client.getTransactionByHash(
-        "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17",
-      )) as { events: Array<{ type: string; data: { token: string[]} }> };
+      // const tx = (await client.getTransactionByHash(
+      //   "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17",
+      // )) as { events: Array<{ type: string; data: { token: string[]} }> };
 
       console.log(tx);
       const events = tx.events;
