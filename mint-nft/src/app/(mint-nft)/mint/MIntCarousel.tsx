@@ -19,11 +19,11 @@ export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({
   const hasNoneNft = mintList.length <= 0;
   return (
     <div className="carousel carousel-center rounded-box pb-5">
-      <div className="carousel-item">
+      {/* <div className="carousel-item">
         <div className="h-[108px] w-[100px]" />
-      </div>
+      </div> */}
       {hasNoneNft ? (
-        <div className="carousel-item flex flex-col">
+        <div className="carousel-item w-full flex flex-col">
           <img
             className="mx-auto"
             src={unknownSothballs.src}
