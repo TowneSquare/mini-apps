@@ -1,7 +1,7 @@
 import sothballs from "@/public/assets/home/sloth_left2.png";
 import Image from "next/image";
 // import type { StaticImageData } from "next/image";
-import unknownSothballs from "@/public/assets/unknown_sothballs.png";
+import unknownSothballs from "@/public/assets/unknow_slothball.png";
 export interface MintData {
   mintID: string;
   // mintImg: StaticImageData;
@@ -29,7 +29,7 @@ export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({
             src={unknownSothballs.src}
             width={205}
             height={219}
-            alt="unknown_sothballs"
+            alt="unknow_slothball"
           />
           <div className="flex h-6 w-full justify-center">
             <span className="text-base font-medium" />

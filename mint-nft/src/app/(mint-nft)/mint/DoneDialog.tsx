@@ -1,8 +1,6 @@
-import bg from "@/public/assets/hooray/bg.png";
-import sothballs from "@/public/assets/home/panda_sloth_left2.png";
+import sothballs from "@/public/assets/home/slothball_left1.svg";
 import { Button } from "@/components/ui/button";
-import centerImage from "@/public/assets/hooray/ball-brown.png";
-import unknownSothballs from "@/public/assets/unknown_sothballs.png";
+import unknownSothballs from "@/public/assets/unknow_slothball.png";
 
 import {
   Dialog,
@@ -32,16 +30,7 @@ export const MintDoneDialog: React.FC<{
           <h2 className="mb-6 text-3xl font-semibold">Well done!!!</h2>
 
           <div className="relative flex h-[15rem] w-full justify-center">
-            {/* <Image
-              src={centerImage.src}
-              alt="Center Image"
-              fill
-              className="object-contain "
-            /> */}
             <div className="carousel carousel-center rounded-box pb-5">
-              {/* <div className="carousel-item">
-          <div className="h-[108px] w-[100px]" />
-        </div> */}
               {hasNoneNft ? (
                 <div className="carousel-item flex flex-col">
                   <img
@@ -49,7 +38,7 @@ export const MintDoneDialog: React.FC<{
                     src={unknownSothballs.src}
                     width={205}
                     height={219}
-                    alt="unknown_sothballs"
+                    alt="unknow_slothball"
                   />
                   <div className="flex h-6 w-full justify-center">
                     <span className="text-base font-medium" />

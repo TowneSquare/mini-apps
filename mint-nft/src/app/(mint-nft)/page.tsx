@@ -1,15 +1,14 @@
 "use client";
 import Image from "next/image";
-import LogoBg from "@/public/assets/home/home_logo.png";
-import TitleImg from "@/public/assets/home/home_title.png";
+import MintLogoSVG from "@/public/assets/home/mint_logo.svg";
 import SlothWithNoMounthImg from "@/public/assets/home/sloth_with_no_mounth.png";
 import BgWaveImg from "@/public/assets/home/bg_wave.png";
 import BubbleMounthImg from "@/public/assets/home/bubble_mouth.png";
 import EvilSmileImg from "@/public/assets/home/evil_smile.png";
-import SlothLeft1Img from "@/public/assets/home/panda_sloth_left1.png";
-import SlothLeft2Img from "@/public/assets/home/panda_sloth_left2.png";
-import SlothRight1Img from "@/public/assets/home/panda_sloth_right1.png";
-import SlothRight2Img from "@/public/assets/home/panda_sloth_right2.png";
+import SlothLeft1Img from "@/public/assets/home/slothball_left1.svg";
+import SlothLeft2Img from "@/public/assets/home/slothball_left2.svg";
+import SlothRight1Img from "@/public/assets/home/slothball_right1.svg";
+import SlothRight2Img from "@/public/assets/home/slothball_right2.svg";
 import { RouteButton } from "@/src/components/RouteButton";
 
 export default function MintHome() {
@@ -22,17 +21,14 @@ export default function MintHome() {
       }}
     >
       <div className="h-[40%] pt-5">
-        <div className="relative mx-auto h-[45%] w-3/4">
+        <div className="relative mx-auto h-[57%] w-3/4">
           <Image
-            src={TitleImg}
+            src={MintLogoSVG}
             priority
             className="object-contain"
             fill
             alt="title"
           />
-        </div>
-        <div className="relative mx-auto mt-2 h-[12%] w-3/4">
-          <Image src={LogoBg} fill className="object-contain" alt="Logo" />
         </div>
         <div className="z-10 mt-5 flex h-[41%] animate-home-title-ani flex-col items-center justify-center text-3xl font-black">
           <span>Built with</span>
