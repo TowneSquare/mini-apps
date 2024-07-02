@@ -151,7 +151,7 @@ module.exports = {
         },
         "sloth-smile-appear-left1": {
           "0%": { transform: "translateX(100%)", opacity: 0 },
-          "2%": { transform: "translateX(25%)", opacity: 1 },
+          "0%": { transform: "translateX(99%)", opacity: 1 },
           "8%": { transform: "translateX(0)", opacity: 1 },
           "60%": { transform: "translateX(0)", opacity: 1 },
           "70%": { transform: "translateX(-100%)", opacity: 0 },
@@ -182,7 +182,7 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "home-title-ani": "title-scale 0.3s ease-out forwards",
+        "home-title-ani": "title-scale 0.4s 0.8s ease-out forwards",
       },
     },
   },

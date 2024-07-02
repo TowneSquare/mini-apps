@@ -54,7 +54,7 @@ export default function MintHome() {
           </span>
         </div>
       </div>
-      <div className="relative mx-auto h-[60%] max-w-[500px]">
+      <div className="relative mx-auto h-[60%] max-w-[400px]">
         {/* sloth */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-y-full animate-[sloth-appear-up_0.4s_0.8s_ease-in-out_forwards]">
           <Image
@@ -74,7 +74,7 @@ export default function MintHome() {
           <Image src={HatSVG} fill className="object-cover" alt="title" />
         </div>
         {/* glasses */}
-        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-y-full animate-[sloth-bubble-appear-up2_4s_0.8s_ease-in-out_forwards]">
+        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-y-full animate-[sloth-bubble-appear-up2_3.5s_0.8s_ease-in-out_forwards]">
           <Image src={GlassesSVG} fill className="object-cover" alt="title" />
         </div>
 
@@ -84,12 +84,12 @@ export default function MintHome() {
         </div>
 
         {/* glasses1 */}
-        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left1_6s_3s_ease-in-out_forwards] opacity-0">
+        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left1_5.8s_3s_ease-in-out_forwards] opacity-0">
           <Image src={Glasses1SVG} fill className="object-cover" alt="title" />
         </div>
 
         {/* mouth1 */}
-        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear1-left1_6s_4s_ease-in-out_forwards] opacity-0">
+        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left1_5.5s_4s_ease-in-out_forwards] opacity-0]">
           <Image src={Mouth1SVG} fill className="object-cover" alt="title" />
         </div>
 
@@ -109,12 +109,12 @@ export default function MintHome() {
         </div>
 
         {/* mouth2 */}
-        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_7.3s_ease-in-out_forwards] opacity-0">
+        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_7.2s_ease-in-out_forwards] opacity-0">
           <Image src={Mouth2SVG} fill className="object-cover" alt="title" />
         </div>
 
         {/* cloasing1 */}
-        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_8.1s_ease-in-out_forwards] opacity-0">
+        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_8.3s_ease-in-out_forwards] opacity-0">
           <Image src={Clothing1SVG} fill className="object-cover" alt="title" />
         </div>
 
@@ -144,7 +144,7 @@ export default function MintHome() {
 
         {/* continue button */}
         <RouteButton
-          animateClass="translate-y-full max-w-[25rem] animate-[button-appear-up_0.3s_1.2s_ease-in-out_forwards]"
+          animateClass="translate-y-full max-w-[25rem] animate-[button-appear-up_0.4s_1.2s_ease-in-out_forwards]"
           title="CONTINUE"
           path="/mint"
         />
