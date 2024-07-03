@@ -168,7 +168,7 @@ module.exports = {
         "appear-left-sm": {
           "0%": { transform: "translateX(calc(50vw - 31rem))", opacity: 0 },
           // "20%": { transform: "translateX(calc(50vw - 27rem)", opacity: 1 },
-          "100%": { transform: "translateX(calc(50vw - 11rem))", opacity: 1 },
+          "100%": { transform: "translateX(calc(50vw - 10.5rem))", opacity: 1 },
         },
         "appear-right": {
           from: { transform: "translateX(calc(-50vw + 36rem))", opacity: 0 },
@@ -176,7 +176,7 @@ module.exports = {
         },
         "appear-right-sm": {
           from: { transform: "translateX(calc(-50vw + 31rem))", opacity: 0 },
-          to: { transform: "translateX(calc(-50vw + 11rem))", opacity: 1 },
+          to: { transform: "translateX(calc(-50vw + 10.5rem))", opacity: 1 },
         },
       },
       animation: {

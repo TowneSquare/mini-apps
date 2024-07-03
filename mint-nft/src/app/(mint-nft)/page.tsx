@@ -54,90 +54,110 @@ export default function MintHome() {
           </span>
         </div>
       </div>
-      <div className="relative mx-auto h-[60%] max-w-[400px]">
+      <div className="relative mx-auto h-[60%] max-w-[350px] md:max-w-[500px]">
         {/* sloth */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-y-full animate-[sloth-appear-up_0.4s_0.8s_ease-in-out_forwards]">
           <Image
             src={SlothWithNoMounthImg}
             fill
-            className="object-cover"
+            className="object-contain"
             alt="title"
           />
         </div>
 
         {/* mouth */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-y-full animate-[sloth-bubble-appear-up3_6s_0.8s_ease-in-out_forwards]">
-          <Image src={MouthSVG} fill className="object-cover" alt="title" />
+          <Image src={MouthSVG} fill className="object-contain" alt="title" />
         </div>
         {/* hat */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-y-full animate-[sloth-bubble-appear-up_1.6s_0.8s_ease-in-out_forwards] opacity-0">
-          <Image src={HatSVG} fill className="object-cover" alt="title" />
+          <Image src={HatSVG} fill className="object-contain" alt="title" />
         </div>
         {/* glasses */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-y-full animate-[sloth-bubble-appear-up2_3.5s_0.8s_ease-in-out_forwards]">
-          <Image src={GlassesSVG} fill className="object-cover" alt="title" />
+          <Image src={GlassesSVG} fill className="object-contain" alt="title" />
         </div>
 
         {/* hat1 */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left1_6s_2.0s_ease-in-out_forwards] opacity-0">
-          <Image src={Hat1SVG} fill className="object-cover" alt="title" />
+          <Image src={Hat1SVG} fill className="object-contain" alt="title" />
         </div>
 
         {/* glasses1 */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left1_5.8s_3s_ease-in-out_forwards] opacity-0">
-          <Image src={Glasses1SVG} fill className="object-cover" alt="title" />
+          <Image
+            src={Glasses1SVG}
+            fill
+            className="object-contain"
+            alt="title"
+          />
         </div>
 
         {/* mouth1 */}
-        <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left1_5.5s_4s_ease-in-out_forwards] opacity-0]">
-          <Image src={Mouth1SVG} fill className="object-cover" alt="title" />
+        <div className="opacity-0] absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left1_5.5s_4s_ease-in-out_forwards] opacity-0">
+          <Image src={Mouth1SVG} fill className="object-contain" alt="title" />
         </div>
 
         {/* clothing */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left1_5.5s_4.8s_ease-in-out_forwards] opacity-0">
-          <Image src={ClothingSVG} fill className="object-cover" alt="title" />
+          <Image
+            src={ClothingSVG}
+            fill
+            className="object-contain"
+            alt="title"
+          />
         </div>
 
         {/* hat2 */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_5.6s_ease-in-out_forwards] opacity-0">
-          <Image src={Hat2SVG} fill className="object-cover" alt="title" />
+          <Image src={Hat2SVG} fill className="object-contain" alt="title" />
         </div>
 
         {/* glasses2 */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_6.5s_ease-in-out_forwards] opacity-0">
-          <Image src={Glasses2SVG} fill className="object-cover" alt="title" />
+          <Image
+            src={Glasses2SVG}
+            fill
+            className="object-contain"
+            alt="title"
+          />
         </div>
 
         {/* mouth2 */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_7.2s_ease-in-out_forwards] opacity-0">
-          <Image src={Mouth2SVG} fill className="object-cover" alt="title" />
+          <Image src={Mouth2SVG} fill className="object-contain" alt="title" />
         </div>
 
         {/* cloasing1 */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-x-full animate-[sloth-smile-appear-left_0.5s_8.3s_ease-in-out_forwards] opacity-0">
-          <Image src={Clothing1SVG} fill className="object-cover" alt="title" />
+          <Image
+            src={Clothing1SVG}
+            fill
+            className="object-contain"
+            alt="title"
+          />
         </div>
 
         {/* frontball */}
         <Image
-          className="fixed bottom-[1.5rem] left-0 z-[1] h-auto w-[11rem] translate-x-[calc(50vw-31rem)] animate-[appear-left-sm_0.3s_0.8s_ease-in-out_forwards] opacity-0"
+          className="fixed bottom-[0.8rem] left-0 z-[1] h-auto w-[11rem] translate-x-[calc(50vw-31rem)] animate-[appear-left-sm_0.3s_0.8s_ease-in-out_forwards] opacity-0"
           src={SlothLeft2Img}
           alt="Sloth"
         />
 
         <Image
-          className="fixed bottom-[-4rem] left-0 z-[1] h-auto w-[13rem] translate-x-[calc(50vw-36rem)] animate-[appear-left_0.3s_0.8s_ease-in-out_forwards] opacity-0"
+          className="fixed bottom-[-3.5rem] left-0 z-[1] h-auto w-[13rem] translate-x-[calc(50vw-36rem)] animate-[appear-left_0.3s_0.8s_ease-in-out_forwards] opacity-0"
           src={SlothLeft1Img}
           alt="Sloth"
         />
 
         <Image
-          className="fixed bottom-8 right-0 z-[1] h-auto w-[11rem] translate-x-[calc(-50vw+31rem)] animate-[appear-right-sm_0.3s_0.8s_ease-in-out_forwards] opacity-0"
+          className="fixed bottom-[0.8rem] right-0 z-[1] h-auto w-[11rem] translate-x-[calc(-50vw+31rem)] animate-[appear-right-sm_0.3s_0.8s_ease-in-out_forwards] opacity-0"
           src={SlothRight2Img}
           alt="Sloth"
         />
         <Image
-          className="fixed bottom-[-4rem] right-0 z-[1] h-auto w-[13rem] translate-x-[calc(-50vw+36rem)] animate-[appear-right_0.3s_0.8s_ease-in-out_forwards] opacity-0"
+          className="fixed bottom-[-3.5rem] right-0 z-[1] h-auto w-[13rem] translate-x-[calc(-50vw+36rem)] animate-[appear-right_0.3s_0.8s_ease-in-out_forwards] opacity-0"
           src={SlothRight1Img}
           alt="Sloth"
         />
