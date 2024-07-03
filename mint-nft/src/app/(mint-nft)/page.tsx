@@ -54,7 +54,7 @@ export default function MintHome() {
           </span>
         </div>
       </div>
-      <div className="relative mx-auto h-[60%] max-w-[500px]">
+      <div className="relative mx-auto h-[60%] max-w-[350px] md:max-w-[500px]">
         {/* sloth */}
         <div className="absolute bottom-[5.5rem] h-[80%] w-full translate-y-full animate-[sloth-appear-up_0.4s_0.8s_ease-in-out_forwards]">
           <Image
@@ -140,24 +140,24 @@ export default function MintHome() {
 
         {/* frontball */}
         <Image
-          className="fixed bottom-[1.5rem] left-0 z-[1] h-auto w-[11rem] translate-x-[calc(50vw-31rem)] animate-[appear-left-sm_0.3s_0.8s_ease-in-out_forwards] opacity-0"
+          className="fixed bottom-[0.8rem] left-0 z-[1] h-auto w-[11rem] translate-x-[calc(50vw-31rem)] animate-[appear-left-sm_0.3s_0.8s_ease-in-out_forwards] opacity-0"
           src={SlothLeft2Img}
           alt="Sloth"
         />
 
         <Image
-          className="fixed bottom-[-4rem] left-0 z-[1] h-auto w-[13rem] translate-x-[calc(50vw-36rem)] animate-[appear-left_0.3s_0.8s_ease-in-out_forwards] opacity-0"
+          className="fixed bottom-[-3.5rem] left-0 z-[1] h-auto w-[13rem] translate-x-[calc(50vw-36rem)] animate-[appear-left_0.3s_0.8s_ease-in-out_forwards] opacity-0"
           src={SlothLeft1Img}
           alt="Sloth"
         />
 
         <Image
-          className="fixed bottom-8 right-0 z-[1] h-auto w-[11rem] translate-x-[calc(-50vw+31rem)] animate-[appear-right-sm_0.3s_0.8s_ease-in-out_forwards] opacity-0"
+          className="fixed bottom-[0.8rem] right-0 z-[1] h-auto w-[11rem] translate-x-[calc(-50vw+31rem)] animate-[appear-right-sm_0.3s_0.8s_ease-in-out_forwards] opacity-0"
           src={SlothRight2Img}
           alt="Sloth"
         />
         <Image
-          className="fixed bottom-[-4rem] right-0 z-[1] h-auto w-[13rem] translate-x-[calc(-50vw+36rem)] animate-[appear-right_0.3s_0.8s_ease-in-out_forwards] opacity-0"
+          className="fixed bottom-[-3.5rem] right-0 z-[1] h-auto w-[13rem] translate-x-[calc(-50vw+36rem)] animate-[appear-right_0.3s_0.8s_ease-in-out_forwards] opacity-0"
           src={SlothRight1Img}
           alt="Sloth"
         />
