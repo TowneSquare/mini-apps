@@ -1,8 +1,7 @@
 import bg from "@/public/assets/hooray/bg.png";
-import centerImage from "@/public/assets/hooray/ball-brown2.png";
 import { MintData } from "./MIntCarousel";
 import sothballs from "@/public/assets/home/panda_sloth_left2.png";
-import unknownSothballs from "@/public/assets/unknown_sothballs.png";
+import unknownSothballs from "@/public/assets/unknow_slothball.png";
 
 export const Hooray: React.FC<{
   skipHandler: () => void;
@@ -39,7 +38,7 @@ export const Hooray: React.FC<{
               src={unknownSothballs.src}
               width={205}
               height={219}
-              alt="unknown_sothballs"
+              alt="unknow_slothball"
             />
             <div className="flex h-6 w-full justify-center">
               <span className="text-base font-medium" />

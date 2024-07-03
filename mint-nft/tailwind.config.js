@@ -73,6 +73,10 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "title-scale": {
+          from: { transform: "scale(1)" },
+          to: { transform: "scale(1.3)" },
+        },
         "home-title-animation-x": {
           "0%": { transform: "translateX(100%) translateY(50%)" },
           "22%": { transform: "translateX(-10%) translateY(50%)" },
@@ -89,25 +93,54 @@ module.exports = {
           to: { transform: "translateY(0)" },
         },
         "sloth-appear-up": {
-          from: { transform: "translateY(100%)", top: "20%" },
-          to: { transform: "translateY(0)", top: "0" },
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
         },
         "sloth-bubble-appear-up": {
-          "0%": { transform: "translateY(100%)", top: "100%", opacity: 1 },
-          "25%": { transform: "translateY(0)", top: "38%", opacity: 1 },
+          "0%": { transform: "translateY(100%)", opacity: 1 },
+          "25%": { transform: "translateY(0)", opacity: 1 },
           "80%": {
             transform: "translateY(0) translateX(0)",
-            top: "38%",
             opacity: 1,
           },
           "90%": {
             transform: "translateY(0) translateX(-50%)",
-            top: "38%",
-            opacity: 1,
+            opacity: 0,
           },
           "100%": {
             transform: "translateY(0) translateX(-100%)",
-            top: "38%",
+            opacity: 0,
+          },
+        },
+        "sloth-bubble-appear-up2": {
+          "0%": { transform: "translateY(100%) translateX(0)", opacity: 1 },
+          "9%": { transform: "translateY(0) translateX(0)", opacity: 1 },
+          "60%": {
+            transform: "translateY(0) translateX(0)",
+            opacity: 1,
+          },
+          "70%": {
+            transform: "translateY(0) translateX(-100%)",
+            opacity: 0,
+          },
+          "100%": {
+            transform: "translateY(0) translateX(-100%)",
+            opacity: 0,
+          },
+        },
+        "sloth-bubble-appear-up3": {
+          "0%": { transform: "translateY(100%) translateX(0)", opacity: 1 },
+          "5%": { transform: "translateY(0) translateX(0)", opacity: 1 },
+          "55%": {
+            transform: "translateY(0) translateX(0)",
+            opacity: 1,
+          },
+          "60%": {
+            transform: "translateY(0) translateX(-100%)",
+            opacity: 0,
+          },
+          "100%": {
+            transform: "translateY(0) translateX(-100%)",
             opacity: 0,
           },
         },
@@ -115,33 +148,41 @@ module.exports = {
           "0%": { transform: "translateX(100%)", opacity: 0 },
           "20%": { transform: "translateX(80)", opacity: 1 },
           "100%": { transform: "translateX(0)", opacity: 1 },
-
+        },
+        "sloth-smile-appear-left1": {
+          "0%": { transform: "translateX(100%)", opacity: 0 },
+          "0%": { transform: "translateX(99%)", opacity: 1 },
+          "8%": { transform: "translateX(0)", opacity: 1 },
+          "60%": { transform: "translateX(0)", opacity: 1 },
+          "70%": { transform: "translateX(-100%)", opacity: 0 },
+          "100%": { transform: "translateX(-100%)", opacity: 0 },
         },
         "button-appear-up": {
-          from: { transform: "translateY(100%)", bottom: "0rem" },
-          to: { transform: "translateY(0)", bottom: "1rem" },
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(-1rem)" },
         },
         "appear-left": {
-          from: { transform: "translateX(-100%)",left: "0rem" },
-          to: { transform: "translateX(0)",left: "calc(50vw - 18rem)" },
+          from: { transform: "translateX(calc(50vw - 31rem))", opacity: 0 },
+          to: { transform: "translateX(calc(50vw - 17rem))", opacity: 1 },
         },
         "appear-left-sm": {
-          from: { transform: "translateX(-100%)", left: "0rem" },
-          to: { transform: "translateX(0)", left: "calc(50vw - 11rem)" },
+          "0%": { transform: "translateX(calc(50vw - 31rem))", opacity: 0 },
+          // "20%": { transform: "translateX(calc(50vw - 27rem)", opacity: 1 },
+          "100%": { transform: "translateX(calc(50vw - 11rem))", opacity: 1 },
         },
         "appear-right": {
-          from: { transform: "translateX(100%)",right: "0rem" },
-          to: { transform: "translateX(0)",right: "calc(50vw - 17rem)" },
+          from: { transform: "translateX(calc(-50vw + 36rem))", opacity: 0 },
+          to: { transform: "translateX(calc(-50vw + 17rem))", opacity: 1 },
         },
         "appear-right-sm": {
-          from: { transform: "translateX(100%),", right: "0rem" },
-          to: { transform: "translateX(0)", right: "calc(50vw - 10rem)" },
+          from: { transform: "translateX(calc(-50vw + 31rem))", opacity: 0 },
+          to: { transform: "translateX(calc(-50vw + 11rem))", opacity: 1 },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "home-title-ani": "home-title-animation-x 0.8s ease-out forwards",
+        "home-title-ani": "title-scale 0.4s 0.8s ease-out forwards",
       },
     },
   },
