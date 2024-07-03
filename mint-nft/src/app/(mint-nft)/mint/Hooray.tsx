@@ -1,12 +1,18 @@
+"use client";
 import bg from "@/public/assets/hooray/bg.png";
 import { MintData } from "./MIntCarousel";
 import sothballs from "@/public/assets/home/panda_sloth_left2.png";
 import unknownSothballs from "@/public/assets/unknow_slothball.png";
-
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
+import { useCommonPageBannerContext } from "@/src/provider/CommonPageBannerProvider";
 export const Hooray: React.FC<{
   skipHandler: () => void;
   mintedData: Array<MintData>;
 }> = ({ skipHandler, mintedData }) => {
+  const { width, height } = useWindowSize();
+  const { setNoBanner } = useCommonPageBannerContext();
+  setNoBanner && setNoBanner(true);
   console.log("mintedData", mintedData);
   // const mokeMintList: MintData[] = [
   //   { mintID: "666", mintImg: sothballs.src },
@@ -14,15 +20,25 @@ export const Hooray: React.FC<{
   //   { mintID: '0', mintImg: sothballs.src },
   // ];
   const hasNoneNft = mintedData.length <= 0;
+  const continueHandler = () => {
+    setNoBanner && setNoBanner(false);
+    skipHandler();
+  };
   return (
     <div
       className="absolute top-0 flex h-full w-full flex-col items-center justify-center overflow-hidden pt-20"
       style={{
-        backgroundImage: `url(${bg.src})`,
+        // backgroundImage: `url(${bg.src})`,
         backgroundSize: "contain",
-        backgroundColor: "#4A4071",
+        backgroundColor: "#494071",
       }}
     >
+      <Confetti
+        width={width}
+        height={height}
+        gravity={0.1}
+        numberOfPieces={220}
+      />
       <div className="absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 transform text-center text-5xl font-bold text-white">
         Hooray!
       </div>
@@ -71,12 +87,12 @@ export const Hooray: React.FC<{
         alt=""
       /> */}
 
-      <div
-        onClick={skipHandler}
+      <button
+        onClick={continueHandler}
         className="absolute bottom-20 left-1/2 -translate-x-1/2 transform text-center  text-2xl font-bold text-[#62C2C4]"
       >
         CONTINUE
-      </div>
+      </button>
     </div>
   );
 };
