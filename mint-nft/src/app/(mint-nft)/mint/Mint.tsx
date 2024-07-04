@@ -167,7 +167,7 @@ export const Mint = () => {
   };
   const getTotalListCanMinted = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
-      function: DAPP_ADDRESS + `::pre_mint::total_tokens_for_mint`,
+      function: DAPP_ADDRESS + `::pre_mint::initial_token_count`,
       type_arguments: [objInfo],
       arguments: [],
     };
