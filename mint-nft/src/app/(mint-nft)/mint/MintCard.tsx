@@ -312,7 +312,7 @@ const MintButtonCard: React.FC<{
 
         const transaction: InputTransactionData = {
           data: {
-            function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
+            function: `${DAPP_ADDRESS}::pre_mint::mint_slothballs`,
             typeArguments: [typeArg],
             functionArguments: [amount],
           },
