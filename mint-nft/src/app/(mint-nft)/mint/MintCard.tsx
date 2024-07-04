@@ -18,6 +18,7 @@ import {
 import { MintProgressStatus } from "./Mint";
 import { useWalletSelectorModelContext } from "@/src/provider/WalletModelProvider";
 import { MintData } from "./MIntCarousel";
+import { GenesisTransaction } from "aptos/src/generated";
 // --!>
 
 type MintType = "cool-list" | "public-mint";
@@ -168,7 +169,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
                   ? maxMinted
                     ? "border-bggreen bg-bggreen text-white"
                     : "border-bggreen text-bggreen"
-                  : "border-orange-500 text-orange-500"
+                  : "border-[#FF9898] text-[#FF9898]"
               }`
             }
           >
@@ -273,6 +274,7 @@ const MintButtonCard: React.FC<{
   mintName: string;
 }> = ({ onMintHandle, mintName }) => {
   const [mintAmount, setMintAmount] = useState(1);
+  const [minting, setMinting] = useState(false);
   console.log("mintName", mintName);
   let typeArg = "";
   if (mintName === "Cool List") {
@@ -303,54 +305,66 @@ const MintButtonCard: React.FC<{
     return mintDetail;
   }
   async function mintNFT(amount: number) {
-    if (account) {
-      const eventTypeInfo = DAPP_ADDRESS + `::pre_mint::TokenMinted`;
+    try {
+      setMinting(true);
+      if (account) {
+        const eventTypeInfo = DAPP_ADDRESS + `::pre_mint::TokenMinted`;
 
-      const transaction: InputTransactionData = {
-        data: {
-          function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
-          typeArguments: [typeArg],
-          functionArguments: [amount],
-        },
-      };
+        const transaction: InputTransactionData = {
+          data: {
+            function: `${DAPP_ADDRESS}::pre_mint::mint_sloth_ball`,
+            typeArguments: [typeArg],
+            functionArguments: [amount],
+          },
+        };
 
-      const response = await signAndSubmitTransaction(transaction);
-      console.log(response);
-      const tx = (await client.getTransactionByHash(response.hash)) as {
-        events: Array<{ type: string; data: { token: string[] } }>;
-      };
+        const response = await signAndSubmitTransaction(transaction);
+        console.log(response);
+        const executedTransaction = (await client.waitForTransactionWithResult(
+          response.hash as string,
+        )) as GenesisTransaction;
+        
+        // for test
+        // "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17"
+        // "0xa622c59596fab424732118bc29db90a3751da255ca86d03ed652ada828713b9f"
+        // const executedTransaction = (await client.getTransactionByHash(
+        //   "0x3ed4647d1272758cff326dcbb42ddd1c71f2cd5090fae03c1e33421c2876acb3",
+        // )) as { events: Array<{ type: string; data: { token: string[]} }> };
 
-      // for test
-      // "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17"
-      // "0xa622c59596fab424732118bc29db90a3751da255ca86d03ed652ada828713b9f"
-      // const tx = (await client.getTransactionByHash(
-      //   "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17",
-      // )) as { events: Array<{ type: string; data: { token: string[]} }> };
-
-      console.log(tx);
-      const events = tx.events;
-      const mintedData: Array<MintData> = [];
-      if (events && events.length > 0) {
-        await Promise.all(
-          events.map(async (event) => {
-            if (event.type === eventTypeInfo) {
-              const mintIDs = event.data.token;
-              await Promise.all(
-                mintIDs.map(async (mintID) => {
-                  const mintDetail = await getMintDetails(mintID);
-                  mintedData.push(mintDetail);
-                }),
-              );
-            }
-          }),
-        );
+        console.log(executedTransaction);
+        
+        if (executedTransaction.success !== true) {
+          throw new Error("Transaction failed");
+        }
+        const events = executedTransaction.events;
+        const mintedData: Array<MintData> = [];
+        if (events && events.length > 0) {
+          await Promise.all(
+            events.map(async (event) => {
+              if (event.type === eventTypeInfo) {
+                const mintIDs = event.data.token as Array<string>;
+                await Promise.all(
+                  mintIDs.map(async (mintID) => {
+                    const mintDetail = await getMintDetails(mintID);
+                    mintedData.push(mintDetail);
+                  }),
+                );
+              }
+            }),
+          );
+        }
+        console.log("mintedData", mintedData);
+        setMinting(false);
+        onMintHandle({ data: mintedData, typeName: mintName });
+      } else {
+        if (isModalOpen === false) {
+          setModalOpen && setModalOpen(true);
+        }
+        setMinting(false);
       }
-      console.log("mintedData", mintedData);
-      onMintHandle({ data: mintedData, typeName: mintName });
-    } else {
-      if (isModalOpen === false) {
-        setModalOpen && setModalOpen(true);
-      }
+    } catch (error) {
+      setMinting(false);
+      console.error(error);
     }
   }
   return (
@@ -383,8 +397,9 @@ const MintButtonCard: React.FC<{
         onClick={() => mintNFT(mintAmount)}
         className="my-8 w-full"
         variant="secondary"
+        disabled={minting}
       >
-        Mint
+        {minting ? "Minting..." : "Mint"}
       </Button>
     </>
   );

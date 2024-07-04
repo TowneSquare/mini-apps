@@ -5,6 +5,7 @@ import { MintCarousel, MintData } from "./MIntCarousel";
 import { MintPorgress } from "./MintProgress";
 import { Hooray } from "./Hooray";
 import { MintDoneDialog } from "./DoneDialog";
+import HeaderBg from "@/public/assets/header_icon.svg";
 // Import the new utility functions
 // import { isWhitelisted, getBalance, mintStartTime, mintEndTime} from './utils/contractUtils';
 // TODO:
@@ -17,6 +18,7 @@ import { MintDoneDialog } from "./DoneDialog";
 import { APTOS_NODE_URL, DAPP_ADDRESS } from "../../../config/constants";
 import { Provider, Types } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import Image from "next/image";
 // --!>
 export const enum MintProgressStatus {
   NOT_STARTED,
@@ -343,14 +345,23 @@ export const Mint = () => {
             : "m-auto block min-h-[calc(100vh-4rem)] max-w-[500px]"
         }
       >
+        <header
+          className={`flex h-20 w-full flex-row items-center justify-center px-4 backdrop-blur-sm`}
+        >
+          <Image src={HeaderBg} width={126} height={80} alt="Header" />
+          {/* <CloseOutlined
+        onClick={handleGoBack}
+        className={"text-2xl" + " " + closeIconColor}
+      /> */}
+        </header>
         <div className="flex flex-col space-y-2 ">
           <div className="px-8">
             <h1 className="break-words text-2xl font-bold">
               Start Your Adventure, Mint a SlothBall!
             </h1>
             <p className="mt-3">
-              Soon,your Slothball will grow and evolve, taking on a new form as a
-              Sloth!
+              Soon,your Slothball will grow and evolve, taking on a new form as
+              a Sloth!
             </p>
             <h2 className="mt-5 pl-1 text-xl font-semibold">My Solthballs</h2>
           </div>
@@ -413,7 +424,7 @@ export const Mint = () => {
         />
       </div>
       {hooray && (
-        <div className="m-auto block h-[calc(100vh-9rem)]">
+        <div className="m-auto block h-[calc(100vh-4rem)]">
           <Hooray skipHandler={skipHandler} mintedData={mintedData} />
         </div>
       )}
