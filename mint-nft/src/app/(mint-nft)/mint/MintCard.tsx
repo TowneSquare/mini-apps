@@ -5,12 +5,11 @@ import { API_URL } from "@/src/config/constants";
 import { fetcher } from "@/src/lib/utils";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import useSWR from "swr";
 
 // <!-- smart contract
 
 import { DAPP_ADDRESS, APTOS_NODE_URL } from "../../../config/constants";
-import { Provider, Types, Network } from "aptos";
+import { Provider, Types, Network, HexString } from "aptos";
 import {
   InputTransactionData,
   useWallet,
@@ -308,7 +307,9 @@ const MintButtonCard: React.FC<{
     try {
       setMinting(true);
       if (account) {
-        const eventTypeInfo = DAPP_ADDRESS + `::pre_mint::TokenMinted`;
+        const dappAddrHexString = new HexString(DAPP_ADDRESS);
+        const dappAddrShorString = dappAddrHexString.toShortString();
+        const eventTypeInfo = dappAddrShorString + `::pre_mint::TokenMinted`;
 
         const transaction: InputTransactionData = {
           data: {
@@ -323,16 +324,14 @@ const MintButtonCard: React.FC<{
         const executedTransaction = (await client.waitForTransactionWithResult(
           response.hash as string,
         )) as GenesisTransaction;
-        
+
         // for test
-        // "0x4ce548a927683c1bcedeebd21464451c940d24c37cea89abc88549aa34c18f17"
-        // "0xa622c59596fab424732118bc29db90a3751da255ca86d03ed652ada828713b9f"
         // const executedTransaction = (await client.getTransactionByHash(
-        //   "0x3ed4647d1272758cff326dcbb42ddd1c71f2cd5090fae03c1e33421c2876acb3",
-        // )) as { events: Array<{ type: string; data: { token: string[]} }> };
+        //   "0x387cdaff0ce0071a3a393a51b7806d8cbaf683e95e8b4be6742f46e6cfab59e5",
+        // )) as { events: Array<{ type: string; data: { tokens: string[] } }> };
 
         console.log(executedTransaction);
-        
+
         if (executedTransaction.success !== true) {
           throw new Error("Transaction failed");
         }
@@ -341,8 +340,10 @@ const MintButtonCard: React.FC<{
         if (events && events.length > 0) {
           await Promise.all(
             events.map(async (event) => {
-              if (event.type === eventTypeInfo) {
-                const mintIDs = event.data.token as Array<string>;
+              const hexString = new HexString(event.type);
+              const eventTypShorString = hexString.toShortString();
+              if (eventTypShorString === eventTypeInfo) {
+                const mintIDs = event.data.tokens as Array<string>;
                 await Promise.all(
                   mintIDs.map(async (mintID) => {
                     const mintDetail = await getMintDetails(mintID);
