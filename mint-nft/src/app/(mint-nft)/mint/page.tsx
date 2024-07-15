@@ -6,9 +6,9 @@ import { CommonPageBannerProvider } from "@/src/provider/CommonPageBannerProvide
 const MintPage = () => {
   return (
     <CommonPageBannerProvider>
-      {/* <CommonPageHeader className="z-10" closeIconColor="text-black" /> */}
+      <CommonPageHeader className="z-10" closeIconColor="text-black" />
       <main
-        className="relative bg-bgorange"
+        className="relative bg-bgorange pt-20"
         style={{
           backgroundImage: `url(${BgMintImg.src})`,
           backgroundSize: "cover",

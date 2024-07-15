@@ -5,6 +5,7 @@ import sothballs from "@/public/assets/home/panda_sloth_left2.png";
 import unknownSothballs from "@/public/assets/unknow_slothball.png";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import CursorImg from "@/public/assets/hooray/cursor.ico";
 import { useCommonPageBannerContext } from "@/src/provider/CommonPageBannerProvider";
 export const Hooray: React.FC<{
   skipHandler: () => void;
@@ -90,6 +91,8 @@ export const Hooray: React.FC<{
       <button
         onClick={continueHandler}
         className="absolute bottom-20 left-1/2 -translate-x-1/2 transform text-center  text-2xl font-bold text-[#62C2C4]"
+        style={{cursor:
+          `url(${CursorImg.src}) 2 2, pointer`}}
       >
         CONTINUE
       </button>

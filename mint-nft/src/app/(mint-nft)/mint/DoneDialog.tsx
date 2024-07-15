@@ -1,3 +1,4 @@
+"use client";
 import sothballs from "@/public/assets/home/slothball_left1.svg";
 import { Button } from "@/components/ui/button";
 import unknownSothballs from "@/public/assets/unknow_slothball.png";
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import { MintData } from "./MIntCarousel";
+import { useMediaQuery } from "react-responsive";
 
 export const MintDoneDialog: React.FC<{
   open: boolean;
@@ -22,11 +24,15 @@ export const MintDoneDialog: React.FC<{
   //   { mintID: "0", mintImg: sothballs.src },
   // ];
   const hasNoneNft = mintedData.length <= 0;
-
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 500px)",
+  });
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogOverlay className="backdrop-blur-sm">
-        <DialogContent className="flex h-[40rem] w-[85%] flex-col items-center justify-center overflow-hidden rounded-3xl border-2 border-black bg-white bg-cover bg-center p-5">
+        <DialogContent
+          className={`flex ${isDesktopOrLaptop ? "h-[518px] w-[500px]" : "h-[518px] w-[334px]"} flex-col items-center justify-center overflow-hidden ${isDesktopOrLaptop ? "rounded-[16px]" : "rounded-[10px]"} border-2 border-b-4 border-black bg-white bg-cover bg-center p-5`}
+        >
           <h2 className="mb-6 text-3xl font-semibold">Well done!!!</h2>
 
           <div className="relative flex h-[15rem] w-full justify-center">
@@ -76,7 +82,7 @@ export const MintDoneDialog: React.FC<{
 
           <DialogClose asChild>
             <Button
-              className="w-[100%] text-lg"
+              className="w-[302px] h-[48px] rounded-[10px] text-lg"
               type="button"
               variant="secondary"
             >

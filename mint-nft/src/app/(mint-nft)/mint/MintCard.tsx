@@ -27,7 +27,7 @@ export interface MintCardProps {
   mintTime: number;
   mintPrice?: number;
   minted?: number;
-  mintable?: number;
+  mintable: number;
   maxMinted?: boolean;
 }
 export interface MintInProgressCardProps extends MintCardProps {
@@ -196,6 +196,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
               <MintButtonCard
                 onMintHandle={(mintedData) => mintActionHandler(mintedData)}
                 mintName={mintName}
+                mintable={mintable}
               />
             )
           ) : (
@@ -271,7 +272,8 @@ const MintButtonCard: React.FC<{
     typeName: string;
   }) => void;
   mintName: string;
-}> = ({ onMintHandle, mintName }) => {
+  mintable: number;
+}> = ({ onMintHandle, mintName, mintable }) => {
   const [mintAmount, setMintAmount] = useState(1);
   const [minting, setMinting] = useState(false);
   console.log("mintName", mintName);
@@ -311,30 +313,30 @@ const MintButtonCard: React.FC<{
         const dappAddrShorString = dappAddrHexString.toShortString();
         const eventTypeInfo = dappAddrShorString + `::pre_mint::TokenMinted`;
 
-        const transaction: InputTransactionData = {
-          data: {
-            function: `${DAPP_ADDRESS}::pre_mint::mint_slothballs`,
-            typeArguments: [typeArg],
-            functionArguments: [amount],
-          },
-        };
+        // const transaction: InputTransactionData = {
+        //   data: {
+        //     function: `${DAPP_ADDRESS}::pre_mint::mint_slothballs`,
+        //     typeArguments: [typeArg],
+        //     functionArguments: [amount],
+        //   },
+        // };
 
-        const response = await signAndSubmitTransaction(transaction);
-        console.log(response);
-        const executedTransaction = (await client.waitForTransactionWithResult(
-          response.hash as string,
-        )) as GenesisTransaction;
+        // const response = await signAndSubmitTransaction(transaction);
+        // console.log(response);
+        // const executedTransaction = (await client.waitForTransactionWithResult(
+        //   response.hash as string,
+        // )) as GenesisTransaction;
 
         // for test
-        // const executedTransaction = (await client.getTransactionByHash(
-        //   "0x387cdaff0ce0071a3a393a51b7806d8cbaf683e95e8b4be6742f46e6cfab59e5",
-        // )) as { events: Array<{ type: string; data: { tokens: string[] } }> };
+        const executedTransaction = (await client.getTransactionByHash(
+          "0x387cdaff0ce0071a3a393a51b7806d8cbaf683e95e8b4be6742f46e6cfab59e5",
+        )) as { events: Array<{ type: string; data: { tokens: string[] } }> };
 
         console.log(executedTransaction);
 
-        if (executedTransaction.success !== true) {
-          throw new Error("Transaction failed");
-        }
+        // if (executedTransaction.success !== true) {
+        //   throw new Error("Transaction failed");
+        // }
         const events = executedTransaction.events;
         const mintedData: Array<MintData> = [];
         if (events && events.length > 0) {
@@ -398,7 +400,7 @@ const MintButtonCard: React.FC<{
         onClick={() => mintNFT(mintAmount)}
         className="my-8 w-full"
         variant="secondary"
-        disabled={minting}
+        // disabled={minting || mintable <= 0}
       >
         {minting ? "Minting..." : "Mint"}
       </Button>
