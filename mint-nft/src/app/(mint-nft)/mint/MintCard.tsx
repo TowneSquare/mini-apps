@@ -23,12 +23,12 @@ import { GenesisTransaction } from "aptos/src/generated";
 type MintType = "cool-list" | "public-mint";
 export interface MintCardProps {
   mintName: string;
-  eligible?: boolean;
+  eligible: boolean;
   mintTime: number;
-  mintPrice?: number;
-  minted?: number;
-  mintable?: number;
-  maxMinted?: boolean;
+  mintPrice: number;
+  minted: number;
+  mintable: number;
+  maxMinted: boolean;
 }
 export interface MintInProgressCardProps extends MintCardProps {
   mintFinishHandler: (mintedData: {
@@ -65,6 +65,7 @@ export const MintCard: React.FC<{
   minted: number; // Add eligible to the props
   progressStatus: MintProgressStatus;
   mintTime: number;
+  maxMinted: boolean;
 }> = ({
   mintCardType,
   mintFinishHandler,
@@ -74,6 +75,7 @@ export const MintCard: React.FC<{
   minted,
   progressStatus,
   mintTime,
+  maxMinted,
 }) => {
   if (mintCardType === "cool-list") {
     // const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
@@ -92,6 +94,7 @@ export const MintCard: React.FC<{
       minted,
       mintTime,
       mintFinishHandler,
+      maxMinted,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -122,6 +125,7 @@ export const MintCard: React.FC<{
       minted,
       mintTime,
       mintFinishHandler,
+      maxMinted,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -196,6 +200,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
               <MintButtonCard
                 onMintHandle={(mintedData) => mintActionHandler(mintedData)}
                 mintName={mintName}
+                mintable={mintable}
               />
             )
           ) : (
@@ -271,7 +276,8 @@ const MintButtonCard: React.FC<{
     typeName: string;
   }) => void;
   mintName: string;
-}> = ({ onMintHandle, mintName }) => {
+  mintable: number;
+}> = ({ onMintHandle, mintName, mintable }) => {
   const [mintAmount, setMintAmount] = useState(1);
   const [minting, setMinting] = useState(false);
   console.log("mintName", mintName);
@@ -310,6 +316,10 @@ const MintButtonCard: React.FC<{
         const dappAddrHexString = new HexString(DAPP_ADDRESS);
         const dappAddrShorString = dappAddrHexString.toShortString();
         const eventTypeInfo = dappAddrShorString + `::pre_mint::TokenMinted`;
+        // for test
+        // const executedTransaction = (await client.getTransactionByHash(
+        //   "0x387cdaff0ce0071a3a393a51b7806d8cbaf683e95e8b4be6742f46e6cfab59e5",
+        // )) as { events: Array<{ type: string; data: { tokens: string[] } }> };
 
         const transaction: InputTransactionData = {
           data: {
@@ -324,11 +334,6 @@ const MintButtonCard: React.FC<{
         const executedTransaction = (await client.waitForTransactionWithResult(
           response.hash as string,
         )) as GenesisTransaction;
-
-        // for test
-        // const executedTransaction = (await client.getTransactionByHash(
-        //   "0x387cdaff0ce0071a3a393a51b7806d8cbaf683e95e8b4be6742f46e6cfab59e5",
-        // )) as { events: Array<{ type: string; data: { tokens: string[] } }> };
 
         console.log(executedTransaction);
 
@@ -398,7 +403,7 @@ const MintButtonCard: React.FC<{
         onClick={() => mintNFT(mintAmount)}
         className="my-8 w-full"
         variant="secondary"
-        disabled={minting}
+        disabled={minting || mintable <= 0}
       >
         {minting ? "Minting..." : "Mint"}
       </Button>

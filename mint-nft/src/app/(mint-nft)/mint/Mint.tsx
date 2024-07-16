@@ -49,7 +49,8 @@ export const Mint = () => {
 
   const [mintThresholdCoolMint, setMintThresholdCoolMint] = useState(0); // State to store mint threshold
   const [mintThresholdPublicMint, setMintThresholdPublicMint] = useState(0); // State to store mint threshold
-
+  const [coolListMaxMinted, setCoolListMaxMinted] = useState(false);
+  const [publicListMaxMinted, setPublicListMaxMinted] = useState(false);
   // <!-- smart contract
   const { account } = useWallet();
   console.log("account:", account);
@@ -254,6 +255,14 @@ export const Mint = () => {
     setMintedCoollist(coollistIds.length);
     setMintedPublic(publicIds.length);
   }
+  useEffect(() => {
+    if (canCoolMint <= 0) {
+      setCoolListMaxMinted(true);
+    }
+    if (canPublicMint <= 0) {
+      setPublicListMaxMinted(true);
+    }
+  }, [canCoolMint, canPublicMint, mintedCoollist, mintedPublic]);
 
   useEffect(() => {
     if (account) {
@@ -305,6 +314,19 @@ export const Mint = () => {
     }
   }, [account]);
 
+  const refreshPageInfo = () => {
+    getTotalListCanMinted(typeCoollistInfo);
+    getTotalListCanMinted(typePublicInfo);
+    getMintThreshold(typeCoollistInfo);
+    getMintThreshold(typePublicInfo);
+    getMintProgress(typeCoollistInfo);
+    getMintProgress(typePublicInfo);
+    if (account) {
+      getMintable(typeCoollistInfo, account.address);
+      getMintable(typePublicInfo, account.address);
+      getBalance(account.address);
+    }
+  };
   const [hooray, setHooray] = useState(false);
   const [mintedData, setMintedData] = useState<MintData[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -332,9 +354,7 @@ export const Mint = () => {
       );
     }
     setHooray(true);
-    if (account) {
-      getBalance(account.address);
-    }
+    refreshPageInfo();
   };
   return (
     <>
@@ -345,15 +365,11 @@ export const Mint = () => {
             : "m-auto block min-h-[calc(100vh-4rem)] max-w-[500px]"
         }
       >
-        <header
+        {/* <header
           className={`flex h-20 w-full flex-row items-center justify-center px-4 backdrop-blur-sm`}
         >
           <Image src={HeaderBg} width={126} height={80} alt="Header" />
-          {/* <CloseOutlined
-        onClick={handleGoBack}
-        className={"text-2xl" + " " + closeIconColor}
-      /> */}
-        </header>
+        </header> */}
         <div className="flex flex-col space-y-2 ">
           <div className="px-8">
             <h1 className="break-words text-2xl font-bold">
@@ -384,12 +400,12 @@ export const Mint = () => {
             // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
             // TODO: set the mint price dynamic from the contract.
             // mintPrice={mintThresholdCoolMint}
-            mintPrice={4.2}
+            mintPrice={5.4}
             mintable={canCoolMint}
             minted={mintedCoollist} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
             mintTime={mintCoolStartTime}
-            // mintTime={1717759093}
+            maxMinted={coolListMaxMinted}
           />
 
           {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
@@ -412,7 +428,7 @@ export const Mint = () => {
             eligible={true}
             // change this line if need eligible in public mint * 2.
             mintTime={mintPublicStartTime}
-            // mintTime={1717759093}
+            maxMinted={publicListMaxMinted}
           />
         </div>
         <MintDoneDialog
@@ -424,7 +440,7 @@ export const Mint = () => {
         />
       </div>
       {hooray && (
-        <div className="m-auto block h-[calc(100vh-4rem)]">
+        <div className="m-auto block h-[calc(100vh-9rem)]">
           <Hooray skipHandler={skipHandler} mintedData={mintedData} />
         </div>
       )}
