@@ -49,7 +49,8 @@ export const Mint = () => {
 
   const [mintThresholdCoolMint, setMintThresholdCoolMint] = useState(0); // State to store mint threshold
   const [mintThresholdPublicMint, setMintThresholdPublicMint] = useState(0); // State to store mint threshold
-
+  const [coolListMaxMinted, setCoolListMaxMinted] = useState(false);
+  const [publicListMaxMinted, setPublicListMaxMinted] = useState(false);
   // <!-- smart contract
   const { account } = useWallet();
   console.log("account:", account);
@@ -254,6 +255,14 @@ export const Mint = () => {
     setMintedCoollist(coollistIds.length);
     setMintedPublic(publicIds.length);
   }
+  useEffect(() => {
+    if (canCoolMint <= 0) {
+      setCoolListMaxMinted(true);
+    }
+    if (canPublicMint <= 0) {
+      setPublicListMaxMinted(true);
+    }
+  }, [canCoolMint, canPublicMint, mintedCoollist, mintedPublic]);
 
   useEffect(() => {
     if (account) {
@@ -305,7 +314,7 @@ export const Mint = () => {
     }
   }, [account]);
 
-  const refreshPageInfo =() => {
+  const refreshPageInfo = () => {
     getTotalListCanMinted(typeCoollistInfo);
     getTotalListCanMinted(typePublicInfo);
     getMintThreshold(typeCoollistInfo);
@@ -316,9 +325,8 @@ export const Mint = () => {
       getMintable(typeCoollistInfo, account.address);
       getMintable(typePublicInfo, account.address);
       getBalance(account.address);
-
     }
-}
+  };
   const [hooray, setHooray] = useState(false);
   const [mintedData, setMintedData] = useState<MintData[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -346,7 +354,7 @@ export const Mint = () => {
       );
     }
     setHooray(true);
-    refreshPageInfo()
+    refreshPageInfo();
   };
   return (
     <>
@@ -397,7 +405,7 @@ export const Mint = () => {
             minted={mintedCoollist} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
             mintTime={mintCoolStartTime}
-            // mintTime={1717759093}
+            maxMinted={coolListMaxMinted}
           />
 
           {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
@@ -420,7 +428,7 @@ export const Mint = () => {
             eligible={true}
             // change this line if need eligible in public mint * 2.
             mintTime={mintPublicStartTime}
-            // mintTime={1717759093}
+            maxMinted={publicListMaxMinted}
           />
         </div>
         <MintDoneDialog
