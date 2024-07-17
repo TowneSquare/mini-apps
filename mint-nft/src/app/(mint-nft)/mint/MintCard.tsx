@@ -192,7 +192,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
                 </span>
                 <p className="mb-5 mt-3 px-5 text-center text-base font-light text-white">
                   You've successfully minted all available Slothsballs. Prepare
-                  for the upcoming evolution phase.You'll be notified when it's
+                  for the upcoming evolution phase. You'll be notified when it's
                   time to proceed.
                 </p>
               </>
