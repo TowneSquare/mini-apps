@@ -275,12 +275,12 @@ export const Mint = () => {
   }
 
   useEffect(() => {
-    if (canPublicMint > 0 && canPublicMint - mintedPublic <= 0) {
+    if (canPublicMint > 0 && mintThresholdPublicMint - canPublicMint <= 0) {
       setPublicListMaxMinted(true);
     } else {
       setPublicListMaxMinted(false);
     }
-    if (canCoolMint > 0 && canCoolMint - mintedCoollist <= 0) {
+    if (canCoolMint > 0 && mintThresholdCoolMint - canCoolMint <= 0) {
       setCoolListMaxMinted(true);
     } else {
       setCoolListMaxMinted(false);
@@ -387,20 +387,20 @@ export const Mint = () => {
         </header> */}
         <div className="flex flex-col space-y-2 ">
           <div className="px-8">
-            <h1 className="break-words text-2xl font-bold">
+            <h1 className="text-2xl font-bold break-words">
               Start Your Adventure, Mint a SlothBall!
             </h1>
             <p className="mt-3">
               Soon,your Slothball will grow and evolve, taking on a new form as
               a Sloth!
             </p>
-            <h2 className="mt-5 pl-1 text-xl font-semibold">My Solthballs</h2>
+            <h2 className="pl-1 mt-5 text-xl font-semibold">My Solthballs</h2>
           </div>
           {/* <MintCarousel mintList={[]} /> */}
           <MintCarousel mintList={mintList} />
           {/*  */}
         </div>
-        <div className="space-y-3 px-4 pb-4">
+        <div className="px-4 pb-4 space-y-3">
           {progressStatusCoollist === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={coolListMinted}
@@ -416,7 +416,7 @@ export const Mint = () => {
             // TODO: set the mint price dynamic from the contract.
             // mintPrice={mintThresholdCoolMint}
             mintPrice={5.4}
-            mintable={canCoolMint}
+            mintable={mintThresholdCoolMint - canCoolMint}
             minted={mintedCoollist} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
             mintTime={mintCoolStartTime}
@@ -438,7 +438,7 @@ export const Mint = () => {
             // TODO: set the mint price dynamic from the contract.
             // mintPrice={mintThresholdPublicMint}
             mintPrice={6.9}
-            mintable={canPublicMint}
+            mintable={mintThresholdPublicMint - canPublicMint}
             minted={mintedPublic} // Pass minted count to MintCard
             eligible={true}
             // change this line if need eligible in public mint * 2.
