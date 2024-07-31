@@ -29,10 +29,6 @@ export const CommonPageHeader = ({
       }
     >
       <Image src={HeaderBg} width={126} height={80} alt="Header" />
-      {/* <CloseOutlined
-        onClick={handleGoBack}
-        className={"text-2xl" + " " + closeIconColor}
-      /> */}
     </header>
   );
 };

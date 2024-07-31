@@ -17,6 +17,8 @@ import { MintDoneDialog } from "./DoneDialog";
 import { APTOS_NODE_URL, DAPP_ADDRESS } from "../../../config/constants";
 import { Provider, Types } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import HeaderBg from "@/public/assets/header_icon.svg";
+import Image from "next/image";
 // --!>
 export const enum MintProgressStatus {
   NOT_STARTED,
@@ -47,7 +49,8 @@ export const Mint = () => {
 
   const [mintThresholdCoolMint, setMintThresholdCoolMint] = useState(0); // State to store mint threshold
   const [mintThresholdPublicMint, setMintThresholdPublicMint] = useState(0); // State to store mint threshold
-
+  const [coolListMaxMinted, setCoolListMaxMinted] = useState(false);
+  const [publicListMaxMinted, setPublicListMaxMinted] = useState(false);
   // <!-- smart contract
   const { account } = useWallet();
   console.log("account:", account);
@@ -149,7 +152,7 @@ export const Mint = () => {
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::available_tokens_for_mint`,
-      type_arguments: [objInfo],
+      type_arguments: [],
       arguments: [],
     };
     const availableForMint = await client.view(payloadStart);
@@ -166,7 +169,7 @@ export const Mint = () => {
   const getTotalListCanMinted = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::initial_token_count`,
-      type_arguments: [objInfo],
+      type_arguments: [],
       arguments: [],
     };
     const totalCanMint = await client.view(payloadStart);
@@ -180,89 +183,116 @@ export const Mint = () => {
       }
     }
   };
-  const getMintable = async (objInfo: string, addr: string) => {
-    const payloadStart: Types.ViewRequest = {
-      function: DAPP_ADDRESS + `::pre_mint::can_mint`,
-      type_arguments: [objInfo],
-      arguments: [addr],
-    };
-    const [requestSuccess, canMintAmount] = await client.view(payloadStart);
-    console.log(
-      "requestSuccess",
-      requestSuccess,
-      "canMintAmount:",
-      canMintAmount,
-    );
-    const canMintAmountNumber = Number(canMintAmount);
-    if (!isNaN(canMintAmountNumber)) {
+  const getMintable = async (objInfo: string, addr?: string) => {
+    if (addr) {
+      const payloadStart: Types.ViewRequest = {
+        function: DAPP_ADDRESS + `::pre_mint::can_mint`,
+        type_arguments: [objInfo],
+        arguments: [addr],
+      };
+      const [requestSuccess, canMintAmount] = await client.view(payloadStart);
+      console.log(
+        "requestSuccess",
+        requestSuccess,
+        "canMintAmount:",
+        canMintAmount,
+      );
+      const canMintAmountNumber = Number(canMintAmount);
+      if (!isNaN(canMintAmountNumber)) {
+        if (objInfo === typeCoollistInfo) {
+          setCanCoolMint(canMintAmountNumber);
+        } else if (objInfo === typePublicInfo) {
+          setCanPublicMint(canMintAmountNumber);
+        }
+      }
+    } else {
       if (objInfo === typeCoollistInfo) {
-        setCanCoolMint(canMintAmountNumber);
+        setCanCoolMint(0);
       } else if (objInfo === typePublicInfo) {
-        setCanPublicMint(canMintAmountNumber);
+        setCanPublicMint(0);
       }
     }
   };
-  async function isWhitelisted(addr: any) {
-    const payload: Types.ViewRequest = {
-      function: DAPP_ADDRESS + `::pre_mint::is_whitelisted`,
-      type_arguments: [],
-      arguments: [addr],
-    };
+  async function isWhitelisted(addr?: string) {
+    if (addr) {
+      const payload: Types.ViewRequest = {
+        function: DAPP_ADDRESS + `::pre_mint::is_whitelisted`,
+        type_arguments: [],
+        arguments: [addr],
+      };
 
-    const result = (await client.view(payload)) as Array<boolean>;
-    setEligible(result[0]);
+      const result = (await client.view(payload)) as Array<boolean>;
+      setEligible(result[0]);
+    } else {
+      setEligible(false);
+    }
   }
 
-  async function getBalance(addr: string) {
-    console.log("addr", addr);
-    const payloadCoollist: Types.ViewRequest = {
-      function: DAPP_ADDRESS + `::pre_mint::minted_tokens`,
-      type_arguments: [typeCoollistInfo],
-      arguments: [addr],
-    };
+  async function getBalance(addr?: string) {
+    if (addr) {
+      console.log("addr", addr);
+      const payloadCoollist: Types.ViewRequest = {
+        function: DAPP_ADDRESS + `::pre_mint::minted_tokens`,
+        type_arguments: [typeCoollistInfo],
+        arguments: [addr],
+      };
 
-    const resultCoollist = (await client
-      .view(payloadCoollist)
-      .catch(console.log)) as Array<Array<string>> | undefined;
+      const resultCoollist = (await client
+        .view(payloadCoollist)
+        .catch(console.log)) as Array<Array<string>> | undefined;
 
-    console.log("balance of coollist:", resultCoollist && resultCoollist[0]);
+      console.log("balance of coollist:", resultCoollist && resultCoollist[0]);
 
-    const payloadPublic: Types.ViewRequest = {
-      function: DAPP_ADDRESS + `::pre_mint::minted_tokens`,
-      type_arguments: [typePublicInfo],
-      arguments: [addr],
-    };
+      const payloadPublic: Types.ViewRequest = {
+        function: DAPP_ADDRESS + `::pre_mint::minted_tokens`,
+        type_arguments: [typePublicInfo],
+        arguments: [addr],
+      };
 
-    const resultPublic = (await client
-      .view(payloadPublic)
-      .catch(console.log)) as Array<Array<string>> | undefined;
-    console.log("balance of public:", resultPublic && resultPublic[0]);
-    // The result is obj id list.
-    const coollistIds = resultCoollist ? resultCoollist[0] : [];
-    const publicIds = resultPublic ? resultPublic[0] : [];
-    const combinedIds = [...coollistIds, ...publicIds];
-    console.log("combinedIds:", combinedIds);
-    // Fetch additional details for each ID and update the state.
-    const mintDetails = await Promise.all(
-      combinedIds.map((id) => getMintDetails(id)),
-    );
-    setMintList(mintDetails); // Update the state with the new list of IDs.
-    console.log("mintDetails:", mintDetails);
-    console.log("mintList:", mintList);
-    setMintedCoollist(coollistIds.length);
-    setMintedPublic(publicIds.length);
+      const resultPublic = (await client
+        .view(payloadPublic)
+        .catch(console.log)) as Array<Array<string>> | undefined;
+      console.log("balance of public:", resultPublic && resultPublic[0]);
+      // The result is obj id list.
+      const coollistIds = resultCoollist ? resultCoollist[0] : [];
+      const publicIds = resultPublic ? resultPublic[0] : [];
+      const combinedIds = [...coollistIds, ...publicIds];
+      console.log("combinedIds:", combinedIds);
+      // Fetch additional details for each ID and update the state.
+      const mintDetails = await Promise.all(
+        combinedIds.map((id) => getMintDetails(id)),
+      );
+      setMintList(mintDetails); // Update the state with the new list of IDs.
+      console.log("mintDetails:", mintDetails);
+      console.log("mintList:", mintList);
+      setMintedCoollist(coollistIds.length);
+      setMintedPublic(publicIds.length);
+    } else {
+      setMintedCoollist(0);
+      setMintedPublic(0);
+      setMintList([]);
+    }
   }
 
   useEffect(() => {
-    if (account) {
-      isWhitelisted(account.address).catch(console.error);
+    if (canPublicMint > 0 && canPublicMint - mintedPublic <= 0) {
+      setPublicListMaxMinted(true);
+    } else {
+      setPublicListMaxMinted(false);
     }
+    if (canCoolMint > 0 && canCoolMint - mintedCoollist <= 0) {
+      setCoolListMaxMinted(true);
+    } else {
+      setCoolListMaxMinted(false);
+    }
+  }, [canPublicMint, canCoolMint, mintedPublic, mintedCoollist]);
+  
+  useEffect(() => {
+    isWhitelisted(account?.address).catch(console.error);
   }, [account]); // Depend on account to re-run when account changes
 
   useEffect(() => {
-    if (account) {
-      getBalance(account.address);
-    }
+    getBalance(account?.address);
   }, [account]); // Depend on account to re-run when account changes
 
   // Done: set the mint start time & mint end time dynamic from the contract.
@@ -297,12 +327,21 @@ export const Mint = () => {
   }, []);
 
   useEffect(() => {
-    if (account) {
-      getMintable(typeCoollistInfo, account.address);
-      getMintable(typePublicInfo, account.address);
-    }
+    getMintable(typeCoollistInfo, account?.address);
+    getMintable(typePublicInfo, account?.address);
   }, [account]);
 
+  const refreshPageInfo = () => {
+    getTotalListCanMinted(typeCoollistInfo);
+    getTotalListCanMinted(typePublicInfo);
+    getMintThreshold(typeCoollistInfo);
+    getMintThreshold(typePublicInfo);
+    getMintProgress(typeCoollistInfo);
+    getMintProgress(typePublicInfo);
+    getMintable(typeCoollistInfo, account?.address);
+    getMintable(typePublicInfo, account?.address);
+    getBalance(account?.address);
+  };
   const [hooray, setHooray] = useState(false);
   const [mintedData, setMintedData] = useState<MintData[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -330,9 +369,7 @@ export const Mint = () => {
       );
     }
     setHooray(true);
-    if (account) {
-      getBalance(account.address);
-    }
+    refreshPageInfo();
   };
   return (
     <>
@@ -343,14 +380,19 @@ export const Mint = () => {
             : "m-auto block min-h-[calc(100vh-4rem)] max-w-[500px]"
         }
       >
+        {/* <header
+          className={`flex h-20 w-full flex-row items-center justify-center px-4 backdrop-blur-sm`}
+        >
+          <Image src={HeaderBg} width={126} height={80} alt="Header" />
+        </header> */}
         <div className="flex flex-col space-y-2 ">
           <div className="px-8">
             <h1 className="break-words text-2xl font-bold">
               Start Your Adventure, Mint a SlothBall!
             </h1>
             <p className="mt-3">
-              Soon,your Slothball will grow and evolve, taking on a new form as a
-              Sloth!
+              Soon,your Slothball will grow and evolve, taking on a new form as
+              a Sloth!
             </p>
             <h2 className="mt-5 pl-1 text-xl font-semibold">My Solthballs</h2>
           </div>
@@ -373,12 +415,12 @@ export const Mint = () => {
             // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
             // TODO: set the mint price dynamic from the contract.
             // mintPrice={mintThresholdCoolMint}
-            mintPrice={4.2}
+            mintPrice={5.4}
             mintable={canCoolMint}
             minted={mintedCoollist} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
             mintTime={mintCoolStartTime}
-            // mintTime={1717759093}
+            maxMinted={coolListMaxMinted}
           />
 
           {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
@@ -401,7 +443,7 @@ export const Mint = () => {
             eligible={true}
             // change this line if need eligible in public mint * 2.
             mintTime={mintPublicStartTime}
-            // mintTime={1717759093}
+            maxMinted={publicListMaxMinted}
           />
         </div>
         <MintDoneDialog
