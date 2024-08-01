@@ -130,9 +130,9 @@ export const Mint = () => {
       setMintCoolStartTime(resultStart[0]);
       console.log("now:", now);
       console.log("mintCoolEndTime:", resultEnd[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0]) {
+      if (now >= resultStart[0] && now <= resultEnd[0] && coolListMinted < mintThresholdCoolMint) {
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0]) {
+      } else if (now > resultEnd[0] || coolListMinted === mintThresholdCoolMint) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusCoollist(MintProgressStatus.NOT_STARTED);
@@ -142,9 +142,9 @@ export const Mint = () => {
       // setMintPublicStartTime(1717759093);
       setMintPublicEndTime(resultEnd[0]);
       setMintPublicStartTime(resultStart[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0]) {
+      if (now >= resultStart[0] && now <= resultEnd[0] && publicListMinted < mintThresholdPublicMint) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0]) {
+      } else if (now > resultEnd[0] || publicListMinted == mintThresholdPublicMint) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusPublic(MintProgressStatus.NOT_STARTED);
@@ -152,7 +152,6 @@ export const Mint = () => {
     }
   }
 
-  console.log(mintThresholdCoolMint, mintThresholdPublicMint,  "progesaa")
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::available_tokens_for_mint`,
