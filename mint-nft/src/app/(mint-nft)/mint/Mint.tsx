@@ -17,8 +17,6 @@ import { MintDoneDialog } from "./DoneDialog";
 import { APTOS_NODE_URL, DAPP_ADDRESS } from "../../../config/constants";
 import { Provider, Types } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import HeaderBg from "@/public/assets/header_icon.svg";
-import Image from "next/image";
 // --!>
 export const enum MintProgressStatus {
   NOT_STARTED,
@@ -59,7 +57,6 @@ export const Mint = () => {
   const client = new Provider({ fullnodeUrl: APTOS_NODE_URL });
   // const client = new Provider({ fullnodeUrl: APTOS_NODE_URL, indexerUrl: NODE_URL /* not used */ });
   // const client = new WalletClient(APTOS_NODE_URL, APTOS_FAUCET_URL);
-
   const typeCoollistInfo = DAPP_ADDRESS + `::pre_mint::CoolListInfo`;
   const typePublicInfo = DAPP_ADDRESS + `::pre_mint::PublicInfo`;
   async function getMintDetails(objInfo: string) {
@@ -98,7 +95,6 @@ export const Mint = () => {
     if (objInfo === typeCoollistInfo) {
       setMintThresholdCoolMint(res[0]);
     } else {
-      console.log("mintthrespub:", res[0]);
       setMintThresholdPublicMint(res[0]);
     }
   }
@@ -128,9 +124,9 @@ export const Mint = () => {
       setMintCoolStartTime(resultStart[0]);
       console.log("now:", now);
       console.log("mintCoolEndTime:", resultEnd[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0]) {
+      if (now >= resultStart[0] && now <= resultEnd[0] && availableForCoolMint > 0) {
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
-      } else if (now > mintCoolEndTime) {
+      } else if (now > mintCoolEndTime || availableForCoolMint == 0) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusCoollist(MintProgressStatus.NOT_STARTED);
@@ -140,9 +136,9 @@ export const Mint = () => {
       // setMintPublicStartTime(1717759093);
       setMintPublicEndTime(resultEnd[0]);
       setMintPublicStartTime(resultStart[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0]) {
+      if (now >= resultStart[0] && now <= resultEnd[0] && availableForPublicMint > 0) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
-      } else if (now > mintPublicEndTime) {
+      } else if (availableForPublicMint == 0 || now > mintPublicEndTime) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusPublic(MintProgressStatus.NOT_STARTED);
@@ -156,7 +152,6 @@ export const Mint = () => {
       arguments: [],
     };
     const availableForMint = await client.view(payloadStart);
-    console.log("availableForMint:", availableForMint);
     const availableForMintNumber = Number(availableForMint[0]);
     if (!isNaN(availableForMintNumber)) {
       if (objInfo === typeCoollistInfo) {
@@ -419,7 +414,8 @@ export const Mint = () => {
             mintable={mintThresholdCoolMint - canCoolMint}
             minted={mintedCoollist} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
-            mintTime={mintCoolStartTime}
+            mintStartTime={mintCoolStartTime}
+            mintEndTime={mintCoolEndTime}
             maxMinted={coolListMaxMinted}
           />
 
@@ -434,7 +430,7 @@ export const Mint = () => {
             mintFinishHandler={mintFinishHandler}
             mintCardType="public-mint"
             progressStatus={progressStatusPublic} // Pass minting progress status to MintCard
-            // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
+            //progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
             // TODO: set the mint price dynamic from the contract.
             // mintPrice={mintThresholdPublicMint}
             mintPrice={6.9}
@@ -442,7 +438,8 @@ export const Mint = () => {
             minted={mintedPublic} // Pass minted count to MintCard
             eligible={true}
             // change this line if need eligible in public mint * 2.
-            mintTime={mintPublicStartTime}
+            mintStartTime={mintPublicStartTime}
+            mintEndTime={mintPublicEndTime}
             maxMinted={publicListMaxMinted}
           />
         </div>
