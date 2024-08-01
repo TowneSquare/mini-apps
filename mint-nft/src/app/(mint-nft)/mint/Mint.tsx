@@ -62,11 +62,6 @@ export const Mint = () => {
   async function getMintDetails(objInfo: string) {
     const result = await client.getAccountResources(objInfo);
     console.log("resources:", result);
-    // const resultIDResource = await client.getAccountResource(
-    //   objInfo,
-    //   "0x4::token::TokenIdentifiers",
-    // );
-    // console.log("resource:", resultResource.data.index.value);
 
     const mintDetail: MintData = { mintID: "", mintImg: "" };
     result.forEach((resource) => {
@@ -98,6 +93,17 @@ export const Mint = () => {
       setMintThresholdPublicMint(res[0]);
     }
   }
+
+  const mintTokenCount = async () => {
+    const payload: Types.ViewRequest = {
+      function: DAPP_ADDRESS + `::pre_mint::minted_tokens_count`,
+      type_arguments: [],
+      arguments: [],
+    };
+    const res = (await client.view(payload)) as Array<number>;
+    setCoolListMinted(res[0])
+    setPublicListMinted(res[1])
+  }
   // in testnet is: 0x3f6cb4c8c47c5100c1f365e7ea14ea15f491d92dba82d5f9ce3363d650a99dc8::pre_mint::CoolListInfo
   async function getMintTime(objInfo: string) {
     const payloadStart: Types.ViewRequest = {
@@ -124,9 +130,9 @@ export const Mint = () => {
       setMintCoolStartTime(resultStart[0]);
       console.log("now:", now);
       console.log("mintCoolEndTime:", resultEnd[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0] && availableForCoolMint > 0) {
+      if (now >= resultStart[0] && now <= resultEnd[0]) {
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
-      } else if (now > mintCoolEndTime || availableForCoolMint == 0) {
+      } else if (now > resultEnd[0]) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusCoollist(MintProgressStatus.NOT_STARTED);
@@ -136,15 +142,17 @@ export const Mint = () => {
       // setMintPublicStartTime(1717759093);
       setMintPublicEndTime(resultEnd[0]);
       setMintPublicStartTime(resultStart[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0] && availableForPublicMint > 0) {
+      if (now >= resultStart[0] && now <= resultEnd[0]) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
-      } else if (availableForPublicMint == 0 || now > mintPublicEndTime) {
+      } else if (now > resultEnd[0]) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusPublic(MintProgressStatus.NOT_STARTED);
       }
     }
   }
+
+  console.log(mintThresholdCoolMint, mintThresholdPublicMint,  "progesaa")
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::available_tokens_for_mint`,
@@ -299,6 +307,7 @@ export const Mint = () => {
   useEffect(() => {
     getMintThreshold(typeCoollistInfo);
     getMintThreshold(typePublicInfo);
+    mintTokenCount()
   }, []);
 
   useEffect(() => {
@@ -306,15 +315,15 @@ export const Mint = () => {
     getMintTime(typePublicInfo);
   }, []);
 
-  useEffect(() => {
-    setCoolListMinted(totalCoolListCanMinted - availableForCoolMint);
-    setPublicListMinted(totalPublicListCanMinted - availableForPublicMint);
-  }, [
-    totalCoolListCanMinted,
-    totalPublicListCanMinted,
-    availableForCoolMint,
-    availableForPublicMint,
-  ]);
+  // useEffect(() => {
+  //   setCoolListMinted(totalCoolListCanMinted - availableForCoolMint);
+  //   setPublicListMinted(totalPublicListCanMinted - availableForPublicMint);
+  // }, [
+  //   totalCoolListCanMinted,
+  //   totalPublicListCanMinted,
+  //   availableForCoolMint,
+  //   availableForPublicMint,
+  // ]);
 
   useEffect(() => {
     getMintProgress(typeCoollistInfo);
@@ -336,6 +345,7 @@ export const Mint = () => {
     getMintable(typeCoollistInfo, account?.address);
     getMintable(typePublicInfo, account?.address);
     getBalance(account?.address);
+    mintTokenCount()
   };
   const [hooray, setHooray] = useState(false);
   const [mintedData, setMintedData] = useState<MintData[]>([]);
@@ -399,7 +409,7 @@ export const Mint = () => {
           {progressStatusCoollist === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={coolListMinted}
-              total={totalCoolListCanMinted}
+              total={mintThresholdCoolMint}
             />
           )}
 
@@ -422,7 +432,7 @@ export const Mint = () => {
           {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={publicListMinted}
-              total={totalPublicListCanMinted}
+              total={mintThresholdPublicMint}
             />
           )}
 
