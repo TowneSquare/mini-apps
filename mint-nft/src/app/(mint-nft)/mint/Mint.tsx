@@ -130,7 +130,7 @@ export const Mint = () => {
       setMintCoolStartTime(resultStart[0]);
       console.log("now:", now);
       console.log("mintCoolEndTime:", resultEnd[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0] && coolListMinted < mintThresholdCoolMint) {
+      if (now >= resultStart[0] && now <= resultEnd[0] && coolListMinted < 6000) {
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
       } else if (now > resultEnd[0] || coolListMinted === mintThresholdCoolMint) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
@@ -142,7 +142,7 @@ export const Mint = () => {
       // setMintPublicStartTime(1717759093);
       setMintPublicEndTime(resultEnd[0]);
       setMintPublicStartTime(resultStart[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0] && publicListMinted < mintThresholdPublicMint) {
+      if (now >= resultStart[0] && now <= resultEnd[0] && publicListMinted < 1000) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
       } else if (now > resultEnd[0] || publicListMinted == mintThresholdPublicMint) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
@@ -151,6 +151,8 @@ export const Mint = () => {
       }
     }
   }
+
+  console.log(publicListMinted, mintThresholdPublicMint, "gggg" )
 
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
