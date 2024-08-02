@@ -132,7 +132,7 @@ export const Mint = () => {
       console.log("mintCoolEndTime:", resultEnd[0]);
       if (now >= resultStart[0] && now <= resultEnd[0] && coolListMinted < 6000) {
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0] || coolListMinted === mintThresholdCoolMint) {
+      } else if (now > resultEnd[0] || coolListMinted === 6000) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusCoollist(MintProgressStatus.NOT_STARTED);
@@ -144,7 +144,7 @@ export const Mint = () => {
       setMintPublicStartTime(resultStart[0]);
       if (now >= resultStart[0] && now <= resultEnd[0] && publicListMinted < 1000) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0] || publicListMinted == mintThresholdPublicMint) {
+      } else if (now > resultEnd[0] || publicListMinted == 1000) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusPublic(MintProgressStatus.NOT_STARTED);
