@@ -50,8 +50,7 @@ export const Mint = () => {
   const [coolListMaxMinted, setCoolListMaxMinted] = useState(false);
   const [publicListMaxMinted, setPublicListMaxMinted] = useState(false);
   // <!-- smart contract
-  const { account } = useWallet();
-  console.log("account:", account);
+  const { account } = useWallet()
   // const provider = new Provider(Network.TESTNET);
   // TODO update the network
   const client = new Provider({ fullnodeUrl: APTOS_NODE_URL });
@@ -151,8 +150,6 @@ export const Mint = () => {
       }
     }
   }
-
-  console.log(publicListMinted, mintThresholdPublicMint, "gggg" )
 
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
@@ -428,6 +425,7 @@ export const Mint = () => {
             mintStartTime={mintCoolStartTime}
             mintEndTime={mintCoolEndTime}
             maxMinted={coolListMaxMinted}
+            account={account}
           />
 
           {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
@@ -452,6 +450,7 @@ export const Mint = () => {
             mintStartTime={mintPublicStartTime}
             mintEndTime={mintPublicEndTime}
             maxMinted={publicListMaxMinted}
+            account={account}
           />
         </div>
         <MintDoneDialog

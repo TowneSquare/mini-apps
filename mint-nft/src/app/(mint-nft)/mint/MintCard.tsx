@@ -11,6 +11,7 @@ import { useState } from "react";
 import { DAPP_ADDRESS, APTOS_NODE_URL } from "../../../config/constants";
 import { Provider, Types, Network, HexString } from "aptos";
 import {
+  AccountInfo,
   InputTransactionData,
   useWallet,
 } from "@aptos-labs/wallet-adapter-react";
@@ -30,6 +31,7 @@ export interface MintCardProps {
   minted: number;
   mintable: number;
   maxMinted: boolean;
+  account: AccountInfo | null
 }
 export interface MintInProgressCardProps extends MintCardProps {
   mintFinishHandler: (mintedData: {
@@ -68,6 +70,7 @@ export const MintCard: React.FC<{
   mintStartTime: number;
   mintEndTime: number;
   maxMinted: boolean;
+  account: AccountInfo | null
 }> = ({
   mintCardType,
   mintFinishHandler,
@@ -79,6 +82,7 @@ export const MintCard: React.FC<{
   mintStartTime,
   mintEndTime,
   maxMinted,
+  account
 }) => {
   if (mintCardType === "cool-list") {
     // const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
@@ -98,6 +102,7 @@ export const MintCard: React.FC<{
       mintStartTime,
       mintFinishHandler,
       maxMinted,
+      account
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -130,6 +135,7 @@ export const MintCard: React.FC<{
       mintStartTime,
       mintFinishHandler,
       maxMinted,
+      account
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -155,6 +161,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
   minted,
   maxMinted,
   mintFinishHandler,
+  account
 }) => {
   const isStartMint = mintStartTime - Date.now() < 0;
   const mintActionHandler = (mintedData: {
@@ -225,13 +232,13 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
         <div className="flex items-center justify-between">
           <span className="font-semibold">You can mint</span>
           <span className="font-black">
-            {mintable || mintable == 0 ? mintable : "-"}
+            {mintable && account ? mintable : "-"}
           </span>
         </div>
         <div className="flex items-center justify-between">
           <span className="font-semibold">You minted</span>
           <span className="font-black">
-            {minted || minted === 0 ? minted : "-"}
+            {minted && account ? minted : "-"}
           </span>
         </div>
       </div>
