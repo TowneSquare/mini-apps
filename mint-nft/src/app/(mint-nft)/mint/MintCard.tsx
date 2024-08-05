@@ -29,7 +29,7 @@ export interface MintCardProps {
   mintEndTime: number;
   mintPrice: number;
   minted: number;
-  mintable: number;
+  mintable?: number;
   maxMinted: boolean;
   account: AccountInfo | null
 }
@@ -64,7 +64,7 @@ export const MintCard: React.FC<{
   }) => void;
   eligible: boolean;
   mintPrice: number;
-  mintable: number;
+  mintable?: number; // amount user can mint
   minted: number; // Add eligible to the props
   progressStatus: MintProgressStatus;
   mintStartTime: number;
@@ -102,7 +102,8 @@ export const MintCard: React.FC<{
       mintStartTime,
       mintFinishHandler,
       maxMinted,
-      account
+      account,
+      mintEndTime
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -135,6 +136,7 @@ export const MintCard: React.FC<{
       mintStartTime,
       mintFinishHandler,
       maxMinted,
+      mintEndTime,
       account
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
@@ -334,7 +336,7 @@ const MintButtonCard: React.FC<{
     typeName: string;
   }) => void;
   mintName: string;
-  mintable: number;
+  mintable?: number;
 }> = ({ onMintHandle, mintName, mintable }) => {
   const [mintAmount, setMintAmount] = useState(1);
   const [minting, setMinting] = useState(false);
@@ -461,7 +463,7 @@ const MintButtonCard: React.FC<{
         onClick={() => mintNFT(mintAmount)}
         className="w-full my-8"
         variant="secondary"
-        disabled={minting || mintable <= 0}
+        disabled={minting || !mintable}
       >
         {minting ? "Minting..." : "Mint"}
       </Button>

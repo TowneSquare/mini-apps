@@ -10,7 +10,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AptosWalletAdapterProvider
       plugins={theWallets}
-      optInWallets={["Petra"]}
+      optInWallets={["Petra", "Pontem Wallet"]}
       autoConnect={false}
       onError={(error) => {
         console.log("Custom error handling", error);

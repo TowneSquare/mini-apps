@@ -1,3 +1,6 @@
+import { AccountAddressInput, Aptos, AptosConfig } from "@aptos-labs/ts-sdk";
+import { Network } from "aptos";
+
 export const NFT_STORAGE_KEY = process.env.NEXT_PUBLIC_NFT_STORAGE_KEY!;
 export const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY!;
 export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -22,3 +25,6 @@ export const STATE_SEED = "hero_signer";
 // use to gen resource account.
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+export const APTOS = new Aptos(aptosConfig);

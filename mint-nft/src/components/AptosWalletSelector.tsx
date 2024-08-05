@@ -90,17 +90,22 @@ export function WalletSelector({
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <div className="!text-white font-semibold">Connceted wallet</div>,
+      label: <div className="font-semibold !text-white">Connected wallet</div>,
     },
     {
       key: "2",
       label: (
         <div className="flex h-[2.5rem] w-[15rem] justify-between rounded-lg bg-[#404040]">
           <div className="flex items-center justify-center text-white">
-            <img src={wallet?.icon} width={18} height={18} className="mx-2 rounded-[50%]" />
+            <img
+              src={wallet?.icon}
+              width={18}
+              height={18}
+              className="mx-2 rounded-[50%]"
+            />
             <div>{truncateAddress(account?.address || "")}</div>
           </div>
-          <button onClick={logout} className="mr-2 !text-[#aa80ef] font-medium">
+          <button onClick={logout} className="mr-2 font-medium !text-[#aa80ef]">
             Disconnect
           </button>
         </div>
@@ -111,7 +116,7 @@ export function WalletSelector({
       label: (
         <button
           onClick={() => setDropdownOpen(false)}
-          className="mt-5 mb-1 h-8 w-full rounded-full bg-white text-center text-black font-medium"
+          className="w-full h-8 mt-5 mb-1 font-medium text-center text-black bg-white rounded-full"
         >
           Close
         </button>
@@ -132,7 +137,7 @@ export function WalletSelector({
             setDropdownOpen(open);
           }}
         >
-          <button className="rounded-box bg-black py-1 px-3 text-[#aa80ef]">
+          <button className="rounded-box bg-black px-3 py-1 text-[#aa80ef]">
             {buttonText}
             {dropdownOpen ? (
               <CaretUpOutlined className="ml-2 text-white" />
@@ -143,7 +148,7 @@ export function WalletSelector({
         </Dropdown>
       ) : (
         <button
-          className="rounded-box bg-black py-1 px-3 text-[#aa80ef]"
+          className="rounded-box bg-black px-3 py-1 text-[#aa80ef]"
           onClick={() => onWalletButtonClick()}
         >
           {"Connect Wallet"}
@@ -172,11 +177,19 @@ export function WalletSelector({
                 alt=""
               />
               <Menu className="bg-black">
-                {wallets?.map(
+                {/* {wallets?.map(
                   (wallet: Wallet | AptosStandardSupportedWallet) => {
                     return walletView(wallet, onWalletSelected);
                   },
-                )}
+                )} */}
+                {wallets
+                  ?.filter(
+                    (wallet: Wallet | AptosStandardSupportedWallet) =>
+                      wallet.name !== "Continue with Google" && wallet.name !== "Nightly",
+                  )
+                  .map((newWallet: Wallet | AptosStandardSupportedWallet) => {
+                    return walletView(newWallet, onWalletSelected);
+                  })}
               </Menu>
               <div className="p-[4px]">
                 <button
@@ -255,7 +268,7 @@ const walletView = (
           key={wallet.name}
           onClick={() => onWalletSelected(wallet.name)}
         >
-          <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5">
+          <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] px-5 py-2">
             <div className="wallet-name-wrapper">
               <img src={wallet.icon} width={35} style={{ marginRight: 10 }} />
               <Text className="text-white">{wallet.name}</Text>
@@ -283,7 +296,7 @@ const walletView = (
             : () => window.open(wallet.url)
         }
       >
-        <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] py-2 px-5 active:ring-violet-300">
+        <div className="flex h-[3rem] justify-between rounded-full bg-[#666665] px-5 py-2 active:ring-violet-300">
           <div className="wallet-name-wrapper">
             <img
               className="rounded-[50%] border-2 border-[#292e5f]"
@@ -291,7 +304,7 @@ const walletView = (
               width={35}
               style={{ marginRight: 10, backgroundColor: "#130f2a" }}
             />
-            <Text className="wallet-selector-text text-white">
+            <Text className="text-white wallet-selector-text">
               {wallet.name}
             </Text>
           </div>

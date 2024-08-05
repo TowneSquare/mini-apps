@@ -1,14 +1,14 @@
-export const MintPorgress: React.FC<{ value: number; total: number }> = ({
+export const MintPorgress: React.FC<{ value: number; total?: number }> = ({
   value,
-  total,
+  total = 0,
 }) => {
   return (
-    <div className="relative mb-3 h-16 items-center overflow-hidden rounded-xl border-2 border-t-4 border-black bg-bgbutton">
+    <div className="relative items-center h-16 mb-3 overflow-hidden border-2 border-t-4 border-black rounded-xl bg-bgbutton">
       <div
         className="h-full bg-bggreen"
         style={{ width: `${Number((value / total).toFixed(2)) * 100}` + "%" }}
       />
-      <div className="absolute top-0 flex h-full w-full items-center justify-center text-lg font-bold text-slate-600">
+      <div className="absolute top-0 flex items-center justify-center w-full h-full text-lg font-bold text-slate-600">
         Minted{" "}
         {`${Number(value).toLocaleString()}/${Number(total).toLocaleString()}`}
       </div>
