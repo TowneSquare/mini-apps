@@ -11,6 +11,7 @@ import { useState } from "react";
 import { DAPP_ADDRESS, APTOS_NODE_URL } from "../../../config/constants";
 import { Provider, Types, Network, HexString } from "aptos";
 import {
+  AccountInfo,
   InputTransactionData,
   useWallet,
 } from "@aptos-labs/wallet-adapter-react";
@@ -24,11 +25,13 @@ type MintType = "cool-list" | "public-mint";
 export interface MintCardProps {
   mintName: string;
   eligible: boolean;
-  mintTime: number;
+  mintStartTime: number;
+  mintEndTime: number;
   mintPrice: number;
   minted: number;
   mintable: number;
   maxMinted: boolean;
+  account: AccountInfo | null
 }
 export interface MintInProgressCardProps extends MintCardProps {
   mintFinishHandler: (mintedData: {
@@ -64,8 +67,10 @@ export const MintCard: React.FC<{
   mintable: number;
   minted: number; // Add eligible to the props
   progressStatus: MintProgressStatus;
-  mintTime: number;
+  mintStartTime: number;
+  mintEndTime: number;
   maxMinted: boolean;
+  account: AccountInfo | null
 }> = ({
   mintCardType,
   mintFinishHandler,
@@ -74,8 +79,10 @@ export const MintCard: React.FC<{
   mintable,
   minted,
   progressStatus,
-  mintTime,
+  mintStartTime,
+  mintEndTime,
   maxMinted,
+  account
 }) => {
   if (mintCardType === "cool-list") {
     // const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
@@ -92,9 +99,10 @@ export const MintCard: React.FC<{
       mintPrice,
       mintable,
       minted,
-      mintTime,
+      mintStartTime,
       mintFinishHandler,
       maxMinted,
+      account
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -117,15 +125,17 @@ export const MintCard: React.FC<{
     //   <CardLoadingError />;
     // }
     // console.log(data);
+
     const propsData = {
       eligible, // Use the eligible passed from props
       mintName: "Public Mint",
       mintPrice,
       mintable,
       minted,
-      mintTime,
+      mintStartTime,
       mintFinishHandler,
       maxMinted,
+      account
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -144,14 +154,16 @@ export const MintCard: React.FC<{
 const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
   mintName,
   eligible,
-  mintTime,
+  mintStartTime,
+  mintEndTime,
   mintPrice,
   mintable,
   minted,
   maxMinted,
   mintFinishHandler,
+  account
 }) => {
-  const isStartMint = mintTime - Date.now() < 0;
+  const isStartMint = mintStartTime - Date.now() < 0;
   const mintActionHandler = (mintedData: {
     data: Array<MintData>;
     typeName: string;
@@ -209,8 +221,69 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
             </span>
           )
         ) : (
-          <CountDownCard cardName="Mint date" startTime={mintTime} />
+          <CountDownCard cardName="Mint date" startTime={mintStartTime} />
         )}
+      </div>
+      <div className="px-4 py-5 bg-white border-2 border-t-0 border-b-4 border-black text-slate-600">
+        <div className="flex items-center justify-between">
+          <span className="font-semibold">Mint price</span>
+          <span className="font-black">{mintPrice || "-"} APT</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="font-semibold">You can mint</span>
+          <span className="font-black">
+            {mintable && account ? mintable : "-"}
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="font-semibold">You minted</span>
+          <span className="font-black">
+            {minted && account ? minted : "-"}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MintStartCard: React.FC<MintCardProps> = ({
+  mintName,
+  mintStartTime,
+}) => {
+  const mintTimeFormat = getStartTime(mintStartTime);
+
+  return (
+    <div className="flex items-center justify-between h-20 px-4 py-2 mt-3 border-2 border-b-4 border-black rounded-xl bg-bgpink text-fgpink">
+      <span className="text-lg font-bold">{mintName}</span>
+      <span>{mintTimeFormat}</span>
+    </div>
+  );
+};
+
+const MintCompletedCard: React.FC<MintCardProps> = ({
+  mintName,
+  mintPrice,
+  mintable,
+  minted,
+  mintEndTime,
+}) => {
+  const now = Math.floor(Date.now() / 1000);
+  return now > mintEndTime ? (
+    <div className="flex items-center justify-between h-20 px-4 py-2 mt-3 text-white border-2 border-b-4 border-black rounded-xl bg-bgpink">
+      <span className="text-lg font-bold">{mintName}</span>
+      <span>Minting is Over</span>
+    </div>
+  ) : minted > 0 ? (
+    <div>
+      <div className="flex flex-col justify-between px-6 py-4 mt-4 text-white border-2 border-b-0 border-black rounded-t-xl bg-bgpink">
+        <p className="text-lg font-bold">{mintName}</p>
+        <div className="w-full pt-6 pb-4">
+          <h1 className="mb-2 text-center text-[29px] font-bold">SOLD OUT!</h1>
+          <p className="px-16 text-base font-normal text-center">
+            Prepare for the upcoming evolution phase. You'll be notified when
+            it's time to proceed.
+          </p>
+        </div>
       </div>
       <div className="px-4 py-5 bg-white border-2 border-t-0 border-b-4 border-black rounded-b-xl text-slate-600">
         <div className="flex items-center justify-between">
@@ -231,25 +304,10 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
         </div>
       </div>
     </div>
-  );
-};
-
-const MintStartCard: React.FC<MintCardProps> = ({ mintName, mintTime }) => {
-  const mintTimeFormat = getStartTime(mintTime);
-
-  return (
-    <div className="flex items-center justify-between h-20 px-4 py-2 mt-3 border-2 border-b-4 border-black rounded-xl bg-bgpink text-fgpink">
-      <span className="text-lg font-bold">{mintName}</span>
-      <span>{mintTimeFormat}</span>
-    </div>
-  );
-};
-
-const MintCompletedCard: React.FC<MintCardProps> = ({ mintName }) => {
-  return (
+  ) : (
     <div className="flex items-center justify-between h-20 px-4 py-2 mt-3 text-white border-2 border-b-4 border-black rounded-xl bg-bgpink">
       <span className="text-lg font-bold">{mintName}</span>
-      <span>MINTING IS OVER</span>
+      <span>SOLD OUT</span>
     </div>
   );
 };

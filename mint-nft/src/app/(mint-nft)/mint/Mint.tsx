@@ -17,8 +17,6 @@ import { MintDoneDialog } from "./DoneDialog";
 import { APTOS_NODE_URL, DAPP_ADDRESS } from "../../../config/constants";
 import { Provider, Types } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import HeaderBg from "@/public/assets/header_icon.svg";
-import Image from "next/image";
 // --!>
 export const enum MintProgressStatus {
   NOT_STARTED,
@@ -52,24 +50,17 @@ export const Mint = () => {
   const [coolListMaxMinted, setCoolListMaxMinted] = useState(false);
   const [publicListMaxMinted, setPublicListMaxMinted] = useState(false);
   // <!-- smart contract
-  const { account } = useWallet();
-  console.log("account:", account);
+  const { account } = useWallet()
   // const provider = new Provider(Network.TESTNET);
   // TODO update the network
   const client = new Provider({ fullnodeUrl: APTOS_NODE_URL });
   // const client = new Provider({ fullnodeUrl: APTOS_NODE_URL, indexerUrl: NODE_URL /* not used */ });
   // const client = new WalletClient(APTOS_NODE_URL, APTOS_FAUCET_URL);
-
   const typeCoollistInfo = DAPP_ADDRESS + `::pre_mint::CoolListInfo`;
   const typePublicInfo = DAPP_ADDRESS + `::pre_mint::PublicInfo`;
   async function getMintDetails(objInfo: string) {
     const result = await client.getAccountResources(objInfo);
     console.log("resources:", result);
-    // const resultIDResource = await client.getAccountResource(
-    //   objInfo,
-    //   "0x4::token::TokenIdentifiers",
-    // );
-    // console.log("resource:", resultResource.data.index.value);
 
     const mintDetail: MintData = { mintID: "", mintImg: "" };
     result.forEach((resource) => {
@@ -98,9 +89,19 @@ export const Mint = () => {
     if (objInfo === typeCoollistInfo) {
       setMintThresholdCoolMint(res[0]);
     } else {
-      console.log("mintthrespub:", res[0]);
       setMintThresholdPublicMint(res[0]);
     }
+  }
+
+  const mintTokenCount = async () => {
+    const payload: Types.ViewRequest = {
+      function: DAPP_ADDRESS + `::pre_mint::minted_tokens_count`,
+      type_arguments: [],
+      arguments: [],
+    };
+    const res = (await client.view(payload)) as Array<number>;
+    setCoolListMinted(res[0])
+    setPublicListMinted(res[1])
   }
   // in testnet is: 0x3f6cb4c8c47c5100c1f365e7ea14ea15f491d92dba82d5f9ce3363d650a99dc8::pre_mint::CoolListInfo
   async function getMintTime(objInfo: string) {
@@ -128,9 +129,9 @@ export const Mint = () => {
       setMintCoolStartTime(resultStart[0]);
       console.log("now:", now);
       console.log("mintCoolEndTime:", resultEnd[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0]) {
+      if (now >= resultStart[0] && now <= resultEnd[0] && coolListMinted < 6000) {
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
-      } else if (now > mintCoolEndTime) {
+      } else if (now > resultEnd[0] || coolListMinted === 6000) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusCoollist(MintProgressStatus.NOT_STARTED);
@@ -140,15 +141,16 @@ export const Mint = () => {
       // setMintPublicStartTime(1717759093);
       setMintPublicEndTime(resultEnd[0]);
       setMintPublicStartTime(resultStart[0]);
-      if (now >= resultStart[0] && now <= resultEnd[0]) {
+      if (now >= resultStart[0] && now <= resultEnd[0] && publicListMinted < 1000) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
-      } else if (now > mintPublicEndTime) {
+      } else if (now > resultEnd[0] || publicListMinted == 1000) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusPublic(MintProgressStatus.NOT_STARTED);
       }
     }
   }
+
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::available_tokens_for_mint`,
@@ -156,7 +158,6 @@ export const Mint = () => {
       arguments: [],
     };
     const availableForMint = await client.view(payloadStart);
-    console.log("availableForMint:", availableForMint);
     const availableForMintNumber = Number(availableForMint[0]);
     if (!isNaN(availableForMintNumber)) {
       if (objInfo === typeCoollistInfo) {
@@ -304,6 +305,7 @@ export const Mint = () => {
   useEffect(() => {
     getMintThreshold(typeCoollistInfo);
     getMintThreshold(typePublicInfo);
+    mintTokenCount()
   }, []);
 
   useEffect(() => {
@@ -311,15 +313,15 @@ export const Mint = () => {
     getMintTime(typePublicInfo);
   }, []);
 
-  useEffect(() => {
-    setCoolListMinted(totalCoolListCanMinted - availableForCoolMint);
-    setPublicListMinted(totalPublicListCanMinted - availableForPublicMint);
-  }, [
-    totalCoolListCanMinted,
-    totalPublicListCanMinted,
-    availableForCoolMint,
-    availableForPublicMint,
-  ]);
+  // useEffect(() => {
+  //   setCoolListMinted(totalCoolListCanMinted - availableForCoolMint);
+  //   setPublicListMinted(totalPublicListCanMinted - availableForPublicMint);
+  // }, [
+  //   totalCoolListCanMinted,
+  //   totalPublicListCanMinted,
+  //   availableForCoolMint,
+  //   availableForPublicMint,
+  // ]);
 
   useEffect(() => {
     getMintProgress(typeCoollistInfo);
@@ -341,6 +343,7 @@ export const Mint = () => {
     getMintable(typeCoollistInfo, account?.address);
     getMintable(typePublicInfo, account?.address);
     getBalance(account?.address);
+    mintTokenCount()
   };
   const [hooray, setHooray] = useState(false);
   const [mintedData, setMintedData] = useState<MintData[]>([]);
@@ -404,7 +407,7 @@ export const Mint = () => {
           {progressStatusCoollist === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={coolListMinted}
-              total={totalCoolListCanMinted}
+              total={mintThresholdCoolMint}
             />
           )}
 
@@ -419,14 +422,16 @@ export const Mint = () => {
             mintable={mintThresholdCoolMint - canCoolMint}
             minted={mintedCoollist} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
-            mintTime={mintCoolStartTime}
+            mintStartTime={mintCoolStartTime}
+            mintEndTime={mintCoolEndTime}
             maxMinted={coolListMaxMinted}
+            account={account}
           />
 
           {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={publicListMinted}
-              total={totalPublicListCanMinted}
+              total={mintThresholdPublicMint}
             />
           )}
 
@@ -434,7 +439,7 @@ export const Mint = () => {
             mintFinishHandler={mintFinishHandler}
             mintCardType="public-mint"
             progressStatus={progressStatusPublic} // Pass minting progress status to MintCard
-            // progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
+            //progressStatus={MintProgressStatus.IN_PROGRESS} // for test.
             // TODO: set the mint price dynamic from the contract.
             // mintPrice={mintThresholdPublicMint}
             mintPrice={6.9}
@@ -442,8 +447,10 @@ export const Mint = () => {
             minted={mintedPublic} // Pass minted count to MintCard
             eligible={true}
             // change this line if need eligible in public mint * 2.
-            mintTime={mintPublicStartTime}
+            mintStartTime={mintPublicStartTime}
+            mintEndTime={mintPublicEndTime}
             maxMinted={publicListMaxMinted}
+            account={account}
           />
         </div>
         <MintDoneDialog
