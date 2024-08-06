@@ -283,17 +283,17 @@ export const Mint = () => {
   const allocatedTokenCount = useAllocatedTokenCount();
 
   useEffect(() => {
-    if (userPublicThreshold.data === canPublicMint) {
+    if (Number(userPublicThreshold.data) === canPublicMint) {
       setPublicListMaxMinted(true);
     } else {
       setPublicListMaxMinted(false);
     }
-    if (userCoolistThreshold.data === canCoolMint) {
+    if (Number(userCoolistThreshold.data) === canCoolMint) {
       setCoolListMaxMinted(true);
     } else {
       setCoolListMaxMinted(false);
     }
-  }, [canPublicMint, canCoolMint, mintedPublic, mintedCoollist]);
+  }, [canPublicMint, canCoolMint]);
 
   useEffect(() => {
     isWhitelisted(account?.address).catch(console.error);
@@ -368,6 +368,8 @@ export const Mint = () => {
     setHooray(true);
     refreshPageInfo();
   };
+
+  console.log(coolListMaxMinted, "coolListMax", userCoolistThreshold.data, canCoolMint )
   return (
     <>
       <div
