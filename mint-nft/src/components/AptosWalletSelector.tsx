@@ -227,11 +227,14 @@ export function WalletSelector({
                 alt=""
               />
               <Menu className="bg-black">
-                {wallets?.map(
-                  (wallet: Wallet | AptosStandardSupportedWallet) => {
-                    return walletView(wallet, onWalletSelected);
-                  },
-                )}
+               {wallets
+                  ?.filter(
+                    (wallet: Wallet | AptosStandardSupportedWallet) =>
+                      wallet.name !== "Continue with Google" && wallet.name !== "Nightly",
+                  )
+                  .map((newWallet: Wallet | AptosStandardSupportedWallet) => {
+                    return walletView(newWallet, onWalletSelected);
+                  })}
               </Menu>
               <div className="p-[4px]">
                 <button

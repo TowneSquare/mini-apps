@@ -283,12 +283,12 @@ export const Mint = () => {
   const allocatedTokenCount = useAllocatedTokenCount();
 
   useEffect(() => {
-    if (Number(userPublicThreshold.data) === canPublicMint) {
+    if (userPublicThreshold.data == canPublicMint) {
       setPublicListMaxMinted(true);
     } else {
       setPublicListMaxMinted(false);
     }
-    if (Number(userCoolistThreshold.data) === canCoolMint) {
+    if (userCoolistThreshold.data == canCoolMint) {
       setCoolListMaxMinted(true);
     } else {
       setCoolListMaxMinted(false);
@@ -369,7 +369,7 @@ export const Mint = () => {
     refreshPageInfo();
   };
 
-  console.log(coolListMaxMinted, "coolListMax", userCoolistThreshold.data, canCoolMint )
+
   return (
     <>
       <div

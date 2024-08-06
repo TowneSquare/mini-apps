@@ -31,7 +31,7 @@ export interface MintCardProps {
   minted: number;
   mintable?: number;
   maxMinted: boolean;
-  account: AccountInfo | null
+  account: AccountInfo | null;
 }
 export interface MintInProgressCardProps extends MintCardProps {
   mintFinishHandler: (mintedData: {
@@ -70,7 +70,7 @@ export const MintCard: React.FC<{
   mintStartTime: number;
   mintEndTime: number;
   maxMinted: boolean;
-  account: AccountInfo | null
+  account: AccountInfo | null;
 }> = ({
   mintCardType,
   mintFinishHandler,
@@ -82,7 +82,7 @@ export const MintCard: React.FC<{
   mintStartTime,
   mintEndTime,
   maxMinted,
-  account
+  account,
 }) => {
   if (mintCardType === "cool-list") {
     // const mintInfoUrl = `${API_URL}?app_name=mint_app&key=cool_mint_time`;
@@ -103,7 +103,7 @@ export const MintCard: React.FC<{
       mintFinishHandler,
       maxMinted,
       account,
-      mintEndTime
+      mintEndTime,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -137,7 +137,7 @@ export const MintCard: React.FC<{
       mintFinishHandler,
       maxMinted,
       mintEndTime,
-      account
+      account,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -163,7 +163,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
   minted,
   maxMinted,
   mintFinishHandler,
-  account
+  account,
 }) => {
   const isStartMint = mintStartTime - Date.now() < 0;
   const mintActionHandler = (mintedData: {
@@ -205,10 +205,10 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
                   WELL DONE!
                 </span>
                 <p className="px-5 mt-3 mb-5 text-base font-light text-center text-white">
-                  You've successfully minted all available Slothsballs. Prepare
-                  for the upcoming evolution phase. You'll be notified when it's
-                  time to proceed.
+                  You've successfully minted all available Slothsballs.
                 </p>
+                <p className="text-base font-light text-center text-white">Prepare for the upcoming evolution phase. </p>
+                <p className="text-base font-light text-center text-white"> You'll be notified when it's time to proceed.</p>
               </>
             ) : (
               <MintButtonCard
@@ -239,9 +239,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
         </div>
         <div className="flex items-center justify-between">
           <span className="font-semibold">You minted</span>
-          <span className="font-black">
-            {minted && account ? minted : "-"}
-          </span>
+          <span className="font-black">{minted && account ? minted : "-"}</span>
         </div>
       </div>
     </div>
@@ -421,6 +419,7 @@ const MintButtonCard: React.FC<{
         }
         console.log("mintedData", mintedData);
         setMinting(false);
+        setMintAmount(1)
         onMintHandle({ data: mintedData, typeName: mintName });
       } else {
         if (isModalOpen === false) {
