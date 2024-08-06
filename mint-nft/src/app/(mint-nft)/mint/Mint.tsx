@@ -314,6 +314,8 @@ export const Mint = () => {
     }
   }, [canPublicMint, canCoolMint]);
 
+  console.log(coolListMaxMinted, userCoolistThreshold.data, canCoolMint, "coolist maxminted")
+
   useEffect(() => {
     isWhitelisted(account?.address).catch(console.error);
   }, [account]); // Depend on account to re-run when account changes
@@ -437,7 +439,7 @@ export const Mint = () => {
             eligible={eligible} // Pass eligibility to MintCard
             mintStartTime={mintCoolStartTime}
             mintEndTime={mintCoolEndTime}
-            maxMinted={coolListMaxMinted}
+            maxMinted={userCoolistThreshold.data == canCoolMint}
             account={account}
           />
 
@@ -462,7 +464,7 @@ export const Mint = () => {
             // change this line if need eligible in public mint * 2.
             mintStartTime={mintPublicStartTime}
             mintEndTime={mintPublicEndTime}
-            maxMinted={publicListMaxMinted}
+            maxMinted={userPublicThreshold.data == canPublicMint}
             account={account}
           />
         </div>

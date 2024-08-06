@@ -12,6 +12,8 @@ import {
 import Image from "next/image";
 import { MintData } from "./MIntCarousel";
 import { useMediaQuery } from "react-responsive";
+import { Draggable } from "@/components/ui/Draggable";
+import { useRef } from "react";
 
 export const MintDoneDialog: React.FC<{
   open: boolean;
@@ -27,6 +29,7 @@ export const MintDoneDialog: React.FC<{
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 500px)",
   });
+  const Ref = useRef(null);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogOverlay className="backdrop-blur-sm">
@@ -36,9 +39,10 @@ export const MintDoneDialog: React.FC<{
           <h2 className="mb-6 text-3xl font-semibold">Well done!!!</h2>
 
           <div className="relative flex h-[15rem] w-full justify-center">
-            <div className="carousel carousel-center rounded-box pb-5">
+            <Draggable innerRef={Ref}  rootClass="drag" >
+            <div className="flex flex-row w-full overflow-x-auto no-scrollbar">
               {hasNoneNft ? (
-                <div className="carousel-item flex flex-col">
+                <div className="flex flex-col carousel-item">
                   <img
                     className="mx-auto"
                     src={unknownSothballs.src}
@@ -46,14 +50,14 @@ export const MintDoneDialog: React.FC<{
                     height={219}
                     alt="unknow_slothball"
                   />
-                  <div className="flex h-6 w-full justify-center">
+                  <div className="flex justify-center w-full h-6">
                     <span className="text-base font-medium" />
                   </div>
                 </div>
               ) : (
                 mintedData.map((mintedDataItem, i) => {
                   return (
-                    <div key={i} className="carousel-item flex flex-col">
+                    <div key={i} className="flex flex-col carousel-item">
                       <img
                         className="mx-auto"
                         src={mintedDataItem.mintImg}
@@ -61,7 +65,7 @@ export const MintDoneDialog: React.FC<{
                         height={219}
                         alt="slothball"
                       />
-                      <div className="flex h-6 w-full justify-center">
+                      <div className="flex justify-center w-full h-6">
                         <h2 className="mb-2 text-xl font-semibold">
                           Slothball #{mintedDataItem.mintID}
                         </h2>
@@ -71,10 +75,11 @@ export const MintDoneDialog: React.FC<{
                 })
               )}
             </div>
+            </Draggable>
           </div>
 
           <div className="text-center">
-            <p className="mb-2 indent-2 font-medium ">
+            <p className="mb-2 font-medium indent-2 ">
               Your Slothball's transformation into a Sloth is on the horizon.
               The evolution is coming – be prepared!
             </p>

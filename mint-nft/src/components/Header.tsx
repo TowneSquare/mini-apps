@@ -14,7 +14,7 @@ export default function Header() {
     router.back();
   };
   return (
-    <div className="fixed top-0 z-20 flex items-center justify-between w-full h-16 px-3 text-white bg-black">
+    <div className="top-0 z-20 flex items-center justify-between w-full h-16 px-3 text-white bg-black ">
       <div className="flex">
         {/* <CloseOutlined onClick={handleGoBack} className="mr-2"/> */}
         <button onClick={handleGoBack} >

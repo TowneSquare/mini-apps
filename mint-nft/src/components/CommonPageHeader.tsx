@@ -21,7 +21,7 @@ export const CommonPageHeader = ({
   return (
     <header
       className={
-        `fixed flex h-20 w-full flex-row items-center justify-center px-4 backdrop-blur-sm` +
+        `flex w-full flex-row items-center justify-center backdrop-blur-sm bg-bgorange` +
         " " +
         className +
         " " +
