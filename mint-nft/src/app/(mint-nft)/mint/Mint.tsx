@@ -83,8 +83,6 @@ export const Mint = () => {
     return mintDetail;
   }
 
-
-
   const mintTokenCount = async () => {
     const payload: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::minted_tokens_count`,
@@ -102,16 +100,22 @@ export const Mint = () => {
       type_arguments: [objInfo],
       arguments: [],
     };
-    const resultStart = (await client.view(payloadStart)) as Array<number>;
-    console.log("mint start time of ", objInfo + ": " + resultStart);
 
+    const payload: Types.ViewRequest = {
+      function: DAPP_ADDRESS + `::pre_mint::minted_tokens_count`,
+      type_arguments: [],
+      arguments: [],
+    };
+    const minted_tokens_count = (await client.view(payload)) as Array<number>;
+
+    const resultStart = (await client.view(payloadStart)) as Array<number>;
+   
     const payloadEnd: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::mint_end_time`,
       type_arguments: [objInfo],
       arguments: [],
     };
     const resultEnd = (await client.view(payloadEnd)) as Array<number>;
-    console.log("mint end time of ", objInfo + ": " + resultEnd);
 
     const now = Math.floor(Date.now() / 1000); // Current time in seconds
     if (objInfo === typeCoollistInfo) {
@@ -122,10 +126,10 @@ export const Mint = () => {
       if (
         now >= resultStart[0] &&
         now <= resultEnd[0] &&
-        coolListMinted < 6000
+        minted_tokens_count[0] < 6000
       ) {
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0] || coolListMinted === 6000) {
+      } else if (now > resultEnd[0] || minted_tokens_count[0] === 6000) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusCoollist(MintProgressStatus.NOT_STARTED);
@@ -135,19 +139,34 @@ export const Mint = () => {
       // setMintPublicStartTime(1717759093);
       setMintPublicEndTime(resultEnd[0]);
       setMintPublicStartTime(resultStart[0]);
+      console.log(
+        now >= resultStart[0],
+        now <= resultEnd[0],
+        minted_tokens_count[1] < 1000,
+        publicListMinted,
+        "status",
+      );
       if (
         now >= resultStart[0] &&
         now <= resultEnd[0] &&
-        publicListMinted < 1000
+        minted_tokens_count[1] < 1000
       ) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0] || publicListMinted == 1000) {
+      } else if (now > resultEnd[0] || minted_tokens_count[1] == 1000) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusPublic(MintProgressStatus.NOT_STARTED);
       }
     }
   }
+
+  console.log(
+    publicListMinted,
+    "publoc",
+    progressStatusPublic,
+    publicListMinted,
+    publicListMinted == 1000,
+  );
 
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
@@ -318,7 +337,6 @@ export const Mint = () => {
     getMintTime(typePublicInfo);
   }, []);
 
-
   useEffect(() => {
     getMintProgress(typeCoollistInfo);
     getMintProgress(typePublicInfo);
@@ -368,7 +386,6 @@ export const Mint = () => {
     setHooray(true);
     refreshPageInfo();
   };
-
 
   return (
     <>
