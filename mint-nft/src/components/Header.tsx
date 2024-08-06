@@ -14,10 +14,12 @@ export default function Header() {
     router.back();
   };
   return (
-    <div className="fixed top-0 z-20 flex h-16 w-full items-center justify-between bg-black px-3 text-white">
+    <div className="fixed top-0 z-20 flex items-center justify-between w-full h-16 px-3 text-white bg-black">
       <div className="flex">
-        <CloseOutlined onClick={handleGoBack} className="mr-2"/>
-        <img src={NavLogoSVG.src} alt="" />
+        {/* <CloseOutlined onClick={handleGoBack} className="mr-2"/> */}
+        <button onClick={handleGoBack} >
+          <img src={NavLogoSVG.src} alt="" />
+        </button>
       </div>
       <WalletSelector isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
     </div>
