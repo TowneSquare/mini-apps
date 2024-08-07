@@ -412,7 +412,7 @@ export const Mint = () => {
               Soon,your Slothball will grow and evolve, taking on a new form as
               a Sloth!
             </p>
-            <h2 className="pl-1 mt-5 text-xl font-semibold">My Solthballs</h2>
+            <h2 className="pl-1 mt-5 text-xl font-semibold">My Slothballs</h2>
           </div>
           {/* <MintCarousel mintList={[]} /> */}
           <MintCarousel mintList={mintList} />

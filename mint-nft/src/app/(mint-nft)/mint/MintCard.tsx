@@ -204,11 +204,13 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
                 <span className="mt-8 text-2xl font-semibold text-white">
                   WELL DONE!
                 </span>
-                <p className="px-5 mt-3 mb-5 text-base font-light text-center text-white">
-                  You've successfully minted all available Slothsballs.
+                <p className="mt-3 mb-5 text-base font-light text-center text-white ">
+                  You've successfully minted all the Slothballs available to you.
                 </p>
-                <p className="text-base font-light text-center text-white">Prepare for the upcoming evolution phase. </p>
-                <p className="text-base font-light text-center text-white"> You'll be notified when it's time to proceed.</p>
+                <p className="text-base font-light text-center text-white">
+                  {" "}
+                 You'll be notified when it's time to evolve them.
+                </p>
               </>
             ) : (
               <MintButtonCard
@@ -279,9 +281,11 @@ const MintCompletedCard: React.FC<MintCardProps> = ({
         <p className="text-lg font-bold">{mintName}</p>
         <div className="w-full pt-6 pb-4">
           <h1 className="mb-2 text-center text-[29px] font-bold">SOLD OUT!</h1>
-          <p className="px-16 text-base font-normal text-center">
-            Prepare for the upcoming evolution phase. You'll be notified when
-            it's time to proceed.
+          <p className="px-8 text-base font-normal text-center">
+            Prepare for the upcoming evolution phase. 
+          </p>
+          <p className="px-4 text-base font-normal text-center">
+            You'll be notified when it's time to proceed.
           </p>
         </div>
       </div>
@@ -419,7 +423,7 @@ const MintButtonCard: React.FC<{
         }
         console.log("mintedData", mintedData);
         setMinting(false);
-        setMintAmount(1)
+        setMintAmount(1);
         onMintHandle({ data: mintedData, typeName: mintName });
       } else {
         if (isModalOpen === false) {

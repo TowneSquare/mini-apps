@@ -30,8 +30,10 @@ export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({
   return (
     <Draggable innerRef={Ref} rootClass="drag">
     <div
-      className="flex flex-row w-full overflow-x-auto no-scrollbar"
+      className="flex flex-row w-full mb-5 overflow-x-auto  no-scrollbar"
+      
     >
+      <img src="/assets/carousel-edge-left.png" className="absolute z-20 h-fit left-1/3"/>
       {/* <div className="carousel-item">
         <div className="h-[108px] w-[100px]" />
       </div> */}
@@ -51,7 +53,7 @@ export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({
       ) : (
         mintList.map((mintData, i) => {
           return (
-            <div key={i} className="flex flex-col carousel-item">
+            <div key={i} className="z-0 flex flex-col carousel-item">
               <img
                 className="mx-auto "
                 src={mintData.mintImg}
@@ -69,6 +71,7 @@ export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({
           );
         })
       )}
+      <img src="/assets/carousel-edge-right.png" className="absolute z-0 h-fit right-1/3"/>
     </div>
     </Draggable>
   );
