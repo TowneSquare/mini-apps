@@ -44,7 +44,7 @@ export const Draggable = ({ innerRef, rootClass = "", children }: {
     }
 
   return (
-    <div ref={ourRef} onMouseDown={handleDragStart} onMouseUp={handleDragEnd} onMouseMove={handleDrag} className={rootClass + "flex overflow-x-scroll"}>
+    <div ref={ourRef} onMouseDown={handleDragStart} onMouseUp={handleDragEnd} onMouseMove={handleDrag} className={rootClass + "flex w-full no-scrollbar relative overflow-x-scroll"}>
       {children}
     </div>
   );
