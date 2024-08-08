@@ -33,7 +33,6 @@ function WalletSelector({
         <WalletProvider>
           <WalletSelectorModelProvider>
             <QueryProvider>
-              
               <main className="h-screen">{children}</main>
             </QueryProvider>
           </WalletSelectorModelProvider>

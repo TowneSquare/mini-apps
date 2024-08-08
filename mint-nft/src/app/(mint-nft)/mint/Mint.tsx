@@ -152,7 +152,7 @@ export const Mint = () => {
         minted_tokens_count[1] < 1000
       ) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0] || minted_tokens_count[1] == 1000) {
+      } else if (now > resultEnd[0] || minted_tokens_count[1] == 1000 || progressStatusCoollist == MintProgressStatus.FINISHED) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusPublic(MintProgressStatus.NOT_STARTED);
@@ -160,13 +160,6 @@ export const Mint = () => {
     }
   }
 
-  console.log(
-    publicListMinted,
-    "publoc",
-    progressStatusPublic,
-    publicListMinted,
-    publicListMinted == 1000,
-  );
 
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {

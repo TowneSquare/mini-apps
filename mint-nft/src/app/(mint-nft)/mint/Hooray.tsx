@@ -27,7 +27,7 @@ export const Hooray: React.FC<{
   };
   return (
     <div
-      className="absolute top-0 flex h-full w-full flex-col items-center justify-center overflow-hidden pt-20"
+      className="absolute top-0 flex flex-col items-center justify-center w-full h-full pt-20 overflow-hidden"
       style={{
         // backgroundImage: `url(${bg.src})`,
         backgroundSize: "contain",
@@ -40,16 +40,16 @@ export const Hooray: React.FC<{
         gravity={0.1}
         numberOfPieces={220}
       />
-      <div className="absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 transform text-center text-5xl font-bold text-white">
+      <div className="absolute text-5xl font-bold text-center text-white transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/4">
         Hooray!
       </div>
 
-      <div className="carousel carousel-center rounded-box pb-5">
+      <div className="pb-5 carousel carousel-center rounded-box">
         {/* <div className="carousel-item">
           <div className="h-[108px] w-[100px]" />
         </div> */}
         {hasNoneNft ? (
-          <div className="carousel-item flex flex-col">
+          <div className="flex flex-col carousel-item">
             <img
               className="mx-auto"
               src={unknownSothballs.src}
@@ -57,14 +57,14 @@ export const Hooray: React.FC<{
               height={219}
               alt="unknow_slothball"
             />
-            <div className="flex h-6 w-full justify-center">
+            <div className="flex justify-center w-full h-6">
               <span className="text-base font-medium" />
             </div>
           </div>
         ) : (
           mintedData.map((mintedDataItem, i) => {
             return (
-              <div key={i} className="carousel-item flex flex-col">
+              <div key={i} className="flex flex-col carousel-item">
                 <img
                   className="mx-auto"
                   src={mintedDataItem.mintImg}
@@ -72,8 +72,8 @@ export const Hooray: React.FC<{
                   height={219}
                   alt="slothball"
                 />
-                <div className="flex h-6 w-full justify-center">
-                  <span className="text-lg font-bold   text-white">
+                <div className="flex justify-center w-full h-6">
+                  <span className="text-lg font-bold text-white">
                     Slothball #{mintedDataItem.mintID}
                   </span>
                 </div>
@@ -84,7 +84,7 @@ export const Hooray: React.FC<{
       </div>
       {/* <img
         src={centerImage.src}
-        className="absolute left-1/2 top-1/2 h-auto w-auto -translate-x-1/2 -translate-y-1/2 transform"
+        className="absolute w-auto h-auto transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2"
         alt=""
       /> */}
 
