@@ -13,6 +13,9 @@ import { WalletProvider } from "../provider/WalletAdapterProvider";
 import { BattleEvilProvider } from "../hooks/battleEvilProvider";
 import type React from "react";
 import { WalletSelectorModelProvider } from "../provider/WalletModelProvider";
+import QueryProvider from "../provider/QueryProvider";
+import ReduxProvider from "../provider/ReduxProvider";
+
 const exo_2 = Exo_2({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -28,16 +31,20 @@ function WalletSelector({
   return (
     <html lang="en">
       <body className={exo_2.className}>
-        <WalletProvider>
-          <WalletSelectorModelProvider>
-            <BattleEvilProvider>
-              <Header />
-              <main className="h-full min-h-screen w-full pt-16">
-                {children}
-              </main>
-            </BattleEvilProvider>
-          </WalletSelectorModelProvider>
-        </WalletProvider>
+        <ReduxProvider>
+          <WalletProvider>
+            <WalletSelectorModelProvider>
+              <QueryProvider>
+                <BattleEvilProvider>
+                  <main className="h-screen bg-[#4c6299]">
+                    <Header />
+                    {children}
+                  </main>
+                </BattleEvilProvider>
+              </QueryProvider>
+            </WalletSelectorModelProvider>
+          </WalletProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

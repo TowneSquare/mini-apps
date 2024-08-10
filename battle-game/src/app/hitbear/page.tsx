@@ -1,6 +1,7 @@
 "use client";
 import gsap from "gsap";
 import bearStartImg from "@/public/assets/game/bearStartImg.png";
+import bearStartImgMobile from "@/public/assets/game/sloth-mobile.png";
 import madeItImg from "@/public/assets/game/ball.png";
 import frontImg from "@/public/assets/game/front.png";
 import hitBearImg from "@/public/assets/game/hitBear.png";
@@ -8,12 +9,11 @@ import blinkBearImg from "@/public/assets/game/blinkBear.png";
 import boomImgA from "@/public/assets/game/boomA.png";
 import boomImgB from "@/public/assets/game/boomB.png";
 import boomImgC from "@/public/assets/game/boomC.png";
+import { useRouter } from "next/navigation";
 
 import bgImg from "@/public/assets/game/bg.svg";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { CommonPageHeader } from "@/src/components/CommonPageHeader";
-import Link from "next/link";
 import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
 
 const HitBear = () => {
@@ -22,43 +22,44 @@ const HitBear = () => {
   const [loaded, setLoaded] = useState(false);
 
   const hitHimRef = useRef(null);
-  const hitBearRef = useRef(null);
+  const hitBearRef = useRef<any>(null);
   const healthRef = useRef(null);
   const blinkBearRef = useRef(null);
   const madeItRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (bearRef.current) {
-      gsap.set(bearRef.current, {
-        y: "29vh",
-      });
-    }
-    if (loaded && bearRef.current) {
-      gsap.to(bearRef.current, {
-        duration: 2,
-        scale: 1.41,
-        y: "16vh",
-        ease: "power1.out",
-      });
+      //   gsap.set(bearRef.current, {
+      //     y: "29vh",
+      //   });
+      // }
+      // if (loaded && bearRef.current) {
+      //   gsap.to(bearRef.current, {
+      //     duration: 2,
+      //     scale: 1.41,
+      //     y: "16vh",
+      //     ease: "power1.out",
+      //   });
       const tl = gsap.timeline();
-      tl.delay(1);
+      //   tl.delay(1);
 
-      tl.to(countdownRefs[countdownRefs.length - 1].current, {
-        opacity: 0,
-        duration: 1,
-      });
-      // tl.delay(1);
-      for (let index = 0; index < countdownRefs.length - 1; index++) {
-        const ref = countdownRefs[countdownRefs.length - 2 - index].current;
-        tl.to(ref, { opacity: 1, duration: 1 }).set(ref, { opacity: 0 });
-      }
+      //   tl.to(countdownRefs[countdownRefs.length - 1].current, {
+      //     opacity: 0,
+      //     duration: 1,
+      //   });
+      //   // tl.delay(1);
+      //   for (let index = 0; index < countdownRefs.length - 1; index++) {
+      //     const ref = countdownRefs[countdownRefs.length - 2 - index].current;
+      //     tl.to(ref, { opacity: 1, duration: 1 }).set(ref, { opacity: 0 });
+      //   }
 
-      tl.to(hitHimRef.current, { opacity: 1, duration: 1 }).set(
-        hitHimRef.current,
-        { opacity: 0 },
-      );
+      //   tl.to(hitHimRef.current, { opacity: 1, duration: 1 }).set(
+      //     hitHimRef.current,
+      //     { opacity: 0 },
+      //   );
 
-      tl.to(bearRef.current, { opacity: 0, duration: 0 });
+      //   tl.to(bearRef.current, { opacity: 0, duration: 0 });
       tl.to(blinkBearRef.current, {
         opacity: 1,
         repeat: 1,
@@ -91,8 +92,8 @@ const HitBear = () => {
       const offsetX = event.clientX - rect.left; // Adjust for container's left boundary
       const offsetY = event.clientY - rect.top; // Adjust for container's top boundary
 
-      marker.style.left = `${offsetX - 15}px`; // Assume marker width and height is 30px
-      marker.style.top = `${offsetY - 15}px`;
+      marker.style.left = `${offsetX - 50}px`; // Assume marker width and height is 30px
+      marker.style.top = `${offsetY - 50}px`;
       marker.style.display = "block";
 
       // GSAP animation
@@ -130,21 +131,33 @@ const HitBear = () => {
 
     // if (clickCount >= totalClicks - 1) {
     if (evilBlood <= 0) {
+      console.log("area");
       const tl = gsap.timeline();
-      tl.to(hitBearRef.current, { display: "none", duration: 0.1 }).set(
-        blinkBearRef.current,
-        { display: "none" },
-      );
-      tl.to(bearRef.current, { opacity: 1, duration: 1 }).to(bearRef.current, {
-        duration: 1,
-        scale: 1,
-        y: "29vh",
-        ease: "power1.in",
-      });
-      tl.to(healthRef.current, { opacity: 0, duration: 0.1 }).set(
-        healthRef.current,
-        { display: "none" },
-      );
+      tl.to(hitBearRef.current, {
+        duration: 0.1,
+        onComplete: () => {
+          router.push("/youMadeIt");
+        },
+      }).set(blinkBearRef.current, { display: "none" });
+      // tl.to(bearRef.current, {
+      //   opacity: 1,
+      //   duration: 1,
+      //   onComplete: () => {
+      //     console.log("Hittter2");
+      //   },
+      // }).to(bearRef.current, {
+      //   duration: 1,
+      //   scale: 1,
+      //   y: "100vh",
+      //   ease: "power1.in",
+      // });
+      // tl.to(healthRef.current, {
+      //   opacity: 0,
+      //   duration: 0.1,
+      //   onComplete: () => {
+      //     console.log("Hittter3");
+      //   },
+      // }).set(healthRef.current, { display: "none" });
       // tl.to(madeItRef.current,{duration: 2,opacity:1,display:'block',
       //     y: '-82vh',
       //     ease: 'power1.out',})
@@ -155,31 +168,86 @@ const HitBear = () => {
     console.log("handleImage ", loaded);
     setLoaded(true);
   };
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const mouseCoords = useRef({
+    startX: 0,
+    startY: 0,
+    scrollLeft: 0,
+    scrollTop: 0,
+  });
+
+  const figureOut = (e: any) => {
+    if (!hitBearRef.current) return;
+    const slider = hitBearRef.current.children[0];
+    const startX = e.pageX - slider.offsetLeft;
+    const startY = e.pageY - slider.offsetTop;
+    const scrollLeft = slider.scrollLeft;
+    const scrollTop = slider.scrollTop;
+    mouseCoords.current = { startX, startY, scrollLeft, scrollTop };
+    setIsMouseDown(true);
+    document.body.style.cursor = "grabbing";
+    const marker = hitMarkerRefs[Math.floor(Math.random() * 3)].current;
+    if (marker) {
+      marker.style.left = `${scrollLeft}`;
+      marker.style.top = `${scrollTop}`;
+      marker.style.display = "block";
+      console.log("redddd")
+    }
+  };
+
+  useEffect(() => {
+    if (loaded) {
+      const tll = gsap.timeline();
+      gsap.to("#bearstart", {
+        bottom: "30%",
+        duration: 30,
+        display: "none",
+        onComplete: () => {
+          gsap.to("#bearstart2", {
+            opacity: 1,
+          });
+        },
+      });
+      gsap.to("#bearstartMobile", {
+        bottom: "170px",
+        duration: 30,
+        display: "none",
+        onComplete: () => {
+          gsap.to("#bearstart2", {
+            opacity: 1,
+          });
+        },
+      });
+      tll.to(countdownRefs[countdownRefs.length - 1].current, {
+        opacity: 0,
+        duration: 1,
+      });
+      // tl.delay(1);
+      for (let index = 0; index < countdownRefs.length - 1; index++) {
+        const ref = countdownRefs[countdownRefs.length - 2 - index].current;
+        tll.to(ref, { opacity: 1, duration: 1 }).set(ref, { opacity: 0 });
+      }
+      tll
+        .to(hitHimRef.current, { opacity: 1, duration: 2 })
+        .set(hitHimRef.current, { opacity: 0 });
+    }
+  }, [loaded]);
 
   return (
     <>
-      <CommonPageHeader className="z-10" />
       <main
         ref={containerRef}
-        className="flex h-full min-h-[calc(100vh-5rem)] justify-center overflow-hidden pt-20"
+        className="relative flex h-full min-h-[calc(100vh-5rem)] justify-center overflow-hidden bg-cover pt-20 md:min-h-screen"
         style={{
           backgroundImage: `url(${bgImg.src})`,
           backgroundColor: "#384273",
         }}
       >
-        <img
-          className="absolute bottom-0 z-50 w-full object-cover"
-          src={frontImg.src}
-          alt=""
-        />
-        {/* 开始图片 */}
-        <img
-          className={`absolute bottom-0 z-20 w-full object-cover ${loaded ? "hidden" : ""}`}
-          src={bearStartImg.src}
-          alt=""
-        />
-        <div className="absolute top-40 flex w-full flex-col items-center justify-center">
-          <span className="mb-1 text-center text-2xl text-white ">
+        <div
+          ref={healthRef}
+          className="absolute flex flex-col items-center justify-center w-full top-1"
+        >
+          <span className="mb-1 text-2xl text-center text-white ">
             HP:{evilBlood}
           </span>
           <div className="relative mx-auto h-10 w-72 skew-x-[-38deg] rounded-lg border-4 border-black bg-[#9ba3b9]">
@@ -189,11 +257,61 @@ const HitBear = () => {
                 width: `${Number((evilBlood / 10000).toFixed(2)) * 100}` + "%",
               }}
             >
-              <div className="absolute -bottom-[85%] h-full w-full bg-red-400/80" />
-              <div className="absolute left-2 top-2 h-full w-full rounded-sm bg-red-500/50" />
+              <div className=" -bottom-[85%] h-full w-full bg-red-400/80" />
+              <div className="w-full h-full rounded-sm left-2 top-2 bg-red-500/50" />
             </div>
           </div>
         </div>
+        <img
+          className="absolute bottom-0 z-50 h-[30%] w-full md:hidden"
+          src={frontImg.src}
+          alt=""
+        />
+        <img
+          src="/assets/game/desktop-footer.png"
+          alt="desktop"
+          className="absolute bottom-0 z-50 hidden object-contain w-full md:block"
+        />
+        {/* 开始图片 */}
+        <Image
+          className={`absolute bottom-0 z-20 hidden w-full object-contain md:-bottom-32 md:block md:h-[500px] md:w-[50%]`}
+          alt="Bear"
+          src={bearStartImg.src}
+          width={300}
+          height={100}
+          onLoad={handleImageLoad}
+          id="bearstart"
+        />
+        <Image
+          className={`absolute bottom-0 z-20 w-full object-contain md:-bottom-32 md:hidden md:h-[500px] md:w-[50%]`}
+          alt="Bear"
+          src={bearStartImgMobile.src}
+          width={300}
+          height={100}
+          onLoad={handleImageLoad}
+          id="bearstartMobile"
+        />
+        <Image
+          className={`absolute bottom-1/2 z-20 hidden w-full object-contain md:bottom-[30%] md:block md:h-[500px] md:w-[50%] md:opacity-0`}
+          src="/assets/game/evil-sloth.svg"
+          alt="Bear"
+          width={300}
+          height={100}
+          id="bearstart2"
+          ref={hitBearRef}
+          onClick={handleClick}
+        />
+        <Image
+          className={`absolute bottom-[170px] z-20 block w-full object-contain opacity-0 md:hidden md:h-[500px] md:w-[50%] lg:hidden`}
+          src={blinkBearImg.src}
+          alt="Bear"
+          width={300}
+          height={100}
+          id="bearstart2"
+          ref={hitBearRef}
+          onClick={handleClick}
+        />
+
         {countdownRefs.map((ref, i) => {
           return (
             <div
@@ -241,9 +359,10 @@ const HitBear = () => {
               "8px 8px 0 #000, 8px -8px 0 #000, -8px 8px 0 #000, -8px -8px 0 #000, 0 8px 0 #000, 0 -8px 0 #000, 8px 0 #000, -8px 0 #000",
           }}
         >
-          Hit him!
+          <h1 className="font-bold">Hit</h1>
+          <h1>him</h1>
         </div>
-        <Image
+        {/* <Image
           ref={bearRef}
           src={bearStartImg.src}
           alt="Description"
@@ -251,45 +370,44 @@ const HitBear = () => {
           width={500}
           height={300}
           loading="eager"
-          className={`h-full w-full object-contain ${loaded ? "" : "hidden"}`}
-        />
-        <img
+          className={`h-full w-full md:w-1/2 object-contain ${loaded ? "" : "hidden"}`}
+        /> */}
+        {/* <img
           ref={blinkBearRef}
           src={blinkBearImg.src}
           alt="blinkBear"
           className={`pointer-events-none absolute top-56 z-50 w-full object-cover  opacity-0 `}
           onClick={handleClick}
-        />
+        /> */}
 
-        <img
+        {/* <img
           ref={hitBearRef}
           src={hitBearImg.src}
           alt="hitBear"
           className={`pointer-events-none absolute top-56 z-20 w-full object-cover  opacity-0 `}
           onClick={handleClick}
-        />
-        <div
+        /> */}
+        {/* <div
           ref={madeItRef}
           id="slide-up-panel"
-          className="fixed inset-x-0 bottom-0 z-50 flex h-screen w-full translate-y-full transform flex-col items-center overflow-hidden shadow-lg"
+          className="fixed inset-x-0 bottom-0 z-50 flex flex-col items-center w-full h-screen overflow-hidden transform translate-y-full shadow-lg"
         >
           <img
             src={madeItImg.src}
             alt="Description"
-            className="w-full object-cover "
+            className="object-cover w-full "
           />
           <div className="flex h-full w-full flex-col items-center overflow-hidden  bg-[#242552] object-cover">
-            {/* <button className="mt-5 bg-blue-500 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded"> */}
-            {/* CONTINUE */}
-            {/* </button> */}
-            <div className="absolute top-1/2 mb-12 text-center text-3xl font-semibold text-white md:mb-24 md:text-5xl">
+            
+            <div className="absolute mb-12 text-3xl font-semibold text-center text-white top-1/2 md:mb-24 md:text-5xl">
               <p>Hooraaay!</p> You've made it!
             </div>
             <button className=" absolute top-1/2 mt-32 h-14 w-10/12 rounded-xl  border border-b-4 border-black bg-[#62C5C6] px-3 py-1 text-xl font-bold text-white ">
               <Link href="/evolve">CONTINUE</Link>
             </button>
           </div>
-        </div>
+        </div> */}
+
         <img
           ref={hitMarkerRefA as React.RefObject<HTMLImageElement>}
           src={boomImgA.src}

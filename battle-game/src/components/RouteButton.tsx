@@ -18,7 +18,7 @@ export const RouteButton = ({
   return (
     <div
       className={
-        "fixed bottom-0 left-0 right-0 z-[2] mx-auto h-20 w-11/12 rounded-2xl bg-[#29294f] px-5 py-4 " +
+        " mt-4 mx-auto h-20 w-11/12 rounded-2xl md:w-[40%] bg-[#29294f] px-5 py-4 " +
         bottomClass +
         " " +
         animateClass
@@ -31,7 +31,7 @@ export const RouteButton = ({
         disabled={disabled}
         type="button"
         onClick={() => router.push(path)}
-        className="bg-bggreen h-full w-full rounded-xl font-extrabold text-white"
+        className="w-full h-full font-extrabold text-white bg-bggreen rounded-xl"
         style={{
           backgroundColor: disabled ? "#426767" : "#82cacb",
           color: disabled ? "#949494" : "white",

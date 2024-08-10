@@ -19,7 +19,7 @@ export const CommonPageHeader = ({
   return (
     <header
       className={
-        `fixed flex h-20 w-full flex-row items-center justify-center px-4 backdrop-blur-sm` +
+        `flex h-20 w-full flex-row items-center justify-center px-4 backdrop-blur-sm` +
         ` ${ 
         className}`
       }

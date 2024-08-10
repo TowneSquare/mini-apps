@@ -118,6 +118,10 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "home-title-ani": "home-title-animation-x 0.8s ease-out forwards",
       },
+      backgroundImage: {
+        'oval-pattern': "url('/assets/oval-bg.png')",
+        'you-made-it': "url('/assets/you-made-it.png')",
+      }
     },
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
