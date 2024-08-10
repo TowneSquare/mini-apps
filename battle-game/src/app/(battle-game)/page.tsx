@@ -10,7 +10,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 export default function BattleGamePage() {
 
-  const {account} = useWallet()
+  const {account, connected} = useWallet()
 
   const slothBallData = useSlothBallData({
     accountAddress: account?.address
@@ -41,8 +41,9 @@ export default function BattleGamePage() {
 
         <BattleCard
           eligible = {eligible}
-          gameStartTime={new Date("2024-5-19").getTime()}
+          gameStartTime={1723475243000}
           evolveNumber={slothBallData.data?.length}
+          connected={connected}
         />
 
         <RouteButton

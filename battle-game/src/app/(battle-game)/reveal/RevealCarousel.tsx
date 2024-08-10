@@ -142,9 +142,9 @@ export const RevealCarousel = () => {
         ))}
         <div className="carousel-item mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
           <h1 className="text-4xl font-bold text-[#3F5679]">Bonus Trait</h1>
-          <p>See it on </p>
-          <p>
-            Town <span>space</span>
+          <p className="text-lg text-[#3F5679] mt-6">See it on </p>
+          <p className="text-lg text-[#3F5679]">
+            Town <span className="text-[#9264F8] text-lg italic">space</span>
           </p>
         </div>
       </div>
