@@ -4,15 +4,19 @@ import Image from "next/image";
 import Header from "@/src/components/Header";
 import Confetti from "react-confetti";
 import Link from 'next/link'
+import { useWindowSize } from "react-use";
+
+
 
 const youMadeIt = () => {
+  const { width, height } = useWindowSize();
   return (
     <>
       <div className="relative flex items-center justify-center w-screen h-screen overflow-hidden text-white bg-no-repeat bg-cover bg-you-made-it">
         
       <Confetti
-        width={window.innerWidth}
-        height={window.innerHeight}
+        width={width}
+        height={height}
         gravity={0.1}
         numberOfPieces={220}
       />
