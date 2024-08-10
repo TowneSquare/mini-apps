@@ -20,3 +20,5 @@ export const revealAnimation = (selector: string) => {
   tl.restart();
   
 };
+
+
