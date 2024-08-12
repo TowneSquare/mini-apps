@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { revealAnimation } from "@/src/utils";
+import Image from "next/image";
 
 export interface TraitsProps {
   traitName: string;
@@ -28,42 +29,24 @@ export const RevealCarousel = () => {
     traitTokenId?: string;
     traitName: string;
     id: number;
-    revealAnimation: () => void
+    revealAnimation: () => void;
   }> = ({ traitName, traitTokenId, id, revealAnimation }) => {
-    const container = useRef();
     const traitData = useTraitData({
       digitalAssetAddress: traitTokenId,
-    });
-    const { contextSafe } = useGSAP({ scope: container });
-    const onClickGood = contextSafe(() => {
-      gsap.to("#ImgBg", {
-        rotation: 360,
-        transformOrigin: "center",
-        ease: "none",
-        duration: 10,
-        repeat: 1,
-      });
-      gsap.to("#revealCard", {
-        rotateY: 360,
-        ease: "none",
-        duration: 10,
-        repeat: 1,
-      });
     });
 
     const revealedTraits = useAppSelector(
       (state) => state.traitState.revealedTraits,
     );
 
-    
-    
-     const reveal = revealedTraits.includes(id);
+    const reveal = revealedTraits.includes(id);
     const revealTrait = () => {
-      revealAnimation()
-      dispatch(revealTraits(id));
-    };
+      revealAnimation();
 
-   
+      setTimeout(() => {
+        dispatch(revealTraits(id));
+      }, 10000);
+    };
 
     return (
       <div>
@@ -76,14 +59,15 @@ export const RevealCarousel = () => {
             <h1 className="text-4xl font-bold text-[#3F5679]">{traitName}</h1>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center carousel-item">
+          <div className="flex flex-col items-center justify-center w-full mx-2 carousel-item">
             <div className="flex flex-col items-center justify-center mb-4 bg-white border-2 border-b-8 border-black h-80 w-80 rounded-3xl">
-              <img
+              <Image
                 src={traitData.data?.token_uri ?? ""}
                 width={500}
                 height={500}
                 style={{ objectFit: "contain" }}
                 alt={traitName}
+                priority
               />
             </div>
             <p className="text-2xl font-bold text-white">
@@ -136,15 +120,15 @@ export const RevealCarousel = () => {
             traitTokenId={trait.traitTokenId}
             id={index}
             revealAnimation={() => {
-              revealAnimation(`${trait.traitName}`)
+              revealAnimation(`${trait.traitName}`);
             }}
           />
         ))}
         <div className="carousel-item mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
           <h1 className="text-4xl font-bold text-[#3F5679]">Bonus Trait</h1>
-          <p className="text-lg text-[#3F5679] mt-6">See it on </p>
+          <p className="mt-6 text-lg text-[#3F5679]">See it on </p>
           <p className="text-lg text-[#3F5679]">
-            Town <span className="text-[#9264F8] text-lg italic">space</span>
+            Town <span className="text-lg italic text-[#9264F8]">space</span>
           </p>
         </div>
       </div>

@@ -25,61 +25,7 @@ export default function EvolvePage() {
   const typePublicInfo = `${DAPP_ADDRESS}::pre_mint::PublicInfo`;
   const [mintList, setMintList] = useState<SlothsData>([]); // State to store the list of IDs
 
-  async function getMintDetails(objInfo: string) {
-    const result = await client.getAccountResources(objInfo);
-    console.log("resources:", result);
-    const mintDetail: SlothData = { id: "", slothImg: "" };
-    result.forEach((resource) => {
-      if (resource.type === "0x4::token::TokenIdentifiers") {
-        mintDetail.id = (
-          resource as unknown as { data: { index: { value: string } } }
-        ).data.index.value;
-      }
-      if (resource.type === "0x4::token::Token") {
-        mintDetail.slothImg = (
-          resource as unknown as { data: { uri: string } }
-        ).data.uri;
-      }
-    });
-    return mintDetail;
-  }
-  async function getBalance(addr: string) {
-    console.log("addr", addr);
-    const payload: Types.ViewRequest = {
-      function: `${DAPP_ADDRESS}::pre_mint::minted_tokens`,
-      type_arguments: [typeCoollistInfo],
-      arguments: [addr],
-    };
-
-    const result = (await client.view(payload)) as Array<Array<string>>;
-    console.log("balance of coollist:", result[0]);
-
-    const payloadPublic: Types.ViewRequest = {
-      function: `${DAPP_ADDRESS}::pre_mint::minted_tokens`,
-      type_arguments: [typePublicInfo],
-      arguments: [addr],
-    };
-
-    const resultPublic = (await client.view(payloadPublic)) as Array<
-      Array<string>
-    >;
-    console.log("balance of public:", resultPublic[0]);
-    // The result is obj id list.
-    const combinedIds = [...result[0], ...resultPublic[0]];
-    console.log("combinedIds:", combinedIds);
-    // Fetch additional details for each ID and update the state.
-    const idDetails = await Promise.all(
-      combinedIds.map((id) => getMintDetails(id)),
-    );
-    setMintList(idDetails); // Update the state with the new list of IDs.
-    console.log("idDetails:", idDetails);
-    console.log("idList:", mintList);
-  }
-  useEffect(() => {
-    if (account) {
-      getBalance(account.address).catch(console.error);
-    }
-  }, [account]); // Depend on account to re-run when account changes
+// Depend on account to re-run when account changes
 
   // const mockMintList: SlothsData = [
   //   { slothImg: "", id: "3229" },

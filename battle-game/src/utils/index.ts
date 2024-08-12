@@ -2,7 +2,7 @@ import gsap from "gsap";
 
 export const revealAnimation = (selector: string) => {
   const tl = gsap.timeline();
-   tl.restart();
+   //tl.restart();
 //   tl.to("#ImgBg", {
 //     rotation: 360,
 //     transformOrigin: "center",
@@ -10,14 +10,16 @@ export const revealAnimation = (selector: string) => {
 //     duration: 1,
 //     repeat: 1,
 //   });
-  tl.to(`#${selector}`, {
-    translateZ: 360,
-    ease: "circ.inOut",
+  gsap.to(`#${selector}`, {
+    rotationX: 360,
+    ease: "power1",
     transformOrigin:"center",
     duration: 10,
-    repeat: 1,
+    repeat: 0,
+    zIndex:100,
+    transition:"ease"
   });
-  tl.restart();
+  //tl.restart();
   
 };
 
