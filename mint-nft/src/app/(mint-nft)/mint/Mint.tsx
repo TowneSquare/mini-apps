@@ -414,7 +414,7 @@ export const Mint = () => {
         <div className="px-4 pb-4 space-y-3">
           {progressStatusCoollist === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
-              value={coolListMinted}
+              value={Number(coolListMinted) + Number(publicListMinted)}
               total={allocatedTokenCount.data ? (Number(allocatedTokenCount.data[0]) + Number(allocatedTokenCount.data[1])) : 0}
             />
           )}
