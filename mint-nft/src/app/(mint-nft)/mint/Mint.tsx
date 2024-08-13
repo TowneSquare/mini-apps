@@ -415,7 +415,7 @@ export const Mint = () => {
           {progressStatusCoollist === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={coolListMinted}
-              total={allocatedTokenCount.data ? allocatedTokenCount.data[0] : 0}
+              total={allocatedTokenCount.data ? (Number(allocatedTokenCount.data[0]) + Number(allocatedTokenCount.data[1])) : 0}
             />
           )}
 
@@ -436,12 +436,12 @@ export const Mint = () => {
             account={account}
           />
 
-          {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
+          {/* {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={publicListMinted}
               total={allocatedTokenCount.data ? allocatedTokenCount.data[1] : 0}
             />
-          )}
+          )} */}
 
           <MintCard
             mintFinishHandler={mintFinishHandler}
