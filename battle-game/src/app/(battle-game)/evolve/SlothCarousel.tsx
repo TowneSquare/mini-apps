@@ -57,17 +57,9 @@ export const SlothCarousel = () => {
               result.events.find(
                 (event) =>
                   event.type ==
-                  "0xd45768ef356490601ec82e577fb430a0795d076fc87e80a9115392aea0e37a12::unveil::Unveiled",
+                  `${DAPP_ADDRESS}::unveil::Unveiled`,
               )?.data,
             ),
-          );
-          console.log(
-            result.events.find(
-              (event) =>
-                event.type ==
-                "0xd45768ef356490601ec82e577fb430a0795d076fc87e80a9115392aea0e37a12::unveil::Unveiled",
-            )?.data,
-            "reveal",
           );
           router.push("/reveal");
         }
