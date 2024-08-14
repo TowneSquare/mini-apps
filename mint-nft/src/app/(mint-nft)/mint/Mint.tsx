@@ -414,8 +414,8 @@ export const Mint = () => {
         <div className="px-4 pb-4 space-y-3">
           {progressStatusCoollist === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
-              value={coolListMinted}
-              total={allocatedTokenCount.data ? allocatedTokenCount.data[0] : 0}
+              value={Number(coolListMinted) + Number(publicListMinted)}
+              total={allocatedTokenCount.data ? (Number(allocatedTokenCount.data[0]) + Number(allocatedTokenCount.data[1])) : 0}
             />
           )}
 
@@ -436,12 +436,12 @@ export const Mint = () => {
             account={account}
           />
 
-          {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
+          {/* {progressStatusPublic === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={publicListMinted}
               total={allocatedTokenCount.data ? allocatedTokenCount.data[1] : 0}
             />
-          )}
+          )} */}
 
           <MintCard
             mintFinishHandler={mintFinishHandler}
