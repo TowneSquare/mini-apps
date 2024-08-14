@@ -456,6 +456,7 @@ const MintButtonCard: React.FC<{
           onClick={() => {
             setMintAmount(mintAmount + 1);
           }}
+          disabled={mintAmount == 40}
           variant="primary"
           className="text-black"
         >
