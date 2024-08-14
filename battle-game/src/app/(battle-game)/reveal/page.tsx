@@ -39,7 +39,7 @@ export default function RevealPage() {
           priority
         />
       </div>
-      <div className="fixed justify-center w-full h-full top-1/3">
+      <div className="fixed w-full h-full top-1/3">
         <p className="px-8 mt-2 mb-3 text-3xl font-extrabold text-center text-white bg-center">
           Reveal and compose your Sloth!
         </p>

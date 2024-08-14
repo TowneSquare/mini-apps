@@ -5,7 +5,7 @@ import { revealTraits } from "@/src/store/trait";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { revealAnimation } from "@/src/utils";
+import { removeSpaceAndHash, revealAnimation } from "@/src/utils";
 import Image from "next/image";
 
 export interface TraitsProps {
@@ -17,7 +17,6 @@ export const RevealCarousel = () => {
   const traits = useAppSelector((state) => state.traitState.traits);
 
   const dispatch = useAppDispatch();
-  const [animate, setAnimate] = useState<boolean>();
 
   // const SlothBallData = useSlothBallData({
   //   accountAddress: account?.address,
@@ -38,15 +37,38 @@ export const RevealCarousel = () => {
     const revealedTraits = useAppSelector(
       (state) => state.traitState.revealedTraits,
     );
-
+    const container = useRef(null);
+    const { contextSafe } = useGSAP({ scope: container });
     const reveal = revealedTraits.includes(id);
-    const revealTrait = () => {
-      revealAnimation();
 
+    const onClickGood = contextSafe(() => {
+      revealAnimation();
+    });
+
+    const revealTrait = () => {
+    revealAnimation();
       setTimeout(() => {
         dispatch(revealTraits(id));
       }, 10000);
     };
+
+    // useGSAP(
+    //   () => {
+    //     // gsap code here...
+    //     //let split = new SplitText("#traitName", {type: "chars"});
+    //     if(!traitData.data?.token_name){
+    //       return
+    //     }
+    //     gsap.to(`#${removeSpaceAndHash(traitData.data?.token_name)}`, {
+    //       opacity: 1,
+    //       duration: 10,
+    //       stagger: 0.2,
+    //       ease: "back.out",
+    //     });
+    //     // <-- automatically reverted
+    //   },
+    //   { scope: container },
+    // ); // <-- scope is for selector text (optional)
 
     return (
       <div>
@@ -59,7 +81,10 @@ export const RevealCarousel = () => {
             <h1 className="text-4xl font-bold text-[#3F5679]">{traitName}</h1>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center w-full mx-2 carousel-item">
+          <div
+            className="flex flex-col items-center justify-center w-full mx-2 carousel-item"
+            ref={container}
+          >
             <div className="flex flex-col items-center justify-center mb-4 bg-white border-2 border-b-8 border-black h-80 w-80 rounded-3xl">
               <Image
                 src={traitData.data?.token_uri ?? ""}
@@ -70,7 +95,7 @@ export const RevealCarousel = () => {
                 priority
               />
             </div>
-            <p className="text-2xl font-bold text-white">
+            <p className="text-2xl font-bold text-white opacity-1">
               {traitData.data?.token_name}
             </p>
           </div>
@@ -110,9 +135,10 @@ export const RevealCarousel = () => {
     },
   ];
 
+
   return (
     <div className="flex items-center justify-center h-full px-5 overflow-x-scroll md:ml-60 md:mr-64">
-      <div className="h-full space-x-8 carousel rounded-box">
+      <div className="h-full space-x-8 carousel pr-60 rounded-box first:pl-60">
         {traitDetails.map((trait, index) => (
           <TraitCard
             key={index}

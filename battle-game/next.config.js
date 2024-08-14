@@ -29,6 +29,7 @@ const nextConfig = {
       "miro.medium.com",
       "www.gitbook.com",
       "raw.githubusercontent.com",
+      "bafybeiafcvv5u3lntqbuuiu35kf6vzktkatprtsqlxwcyjjtl57bijlp7q.ipfs.w3s.link"
     ],
   },
   webpack: (config) => {
