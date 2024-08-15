@@ -382,6 +382,8 @@ export const Mint = () => {
     refreshPageInfo();
   };
 
+  console.log(progressStatusPublic, "progressPublic")
+
   return (
     <>
       <div
@@ -442,6 +444,7 @@ export const Mint = () => {
               total={allocatedTokenCount.data ? allocatedTokenCount.data[1] : 0}
             />
           )} */}
+          
 
           <MintCard
             mintFinishHandler={mintFinishHandler}

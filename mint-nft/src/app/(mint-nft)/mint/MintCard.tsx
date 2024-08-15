@@ -1,8 +1,6 @@
 "use client";
 import { CountDown } from "@/src/components/CountDown";
 import { Button } from "@/components/ui/button";
-import { API_URL } from "@/src/config/constants";
-import { fetcher } from "@/src/lib/utils";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
@@ -32,6 +30,7 @@ export interface MintCardProps {
   mintable?: number;
   maxMinted: boolean;
   account: AccountInfo | null;
+  mintCardType: MintType;
 }
 export interface MintInProgressCardProps extends MintCardProps {
   mintFinishHandler: (mintedData: {
@@ -104,6 +103,7 @@ export const MintCard: React.FC<{
       maxMinted,
       account,
       mintEndTime,
+      mintCardType,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -138,6 +138,7 @@ export const MintCard: React.FC<{
       maxMinted,
       mintEndTime,
       account,
+      mintCardType,
     };
     if (progressStatus === MintProgressStatus.IN_PROGRESS) {
       return <MintInprogressCard {...propsData} />;
@@ -205,11 +206,12 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
                   WELL DONE!
                 </span>
                 <p className="mt-3 mb-5 text-base font-light text-center text-white ">
-                  You've successfully minted all the Slothballs available to you.
+                  You've successfully minted all the Slothballs available to
+                  you.
                 </p>
                 <p className="text-base font-light text-center text-white">
                   {" "}
-                 You'll be notified when it's time to evolve them.
+                  You'll be notified when it's time to evolve them.
                 </p>
               </>
             ) : (
@@ -251,6 +253,7 @@ const MintInprogressCard: React.FC<MintInProgressCardProps> = ({
 const MintStartCard: React.FC<MintCardProps> = ({
   mintName,
   mintStartTime,
+  mintCardType,
 }) => {
   const mintTimeFormat = getStartTime(mintStartTime);
 
@@ -258,6 +261,14 @@ const MintStartCard: React.FC<MintCardProps> = ({
     <div className="flex items-center justify-between h-20 px-4 py-2 mt-3 border-2 border-b-4 border-black rounded-xl bg-bgpink text-fgpink">
       <span className="text-lg font-bold">{mintName}</span>
       <span>{mintTimeFormat}</span>
+
+      {mintCardType === "cool-list" && (
+        <CountDownCard
+          cardName=""
+          startTime={mintStartTime}
+          bgcolor="bg-[#555372]"
+        />
+      )}
     </div>
   );
 };
@@ -270,6 +281,7 @@ const MintCompletedCard: React.FC<MintCardProps> = ({
   mintEndTime,
 }) => {
   const now = Math.floor(Date.now() / 1000);
+
   return now > mintEndTime ? (
     <div className="flex items-center justify-between h-20 px-4 py-2 mt-3 text-white border-2 border-b-4 border-black rounded-xl bg-bgpink">
       <span className="text-lg font-bold">{mintName}</span>
@@ -282,7 +294,7 @@ const MintCompletedCard: React.FC<MintCardProps> = ({
         <div className="w-full pt-6 pb-4">
           <h1 className="mb-2 text-center text-[29px] font-bold">SOLD OUT!</h1>
           <p className="px-8 text-base font-normal text-center">
-            Prepare for the upcoming evolution phase. 
+            Prepare for the upcoming evolution phase.
           </p>
           <p className="px-4 text-base font-normal text-center">
             You'll be notified when it's time to proceed.
@@ -323,7 +335,6 @@ export const CountDownCard: React.FC<{
   const startTimeFormat = getStartTime(startTime);
   return (
     <div className="flex flex-col items-center justify-center w-full mb-5">
-      <h1 className="text-lg font-bold text-white">{cardName}</h1>
       <span className="text-lg font-light text-white mb-7">
         {startTimeFormat}
       </span>
