@@ -23,7 +23,7 @@ import {
   CaretUpOutlined,
   RightOutlined,
 } from "@ant-design/icons";
-import DrawTitlePNG from "@/public/assets/draw_title.png";
+import CoolSlothPNG from "@/public/assets/coolsloth.png";
 import WalletPromptPNG from "@/public/assets/wallet-prompt.png";
 import { useMediaQuery } from "react-responsive";
 
@@ -166,16 +166,15 @@ export function WalletSelector({
         >
           {!connected && (
             <>
-              <img
-                className="mx-auto w-[20rem]"
-                src={DrawTitlePNG.src}
-                alt=""
-              />
-              <img
+              <img className="mx-auto" src={CoolSlothPNG.src} alt="coolSloth" />
+              {/* <img
                 className="mx-auto my-8 w-[15rem]"
                 src={WalletPromptPNG.src}
                 alt=""
-              />
+              /> */}
+              <p className="my-4 text-xl text-center text-white">
+                Connect Wallet
+              </p>
               <Menu className="bg-black">
                 {/* {wallets?.map(
                   (wallet: Wallet | AptosStandardSupportedWallet) => {
@@ -185,7 +184,8 @@ export function WalletSelector({
                 {wallets
                   ?.filter(
                     (wallet: Wallet | AptosStandardSupportedWallet) =>
-                      wallet.name !== "Continue with Google" && wallet.name !== "Nightly",
+                      wallet.name !== "Continue with Google" &&
+                      wallet.name !== "Nightly",
                   )
                   .map((newWallet: Wallet | AptosStandardSupportedWallet) => {
                     return walletView(newWallet, onWalletSelected);
@@ -218,19 +218,18 @@ export function WalletSelector({
             <>
               <img
                 className="mx-auto w-[20rem]"
-                src={DrawTitlePNG.src}
+                src={CoolSlothPNG.src}
                 alt=""
               />
-              <img
-                className="mx-auto my-8 w-[15rem]"
-                src={WalletPromptPNG.src}
-                alt=""
-              />
+              <p className="my-4 text-xl text-center text-white">
+                Connect Wallet
+              </p>
               <Menu className="bg-black">
-               {wallets
+                {wallets
                   ?.filter(
                     (wallet: Wallet | AptosStandardSupportedWallet) =>
-                      wallet.name !== "Continue with Google" && wallet.name !== "Nightly",
+                      wallet.name !== "Continue with Google" &&
+                      wallet.name !== "Nightly",
                   )
                   .map((newWallet: Wallet | AptosStandardSupportedWallet) => {
                     return walletView(newWallet, onWalletSelected);
