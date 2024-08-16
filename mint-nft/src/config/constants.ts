@@ -10,21 +10,13 @@ export const DAPP_ADDRESS = process.env.NEXT_PUBLIC_DAPP_ADDRESS!; // changed he
 export const MARKET_COINT_TYPE = process.env.NEXT_PUBLIC_MARKET_COIN_TYPE!;
 
 // export const APTOS_NODE_URL = process.env.NEXT_PUBLIC_APTOS_NODE_URL!;
-export const APTOS_NODE_URL = "https://fullnode.testnet.aptoslabs.com/v1/";
-export const APTOS_FAUCET_URL = process.env.NEXT_PUBLIC_APTOS_FAUCET_URL;
+export const APTOS_NODE_URL = "https://fullnode.mainnet.aptoslabs.com/v1/";
 
-export const NETWORK=process.env.NEXT_PUBLIC_APTOS_NETWORK!;
+export const NETWORK = process.env.NEXT_PUBLIC_APTOS_NETWORK!;
 
-
-export const MODULE_URL=`https://explorer.aptoslabs.com/account/${  DAPP_ADDRESS  }/modules?network=${  NETWORK}`
-
-export const ETH_SIGNER_URL="https://eth-signer-react-app.vercel.app/?msg=";
-export const APTOS_SIGNER_URL="https://aptos-signer.vercel.app/?msg="
-
-export const STATE_SEED = "hero_signer";
-// use to gen resource account.
+export const MODULE_URL = `https://explorer.aptoslabs.com/account/${DAPP_ADDRESS}/modules?network=${NETWORK}`;
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+const aptosConfig = new AptosConfig({ network: Network.MAINNET });
 export const APTOS = new Aptos(aptosConfig);

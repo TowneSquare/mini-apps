@@ -419,17 +419,16 @@ export const Mint = () => {
           {/*  */}
         </div>
         <div className="px-4 pb-4 space-y-3">
-          {progressStatusCoollist === MintProgressStatus.IN_PROGRESS && (
+          
             <MintPorgress
               value={Number(coolListMinted) + Number(publicListMinted)}
               total={
                 allocatedTokenCount.data
-                  ? Number(allocatedTokenCount.data[0]) +
-                    Number(allocatedTokenCount.data[1])
+                  ? Number(allocatedTokenCount.data[0])
                   : 0
               }
             />
-          )}
+          
 
           <MintCard
             mintFinishHandler={mintFinishHandler}
@@ -442,7 +441,7 @@ export const Mint = () => {
             mintable={userCoolistThreshold.data}
             minted={mintedCoollist} // Pass minted count to MintCard
             eligible={eligible} // Pass eligibility to MintCard
-            mintStartTime={mintCoolStartTime}
+            mintStartTime={mintCoolStartTime * 1000}
             mintEndTime={mintCoolEndTime}
             maxMinted={userCoolistThreshold.data == canCoolMint}
             account={account}
@@ -467,7 +466,7 @@ export const Mint = () => {
             minted={mintedPublic} // Pass minted count to MintCard
             eligible={true}
             // change this line if need eligible in public mint * 2.
-            mintStartTime={mintPublicStartTime}
+            mintStartTime={mintPublicStartTime * 1000}
             mintEndTime={mintPublicEndTime}
             maxMinted={userPublicThreshold.data == canPublicMint}
             account={account}

@@ -1,5 +1,5 @@
 import { WalletClient } from "@martiandao/aptos-web3-bip44.js";
-import { APTOS_FAUCET_URL, APTOS_NODE_URL } from "../config/constants";
+import { APTOS_NODE_URL } from "../config/constants";
 
 const MAX_U64_BIG_INT: bigint = BigInt(2 ** 64) - BigInt(1);
 
@@ -51,7 +51,6 @@ export function createTokenPayload(
   };
 }
 
-export const walletClient = new WalletClient(APTOS_NODE_URL, APTOS_FAUCET_URL);
 
 function truncate(
   str: string,

@@ -254,19 +254,63 @@ const MintStartCard: React.FC<MintCardProps> = ({
   mintName,
   mintStartTime,
   mintCardType,
+  mintPrice,
+  account,
+  mintable,
+  minted,
 }) => {
   const mintTimeFormat = getStartTime(mintStartTime);
 
   return (
-    <div className="flex flex-col items-center justify-between h-20 px-4 py-2 mt-3 border-2 border-b-4 border-black rounded-xl bg-bgpink text-fgpink">
-      {mintCardType === "cool-list" && (
-        <CountDownCard
-          cardName=""
-          startTime={mintStartTime}
-          bgcolor="bg-[#555372]"
-        />
+    // <div className="flex flex-col items-center justify-between h-20 px-4 py-2 mt-3 border-2 border-b-4 border-black rounded-xl bg-bgpink text-fgpink">
+    //   {mintCardType === "cool-list" && (
+    //     <CountDownCard
+    //       cardName={mintName}
+    //       startTime={mintStartTime}
+    //       bgcolor="bg-[#555372]"
+    //     />
+    //   )}
+    // </div>
+    <>
+      {mintCardType == "cool-list" && (
+        <div>
+          <div className="flex flex-col justify-between px-4 py-2 mt-3 border-2 border-b-0 border-black h-50 rounded-t-xl bg-bgpink text-fgpink">
+            <span className="text-lg font-bold text-left text-white">
+              {mintName}
+            </span>
+            <CountDownCard
+              cardName={mintName}
+              startTime={mintStartTime}
+              bgcolor="bg-[#222222]"
+            />
+          </div>
+          <div className="px-4 py-5 bg-white border-2 border-t-0 border-b-4 border-black text-slate-600">
+            <div className="flex items-center justify-between">
+              <span className="font-semibold">Mint price</span>
+              <span className="font-black">{mintPrice || "-"} APT</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="font-semibold">You can mint</span>
+              <span className="font-black">
+                {mintable && account ? mintable : "-"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="font-semibold">You minted</span>
+              <span className="font-black">
+                {minted && account ? minted : "-"}
+              </span>
+            </div>
+          </div>
+        </div>
       )}
-    </div>
+      {mintCardType == "public-mint" && (
+        <div className="flex items-center justify-between h-20 px-4 py-2 mt-3 text-white border-2 border-b-4 border-black rounded-xl bg-bgpink ">
+          <span className="text-lg font-bold">{mintName}</span>
+          <span>{mintTimeFormat}</span>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -488,6 +532,6 @@ export const getStartTime = (startTime: number) => {
   const date = new Date(startTime);
   const utcString = date.toUTCString();
   const parts = utcString.split(" ");
-  const timeParts = parts[4].split(":");
+  const timeParts = parts[4]?.split(":");
   return `${parts[1]} ${parts[2]}⋅${timeParts[0]}:${timeParts[1]} GMT`;
 };
