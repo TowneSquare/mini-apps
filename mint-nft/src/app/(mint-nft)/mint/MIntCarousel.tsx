@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 
 // import type { StaticImageData } from "next/image";
 import unknownSothballs from "@/public/assets/unknow_slothball.png";
-import { Draggable } from "@/components/ui/Draggable";
+import { Draggable } from "@/src/components/ui/Draggable";
 export interface MintData {
   mintID: string;
   // mintImg: StaticImageData;
@@ -25,10 +25,10 @@ export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({
 
   return (
     <div className="relative flex flex-row w-full h-full mb-5 no-scrollbar">
-      <img
+      {/* <img
         src="/assets/carousel-edge-left.png"
         className="absolute left-0 z-20 h-[249px] max-h-full"
-      />
+      /> */}
       {/* <div className="carousel-item">
         <div className="h-[108px] w-[100px]" />
       </div> */}
@@ -70,10 +70,10 @@ export const MintCarousel: React.FC<{ mintList: MintData[] }> = ({
           )}
         </div>
       </Draggable>
-      <img
+      {/* <img
         src="/assets/carousel-edge-right.png"
         className="absolute right-0 z-20 h-[249px] max-h-full"
-      />
+      /> */}
     </div>
   );
 };

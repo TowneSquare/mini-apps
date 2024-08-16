@@ -1,6 +1,6 @@
 "use client";
 import sothballs from "@/public/assets/home/slothball_left1.svg";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import unknownSothballs from "@/public/assets/unknow_slothball.png";
 
 import {
@@ -8,11 +8,11 @@ import {
   DialogClose,
   DialogContent,
   DialogOverlay,
-} from "@/components/ui/dialog";
+} from "@/src/components/ui/dialog";
 import Image from "next/image";
 import { MintData } from "./MIntCarousel";
 import { useMediaQuery } from "react-responsive";
-import { Draggable } from "@/components/ui/Draggable";
+import { Draggable } from "@/src/components/ui/Draggable";
 import { useRef } from "react";
 
 export const MintDoneDialog: React.FC<{

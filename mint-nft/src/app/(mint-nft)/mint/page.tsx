@@ -13,7 +13,7 @@ const MintPage = () => {
       <CommonPageBannerProvider>
         <CommonPageHeader className="z-10" closeIconColor="text-black" />
         <main
-          className="relative pt-20 bg-bgorange"
+          className="pt-20 bg-bgorange"
           style={{
             backgroundImage: `url(${BgMintImg.src})`,
             backgroundSize: "cover",

@@ -1,6 +1,6 @@
 "use client";
 import { CountDown } from "@/src/components/CountDown";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
@@ -258,10 +258,7 @@ const MintStartCard: React.FC<MintCardProps> = ({
   const mintTimeFormat = getStartTime(mintStartTime);
 
   return (
-    <div className="flex items-center justify-between h-20 px-4 py-2 mt-3 border-2 border-b-4 border-black rounded-xl bg-bgpink text-fgpink">
-      <span className="text-lg font-bold">{mintName}</span>
-      <span>{mintTimeFormat}</span>
-
+    <div className="flex flex-col items-center justify-between h-20 px-4 py-2 mt-3 border-2 border-b-4 border-black rounded-xl bg-bgpink text-fgpink">
       {mintCardType === "cool-list" && (
         <CountDownCard
           cardName=""
@@ -488,7 +485,7 @@ const MintButtonCard: React.FC<{
 export const getStartTime = (startTime: number) => {
   console.log("starttime", startTime);
   // Convert seconds to milliseconds if the timestamp is not in the correct time range
-  const date = new Date(startTime * 1000);
+  const date = new Date(startTime);
   const utcString = date.toUTCString();
   const parts = utcString.split(" ");
   const timeParts = parts[4].split(":");

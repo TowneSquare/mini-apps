@@ -109,7 +109,7 @@ export const Mint = () => {
     const minted_tokens_count = (await client.view(payload)) as Array<number>;
 
     const resultStart = (await client.view(payloadStart)) as Array<number>;
-   
+
     const payloadEnd: Types.ViewRequest = {
       function: DAPP_ADDRESS + `::pre_mint::mint_end_time`,
       type_arguments: [objInfo],
@@ -129,7 +129,7 @@ export const Mint = () => {
         minted_tokens_count[0] < 6000
       ) {
         setProgressStatusCoollist(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0] || minted_tokens_count[0] === 6000) {
+      } else if (now > resultEnd[0] || minted_tokens_count[0] >= 6000) {
         setProgressStatusCoollist(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusCoollist(MintProgressStatus.NOT_STARTED);
@@ -142,24 +142,24 @@ export const Mint = () => {
       console.log(
         now >= resultStart[0],
         now <= resultEnd[0],
-        minted_tokens_count[1] < 1000,
+        minted_tokens_count[0],
         publicListMinted,
         "status",
       );
       if (
-        now >= resultStart[0] &&
-        now <= resultEnd[0] &&
-        minted_tokens_count[1] < 1000
+        (now >= resultStart[0] &&
+          now <= resultEnd[0] &&
+          minted_tokens_count[1] < 1000) ||
+        progressStatusCoollist == MintProgressStatus.FINISHED
       ) {
         setProgressStatusPublic(MintProgressStatus.IN_PROGRESS);
-      } else if (now > resultEnd[0] || minted_tokens_count[1] == 1000 || progressStatusCoollist == MintProgressStatus.FINISHED) {
+      } else if (now > resultEnd[0] || minted_tokens_count[1] >= 1000) {
         setProgressStatusPublic(MintProgressStatus.FINISHED);
       } else {
         setProgressStatusPublic(MintProgressStatus.NOT_STARTED);
       }
     }
   }
-
 
   const getMintProgress = async (objInfo: string) => {
     const payloadStart: Types.ViewRequest = {
@@ -307,7 +307,12 @@ export const Mint = () => {
     }
   }, [canPublicMint, canCoolMint]);
 
-  console.log(coolListMaxMinted, userCoolistThreshold.data, canCoolMint, "coolist maxminted")
+  console.log(
+    coolListMaxMinted,
+    userCoolistThreshold.data,
+    canCoolMint,
+    "coolist maxminted",
+  );
 
   useEffect(() => {
     isWhitelisted(account?.address).catch(console.error);
@@ -382,7 +387,7 @@ export const Mint = () => {
     refreshPageInfo();
   };
 
-  console.log(progressStatusPublic, "progressPublic")
+  console.log(progressStatusPublic, "progressPublic");
 
   return (
     <>
@@ -417,7 +422,12 @@ export const Mint = () => {
           {progressStatusCoollist === MintProgressStatus.IN_PROGRESS && (
             <MintPorgress
               value={Number(coolListMinted) + Number(publicListMinted)}
-              total={allocatedTokenCount.data ? (Number(allocatedTokenCount.data[0]) + Number(allocatedTokenCount.data[1])) : 0}
+              total={
+                allocatedTokenCount.data
+                  ? Number(allocatedTokenCount.data[0]) +
+                    Number(allocatedTokenCount.data[1])
+                  : 0
+              }
             />
           )}
 
@@ -444,7 +454,6 @@ export const Mint = () => {
               total={allocatedTokenCount.data ? allocatedTokenCount.data[1] : 0}
             />
           )} */}
-          
 
           <MintCard
             mintFinishHandler={mintFinishHandler}
