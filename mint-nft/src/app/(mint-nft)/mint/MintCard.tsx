@@ -533,5 +533,5 @@ export const getStartTime = (startTime: number) => {
   const utcString = date.toUTCString();
   const parts = utcString.split(" ");
   const timeParts = parts[4]?.split(":");
-  return `${parts[1]} ${parts[2]}⋅${timeParts[0]}:${timeParts[1]} GMT`;
+  return `${parts[1]} ${parts[2]}⋅${timeParts[0]}:${timeParts[1]} UTC`;
 };
