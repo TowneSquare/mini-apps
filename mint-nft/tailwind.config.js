@@ -23,7 +23,7 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        bgorange: "#e1dac4",
+        bgorange: "#f2eee3",
         bgbutton: "#d6d3c8",
         bgpink: "#746aa9",
         fgpink: "#b5afd0",

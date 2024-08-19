@@ -473,7 +473,7 @@ const MintButtonCard: React.FC<{
             }),
           );
         }
-        console.log("mintedData", mintedData);
+
         setMinting(false);
         setMintAmount(1);
         onMintHandle({ data: mintedData, typeName: mintName });
