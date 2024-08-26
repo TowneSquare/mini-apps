@@ -11,8 +11,6 @@ import { useAppSelector, useAppDispatch } from "@/src/store/hooks";
 import { useRef, useEffect } from "react";
 
 export default function RevealPage() {
-  const ImgRef = useRef(null);
-  const container = useRef(null);
 
   const revealedTraits = useAppSelector(
       (state) => state.traitState.revealedTraits,
@@ -22,17 +20,14 @@ export default function RevealPage() {
   //   gsap.to("#ImgBg", {rotation: 360, transformOrigin: "center", ease: "elastic", duration: 30, repeat: -1});
   // }, {scope: container})
   return (
-    <main
-      ref={container}
-      className="container relative flex items-center justify-center h-screen"
+    <div
+      className=" relative flex items-center justify-center w-screen h-screen bg-[#4c6299]"
     >
-      <div className="absolute w-screen h-full rounded-full">
+      <div id="ImgBg" className="absolute w-screen h-full rounded-full animate-duration-[2000ms]">
         <Image
-          id={`ImgBg`}
-          ref={ImgRef}
           src={BgFallImg.src}
           fill
-          alt="Background"
+          alt="shining-bg"
           style={{
             objectFit:"contain"
           }}
@@ -45,6 +40,6 @@ export default function RevealPage() {
         </p>
         <RevealCarousel />
       </div>
-    </main>
+    </div>
   );
 }

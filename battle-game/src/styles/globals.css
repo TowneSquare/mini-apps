@@ -71,6 +71,16 @@
     @apply border-border;
   }
   body {
-    @apply bg-background  text-foreground;
+    @apply bg-background text-foreground;
   }
 }
+
+
+/* .draggable {
+  display: inline-flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none
+} */
