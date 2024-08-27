@@ -15,6 +15,7 @@ import bgImg from "@/public/assets/game/bg.svg";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
+import Header from "@/src/components/Header";
 
 const HitBear = () => {
   const bearRef = useRef(null);

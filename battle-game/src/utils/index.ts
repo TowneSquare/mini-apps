@@ -1,5 +1,6 @@
 import gsap from "gsap";
 
+
 export const revealAnimation = (selector: string) => {
   const tl = gsap.timeline();
   //tl.restart();
@@ -10,7 +11,7 @@ export const revealAnimation = (selector: string) => {
   //     duration: 1,
   //     repeat: 1,
   //   });
- 
+
   tl.restart();
 
   return tl.to(`#${selector}`, {
@@ -47,3 +48,4 @@ export function transferClassToElement(className: string, traitName: string) {
   // Add the class to the target element
   toElement?.classList.add(className);
 }
+
