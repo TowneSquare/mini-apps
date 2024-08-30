@@ -37,7 +37,7 @@ export const BattleEvilProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   useEffect(() => {
-    console.log(data);
+    console.log(data, "garri");
     if (data) {
       setEvilBlood(data.value);
     }

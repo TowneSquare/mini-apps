@@ -16,6 +16,8 @@ import {
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { clearRevealedTraits, revealTraits } from "@/src/store/trait";
+import { useTraitData } from "@/src/hooks";
 
 export interface TraitsProps {
   traitName: string;
@@ -39,9 +41,11 @@ export const RevealCarousel = () => {
   const revealedTraits = useAppSelector(
     (state) => state.traitState.revealedTraits,
   );
+  const dispatch = useAppDispatch();
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [composed, setComposed] = useState<boolean>(false);
   const [uri, setUri] = useState<string>("");
+  const [isComposing, setIsComposing] = useState(false)
 
   // const SlothBallData = useSlothBallData({
   //   accountAddress: account?.address,
@@ -83,6 +87,12 @@ export const RevealCarousel = () => {
     },
   ];
 
+  const trait = traitDetails.map((traits) => {
+    return useTraitData({digitalAssetAddress: traits.traitTokenId}).data
+  })
+
+
+
   const showComposeButton = revealedTraits.length == 7;
   /// NOTE: It is important to sort the array to make sure they are in order for composing
   const sortedRevealedTraits = [...revealedTraits].sort(
@@ -93,9 +103,9 @@ export const RevealCarousel = () => {
     return traitUri.traitUri;
   });
 
-  const composableObject = traitDetails
+  const composableObject = trait
     .map((traitDetails) => {
-      return traitDetails.traitTokenId;
+      return traitDetails;
     })
     .splice(1, 1)[0];
 
@@ -111,90 +121,97 @@ export const RevealCarousel = () => {
     .map((traitId) => {
       return traitId.traitTokenId;
     });
- 
+
   const composeCoolSloth = async () => {
+   setIsComposing(true)
     try {
       const res = await fetch("/api/sharp", {
         method: "POST",
         body: JSON.stringify({
           traitsUri,
+          coolSlothName: composableObject?.token_name
         }),
       });
-
+      console.log(traitsUri);
       const { ipfsHash, message } = await res.json();
       const URI = `${PINATA_GATEWAY}/${ipfsHash}`;
-      setUri(URI)
+      setUri(URI);
+      console.log(ipfsHash, message, URI, "genie");
       const tx = await signAndSubmitTransaction({
         sender: account?.address,
         data: {
           function: `${COMPOSABLE_TOKEN_ENTRY_MODULE_ADDRESS_TESTNET}::${COMPOSABLE_TOKEN_ENTRY}::${EQUIP_TRAITS}`,
           typeArguments: [],
-          functionArguments: [composableObject, traitObject, URI],
+          functionArguments: [composableObject?.token_data_id, traitObject, URI],
         },
       });
-      //console.log(tx);
-      //setUri(URI)
-      setLoading(true);
+      console.log(tx, "txxx");
+      setUri(URI)
+      setIsComposing(false)
+      setComposed(true);
     } catch (error) {
       console.log(error, "compose error");
+      setIsComposing(false)
     }
   };
 
   return (
     <>
-      {!loading ? (
+      {!composed ? (
         <div className="relative flex flex-col content-center justify-center h-screen my-auto">
-         <div>
-           <p className="px-8 mt-2 mb-3 text-3xl font-extrabold text-center text-white">
-            Reveal and compose your Sloth!
-          </p>
+          <div>
+            <p className="px-8 mt-2 mb-3 text-3xl font-extrabold text-center text-white">
+              Reveal and compose your Sloth!
+            </p>
 
-          <div className="flex items-center justify-center h-full px-5 overflow-x-scroll md:ml-60 md:mr-64">
-            <div className="h-full space-x-8 carousel rounded-box pr-60 first:pl-60">
-              {traitDetails.map((trait, index) => (
-                <TraitCard
-                  key={index}
-                  traitName={trait.traitName}
-                  traitTokenId={trait.traitTokenId}
-                  id={index}
-                  revealAnimation={() => {
-                    revealAnimation(`${trait.traitName}`);
-                  }}
-                />
-              ))}
-              <div className="flex flex-col items-center">
-                <div className="carousel-item mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
-                  <h1 className="text-4xl font-bold text-[#3F5679]">
-                    Bonus Trait
-                  </h1>
-                  <p className="mt-6 text-lg text-[#3F5679]">See it on </p>
-                  <p className="text-lg text-[#3F5679]">
-                    Town{" "}
-                    <span className="text-lg italic text-[#9264F8]">space</span>
-                  </p>
-                </div>
-                {showComposeButton && (
-                  <Button
-                    variant="secondary"
-                    className="mt-10 h-16 w-[92%] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-xl font-bold text-white animate-duration-[2000ms]"
-                    onClick={() => {
-                      composeCoolSloth();
+            <div className="flex items-center justify-center h-full px-5 overflow-x-scroll md:ml-60 md:mr-64">
+              <div className="h-full space-x-8 carousel rounded-box pr-60 first:pl-60">
+                {traitDetails.map((trait, index) => (
+                  <TraitCard
+                    key={index}
+                    traitName={trait.traitName}
+                    traitTokenId={trait.traitTokenId}
+                    id={index}
+                    revealAnimation={() => {
+                      revealAnimation(`${trait.traitName}`);
                     }}
-                  >
-                    COMPOSE COOLSLOTH
-                  </Button>
-                )}
+                  />
+                ))}
+                <div className="flex flex-col items-center">
+                  <div className="carousel-item mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
+                    <h1 className="text-4xl font-bold text-[#3F5679]">
+                      Bonus Trait
+                    </h1>
+                    <p className="mt-6 text-lg text-[#3F5679]">See it on </p>
+                    <p className="text-lg text-[#3F5679]">
+                      Town{" "}
+                      <span className="text-lg italic text-[#9264F8]">
+                        space
+                      </span>
+                    </p>
+                  </div>
+                  {showComposeButton && (
+                    <Button
+                      variant="secondary"
+                      className="mt-10 h-16 w-[92%] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-xl font-bold text-white animate-duration-[2000ms]"
+                      onClick={() => {
+                        composeCoolSloth();
+                      }}
+                    >
+                      {isComposing ? "COMPOSING": "COMPOSE COOLSLOTH"}
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-         </div>
         </div>
       ) : (
         <div className="relative flex flex-col items-center h-full py-5 justify-evenly">
           <p className="px-8 mt-5 text-3xl font-extrabold text-center text-white bg-center">
             Here is your Sloth! Cool right?
           </p>
-          <div className="flex justify-center mt-10 border-2 mb- rounded-3xl">
+          <div className="flex justify-center mt-10 rounded-3xl">
             <Image
               src={uri}
               priority
@@ -204,6 +221,7 @@ export const RevealCarousel = () => {
               style={{
                 objectFit: "cover",
               }}
+              className="rounded-3xl"
             />
           </div>
           <Button
@@ -211,7 +229,12 @@ export const RevealCarousel = () => {
             className="mt-10 h-16 w-[92%] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-xl font-bold text-white animate-duration-[2000ms] md:w-[50%]"
             onClick={() => {
               router.push("/evolve");
-              setLoading(false);
+              setTimeout(() => {
+                setComposed(false);
+                dispatch(
+                  clearRevealedTraits()
+                );
+              }, 5000);
             }}
           >
             CONTINUE

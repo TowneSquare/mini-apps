@@ -12,27 +12,29 @@ const pinata = new PinataSDK({
 export const POST = async (request: NextRequest) => {
   try {
     const json = await request.json();
-    const { traitsUri } = json;
+    const { traitsUri, coolSlothName } = json;
     const downloadPromises = traitsUri.map(async (traitUrl: string) => {
-      try {
-        return (await axios({ url: traitUrl, responseType: "arraybuffer" }))
-          .data as Buffer;
-      } catch (error) {
-        console.log(error);
-        return Buffer.from("empty.png");
-      }
-    }) as any as Array<string>;
+      return (await axios({ url: traitUrl, responseType: "arraybuffer" }))
+        .data as Buffer;
+    }) 
 
-    const layer = await Promise.all(downloadPromises);
+    const layers = await Promise.all(downloadPromises);
 
-    const output = await sharp(layer[0])
-      .composite(layer.map((file: string) => ({ input: file })))
-      .png()
+    const resizedLayers = await Promise.all(
+      layers.map(async (layer) => {
+        return await sharp(layer).resize(700, 700).toBuffer();
+      }),
+    );
+
+    const output = await sharp(resizedLayers[0])
+      .composite(
+        resizedLayers.map((file: Buffer) => ({ input: file, blend: "over" })),
+      )
       .toBuffer();
 
-    const file = new File([new Blob([output])], "coolsloth2");
+    const file = new File([new Blob([output])], coolSlothName);
     const upload = await pinata.upload.file(file);
-   
+
     return NextResponse.json({
       ipfsHash: upload.IpfsHash,
       message: "success",

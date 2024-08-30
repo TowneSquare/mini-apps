@@ -33,7 +33,7 @@ export function removeSpaceAndHash(input: string | undefined) {
 }
 
 export function transferClassToElement(className: string, traitName: string) {
-  console.log(traitName, "nnamma");
+  
   // Select all elements with the class
   let elements = document.querySelectorAll(".animate-fade-down");
   const toElement = document.querySelector(`.${traitName}`);

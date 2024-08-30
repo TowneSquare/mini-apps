@@ -10,12 +10,13 @@ export interface TraitsProps {
   mouths: string[];
 }
 export interface RevealedTraitsProps {
- traitIndex: number,
- traitUri:string | undefined;
+  traitIndex: number 
+  traitUri: string | undefined;
+  traitName: string | undefined
 }
 interface traitState {
   traits: TraitsProps | undefined;
-  revealedTraits: Array<RevealedTraitsProps>;
+  revealedTraits: Array<RevealedTraitsProps> ;
 }
 
 const initialState: traitState = {
@@ -41,9 +42,12 @@ export const traitSlice = createSlice({
     revealTraits: (state, action: PayloadAction<RevealedTraitsProps>) => {
       state.revealedTraits = [...state.revealedTraits, action.payload];
     },
+    clearRevealedTraits: (state) => {
+      state.revealedTraits = []
+    }
   },
 });
 
-export const { updateTrait, revealTraits } = traitSlice.actions;
+export const { updateTrait, revealTraits, clearRevealedTraits } = traitSlice.actions;
 
 export default traitSlice.reducer;

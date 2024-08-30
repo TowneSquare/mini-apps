@@ -27,6 +27,8 @@ export const TraitCard: React.FC<{
       return revealTraitId.traitIndex
     }).includes(id);
 
+    console.log(revealedTraits, "rrreace")
+
     const onClickGood = contextSafe(() => {
       revealAnimation();
     });
@@ -40,10 +42,11 @@ export const TraitCard: React.FC<{
         dispatch(revealTraits({
           traitIndex: id,
           traitUri: traitData.data?.token_uri,
+          traitName: traitData.data?.token_name
         }));
         ImgBg?.classList.remove("animate-spin");
         ImgBg?.classList.remove("animate-once");
-      }, 2000);
+      }, 1000);
     };
 
     // useGSAP(
@@ -79,14 +82,16 @@ export const TraitCard: React.FC<{
             className="flex flex-col items-center justify-center w-full mx-2 carousel-item"
             ref={container}
           >
-            <div className="flex flex-col items-center justify-center mb-4 bg-white border-2 border-b-8 border-black h-80 w-80 rounded-3xl">
+            <div className="flex flex-col items-center justify-center mb-4 bg-white border-2 h-80 w-80 rounded-3xl">
               <Image
+
                 src={traitData.data?.token_uri ?? ""}
-                width={500}
+                width={400}
                 height={500}
                 style={{ objectFit: "contain" }}
                 alt={traitName}
                 priority
+                className="rounded-3xl"
               />
             </div>
             <p className="text-2xl font-bold text-white opacity-1">

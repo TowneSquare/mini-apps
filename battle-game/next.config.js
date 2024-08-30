@@ -1,4 +1,3 @@
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -20,25 +19,47 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.arweave.net",
       },
+      {
+        protocol: "https",
+        hostname: "rose-gentle-halibut-945.mypinata.cloud",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname:
+          "bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname:
+          "bafybeiafcvv5u3lntqbuuiu35kf6vzktkatprtsqlxwcyjjtl57bijlp7q.ipfs.w3s.link",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "aptoslabs.com",
+        pathname: "**",
+      },
     ],
-    domains: [
-      "ipfs.io",
-      "ipfs.filebase.io",
-      "ipfs.infura.io",
-      "nftstorage.link",
-      "aptoslabs.com",
-      "miro.medium.com",
-      "www.gitbook.com",
-      "raw.githubusercontent.com",
-      "bafybeiafcvv5u3lntqbuuiu35kf6vzktkatprtsqlxwcyjjtl57bijlp7q.ipfs.w3s.link",
-      "bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link",
-      "rose-gentle-halibut-945.mypinata.cloud"
-    ],
+    // domains: [
+    //   "ipfs.io",
+    //   "ipfs.filebase.io",
+    //   "ipfs.infura.io",
+    //   "nftstorage.link",
+    //   "aptoslabs.com",
+    //   "miro.medium.com",
+    //   "www.gitbook.com",
+    //   "raw.githubusercontent.com",
+    //   "bafybeiafcvv5u3lntqbuuiu35kf6vzktkatprtsqlxwcyjjtl57bijlp7q.ipfs.w3s.link",
+    //   "bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link",
+    //   "rose-gentle-halibut-945.mypinata.cloud"
+    // ],
   },
   webpack: (config) => {
-    config.resolve.fallback = { fs: false, path: false,  }
+    config.resolve.fallback = { fs: false, path: false };
     return config;
-  }
+  },
 };
 
 module.exports = nextConfig;

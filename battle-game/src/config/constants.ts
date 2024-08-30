@@ -20,11 +20,10 @@ export const EQUIP_TRAITS = "equip_traits"
 export const APTOS_NODE_URL = process.env.NEXT_PUBLIC_APTOS_NODE_URL!;
 export const APTOS_FAUCET_URL = process.env.NEXT_PUBLIC_APTOS_FAUCET_URL;
 export const SLOTHBALL_COLLECTION_ADDRESS_TESTNET =
-  process.env.SLOTHBALL_COLLECTION_ADDRESS_TESTNET ||
-  "0x7df4db1ba536ef88af8566c43ce5e619d97df7617476e0defc60cd24a591fe3a";
+  process.env.NEXT_PUBLIC_SLOTHBALL_COLLECTION_ADDRESS_TESTNET ||
+  "0xed70fe340dcabdaacbb5a16600d8974517c489e53a7923611b84df51e5c2e92e";
 
 export const NETWORK = process.env.NEXT_PUBLIC_APTOS_NETWORK!;
-export const NEXT_SHARP_PATH = process.env.NEXT_SHARP_PATH!
 
 export const MODULE_URL = `https://explorer.aptoslabs.com/account/${DAPP_ADDRESS}/modules?network=${NETWORK}`;
 

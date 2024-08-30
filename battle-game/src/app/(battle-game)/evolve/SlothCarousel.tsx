@@ -12,8 +12,6 @@ import { useDispatch } from "react-redux";
 import { updateTrait } from "@/src/store/trait";
 import { useRouter } from "next/navigation";
 
-
-
 export const SlothCarousel = () => {
   const { account, signAndSubmitTransaction } = useWallet();
   const queryClient = useQueryClient();
@@ -23,6 +21,7 @@ export const SlothCarousel = () => {
   });
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isEvolving, setIsEvolving] = useState<string>("");
 
   console.log(SlothBallData.data);
   // const evolve = async () => {
@@ -37,7 +36,8 @@ export const SlothCarousel = () => {
   // }
 
   const evolve = useMutation({
-    mutationFn: async (token: string[]) => {
+    mutationFn: async ({ token, id }: { token: string[]; id: string }) => {
+      setIsEvolving(id);
       const res = await signAndSubmitTransaction({
         sender: account?.address,
         data: {
@@ -55,9 +55,7 @@ export const SlothCarousel = () => {
           dispatch(
             updateTrait(
               result.events.find(
-                (event) =>
-                  event.type ==
-                  `${DAPP_ADDRESS}::unveil::Unveiled`,
+                (event) => event.type == `${DAPP_ADDRESS}::unveil::Unveiled`,
               )?.data,
             ),
           );
@@ -65,7 +63,12 @@ export const SlothCarousel = () => {
         }
       }
     },
-    onSettled: () => {
+    onSettled: () => {},
+    onError: () => {
+      setIsEvolving("");
+    },
+    onSuccess: () => {
+      setIsEvolving("");
       queryClient.invalidateQueries({
         queryKey: ["getSlothBallData", account?.address],
       });
@@ -142,8 +145,7 @@ export const SlothCarousel = () => {
     // </div>
     <div className="flex items-center justify-center overflow-x-scroll md:ml-60 md:mr-64">
       <div className="carousel rounded-box">
-        {SlothBallData.data?.map((slothBall) => (
-         
+        {SlothBallData.data?.map((slothBall, index) => (
           <div
             key={slothBall.current_token_data?.token_name}
             className="flex flex-col items-center justify-between pt-6 pb-3 mx-2 bg-white border-2 border-b-8 border-black carousel-item w-80 rounded-3xl"
@@ -167,9 +169,14 @@ export const SlothCarousel = () => {
             <Button
               className="h-14 w-[92%] justify-self-end text-lg"
               variant="secondary"
-              onClick={() => evolve.mutate([slothBall.token_data_id])}
+              onClick={() =>
+                evolve.mutate({
+                  token: [slothBall.token_data_id],
+                  id: String(index),
+                })
+              }
             >
-              EVOLVE
+              {isEvolving == String(index) ? "Evolving" : "Evolve"}
             </Button>
           </div>
         ))}
