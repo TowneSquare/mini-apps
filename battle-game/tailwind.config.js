@@ -6,6 +6,7 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "./node_modules/flowbite/**/*.js",
   ],
   prefix: "",
   theme: {
@@ -119,15 +120,18 @@ module.exports = {
         "home-title-ani": "home-title-animation-x 0.8s ease-out forwards",
       },
       backgroundImage: {
-        'oval-pattern': "url('/assets/oval-bg.png')",
-        'you-made-it': "url('/assets/you-made-it.png')",
-      }
+        "oval-pattern": "url('/assets/oval-bg.png')",
+        "you-made-it": "url('/assets/you-made-it.png')",
+      },
     },
   },
-  plugins: [require("@tailwindcss/typography"), require("daisyui"), require('tailwindcss-animated')],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("daisyui"),
+    require("tailwindcss-animated"),
+    require("flowbite/plugin"),
+  ],
   daisyui: {
     themes: ["light"],
   },
 };
-
-

@@ -17,7 +17,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { clearRevealedTraits, revealTraits } from "@/src/store/trait";
-import { useTraitData } from "@/src/hooks";
+import { useTraitData, useTraitsDetails } from "@/src/hooks";
 
 export interface TraitsProps {
   traitName: string;
@@ -45,7 +45,7 @@ export const RevealCarousel = () => {
   const router = useRouter();
   const [composed, setComposed] = useState<boolean>(false);
   const [uri, setUri] = useState<string>("");
-  const [isComposing, setIsComposing] = useState(false)
+  const [isComposing, setIsComposing] = useState(false);
 
   // const SlothBallData = useSlothBallData({
   //   accountAddress: account?.address,
@@ -88,10 +88,12 @@ export const RevealCarousel = () => {
   ];
 
   const trait = traitDetails.map((traits) => {
-    return useTraitData({digitalAssetAddress: traits.traitTokenId}).data
-  })
+    return useTraitData({ digitalAssetAddress: traits.traitTokenId }).data;
+  });
 
-
+  const TRAITS_DETAILS = useTraitsDetails({
+    digitalAssetAddresses: traitDetails,
+  }).data;
 
   const showComposeButton = revealedTraits.length == 7;
   /// NOTE: It is important to sort the array to make sure they are in order for composing
@@ -123,13 +125,13 @@ export const RevealCarousel = () => {
     });
 
   const composeCoolSloth = async () => {
-   setIsComposing(true)
+    setIsComposing(true);
     try {
       const res = await fetch("/api/sharp", {
         method: "POST",
         body: JSON.stringify({
           traitsUri,
-          coolSlothName: composableObject?.token_name
+          coolSlothName: composableObject?.token_name,
         }),
       });
       console.log(traitsUri);
@@ -142,16 +144,19 @@ export const RevealCarousel = () => {
         data: {
           function: `${COMPOSABLE_TOKEN_ENTRY_MODULE_ADDRESS_TESTNET}::${COMPOSABLE_TOKEN_ENTRY}::${EQUIP_TRAITS}`,
           typeArguments: [],
-          functionArguments: [composableObject?.token_data_id, traitObject, URI],
+          functionArguments: [
+            composableObject?.token_data_id,
+            traitObject,
+            URI,
+          ],
         },
       });
-      console.log(tx, "txxx");
-      setUri(URI)
-      setIsComposing(false)
+      setUri(URI);
+      setIsComposing(false);
       setComposed(true);
     } catch (error) {
       console.log(error, "compose error");
-      setIsComposing(false)
+      setIsComposing(false);
     }
   };
 
@@ -166,11 +171,12 @@ export const RevealCarousel = () => {
 
             <div className="flex items-center justify-center h-full px-5 overflow-x-scroll md:ml-60 md:mr-64">
               <div className="h-full space-x-8 carousel rounded-box pr-60 first:pl-60">
-                {traitDetails.map((trait, index) => (
+                {TRAITS_DETAILS?.map((trait, index) => (
                   <TraitCard
                     key={index}
                     traitName={trait.traitName}
-                    traitTokenId={trait.traitTokenId}
+                    tokenName={trait.tokenName}
+                    traitUri={trait.traitUri}
                     id={index}
                     revealAnimation={() => {
                       revealAnimation(`${trait.traitName}`);
@@ -198,7 +204,7 @@ export const RevealCarousel = () => {
                         composeCoolSloth();
                       }}
                     >
-                      {isComposing ? "COMPOSING": "COMPOSE COOLSLOTH"}
+                      {isComposing ? "COMPOSING" : "COMPOSE COOLSLOTH"}
                     </Button>
                   )}
                 </div>
@@ -231,9 +237,7 @@ export const RevealCarousel = () => {
               router.push("/evolve");
               setTimeout(() => {
                 setComposed(false);
-                dispatch(
-                  clearRevealedTraits()
-                );
+                dispatch(clearRevealedTraits());
               }, 5000);
             }}
           >

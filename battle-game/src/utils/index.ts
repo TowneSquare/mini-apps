@@ -1,5 +1,5 @@
 import gsap from "gsap";
-
+import { APTOS } from "../config/constants";
 
 export const revealAnimation = (selector: string) => {
   const tl = gsap.timeline();
@@ -33,7 +33,6 @@ export function removeSpaceAndHash(input: string | undefined) {
 }
 
 export function transferClassToElement(className: string, traitName: string) {
-  
   // Select all elements with the class
   let elements = document.querySelectorAll(".animate-fade-down");
   const toElement = document.querySelector(`.${traitName}`);
@@ -49,3 +48,21 @@ export function transferClassToElement(className: string, traitName: string) {
   toElement?.classList.add(className);
 }
 
+export async function traitUri(trait_token_id: string[]): Promise<
+  Array<{
+    traitUri: string;
+    traitName: string;
+  }>
+> {
+  let traitUri = [];
+  for (let i = 0; i < trait_token_id.length; i++) {
+    let res = await APTOS.getDigitalAssetData({
+      digitalAssetAddress: trait_token_id[i],
+    });
+    traitUri.push({
+      traitUri: res.token_uri,
+      traitName: res.token_name,
+    });
+  }
+  return traitUri;
+}

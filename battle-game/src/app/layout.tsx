@@ -36,7 +36,7 @@ function WalletSelector({
             <WalletSelectorModelProvider>
               <QueryProvider>
                 <BattleEvilProvider>
-                  <main className="h-screen bg-[#4c6299]">
+                  <main className="h-full bg-[#4c6299]">
                     <Header />
                     {children}
                   </main>

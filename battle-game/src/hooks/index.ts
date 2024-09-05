@@ -1,9 +1,9 @@
+import { TRAIT_NAME } from "../app/(battle-game)/reveal/RevealCarousel";
 import {
   APTOS,
   SLOTHBALL_COLLECTION_ADDRESS_TESTNET,
 } from "../config/constants";
 import { useQuery } from "@tanstack/react-query";
-
 
 export const useSlothBallData = ({
   accountAddress,
@@ -11,7 +11,7 @@ export const useSlothBallData = ({
   accountAddress?: string;
 }) => {
   const getSlothballData = async () => {
-    console.log(SLOTHBALL_COLLECTION_ADDRESS_TESTNET,"ggg")
+    console.log(SLOTHBALL_COLLECTION_ADDRESS_TESTNET, "ggg");
     if (!accountAddress) {
       return [];
     }
@@ -26,7 +26,7 @@ export const useSlothBallData = ({
   return useQuery({
     queryKey: ["getSlothBallData", accountAddress],
     queryFn: () => getSlothballData(),
-    staleTime: Infinity
+    staleTime: Infinity,
   });
 };
 
@@ -36,19 +36,51 @@ export const useTraitData = ({
   digitalAssetAddress?: string;
 }) => {
   const getTraitData = async () => {
-    console.log(SLOTHBALL_COLLECTION_ADDRESS_TESTNET,"ggg")
     if (!digitalAssetAddress) {
-      return ;
+      return;
     }
     const res = await APTOS.getDigitalAssetData({
-      digitalAssetAddress
+      digitalAssetAddress,
     });
 
     return res;
   };
 
   return useQuery({
-    queryKey: ["getSlothBallData", digitalAssetAddress],
+    queryKey: ["getTraitDetail", digitalAssetAddress],
+    queryFn: () => getTraitData(),
+  });
+};
+
+export const useTraitsDetails = ({
+  digitalAssetAddresses,
+}: {
+  digitalAssetAddresses: Array<{
+    traitName: TRAIT_NAME;
+    traitTokenId?: string;
+  }>;
+}) => {
+  const getTraitData = async () => {
+    if (digitalAssetAddresses.length < 0) {
+      return;
+    }
+
+    let traitsDetails = [];
+    for (let i = 0; i < digitalAssetAddresses.length; i++) {
+      let res = await APTOS.getDigitalAssetData({
+        digitalAssetAddress: digitalAssetAddresses[i].traitTokenId ?? "",
+      });
+      traitsDetails.push({
+        traitName: digitalAssetAddresses[i].traitName,
+        traitUri: res.token_uri,
+        tokenName: res.token_name,
+      });
+    }
+    return traitsDetails;
+  };
+
+  return useQuery({
+    queryKey: ["getTraitsDetails", digitalAssetAddresses],
     queryFn: () => getTraitData(),
   });
 };

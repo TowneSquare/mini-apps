@@ -23,7 +23,7 @@ const youMadeIt = () => {
         <div className="flex flex-col items-center justify-center">
           
           <div>
-            <Image src="/assets/slothballs.png" width={454} height={289} />
+            <Image priority alt="congratulations" src="/assets/slothballs.png" width={454} height={289} />
           </div>
           
           <div>

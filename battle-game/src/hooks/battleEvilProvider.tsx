@@ -27,17 +27,16 @@ export const BattleEvilProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const { data, error, isLoading } = useSWR(
-    "https://mini-apps.deno.dev/?app_name=battle_game&key=blood",
+    "https://battle-app.deno.dev/?app_name=battle_game&key=blood",
     fetcher,
     { refreshInterval: 5000, refreshWhenHidden: true },
   );
   const { trigger } = useSWRMutation(
-    `https://mini-apps.deno.dev/blood_reduce?count=${battleBlood}`,
+    `https://battle-app.deno.dev/blood_reduce?count=${battleBlood}`,
     fetcher,
   );
 
   useEffect(() => {
-    console.log(data, "garri");
     if (data) {
       setEvilBlood(data.value);
     }
