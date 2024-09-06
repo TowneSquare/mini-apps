@@ -76,9 +76,18 @@ const HitBear = () => {
     if (loaded) {
       const tll = gsap.timeline();
       gsap.to("#hitBear", {
-        marginBottom: "12vh",
-        duration: 5,
-        filter: "brightness(1)",
+        marginBottom: "1.5vh",
+        duration: 1,
+        filter: "brightness(0.2)",
+        onComplete: () => {
+          gsap.to("#hitBear", {
+            marginBottom: "10.5vh",
+            duration: 3,
+            filter: "brightness(0.8)",
+            width: 700,
+            onComplete: () => {},
+          });
+        },
       });
       gsap.to("#hitBearMobile", {
         marginBottom: "5vh",
@@ -200,19 +209,18 @@ const HitBear = () => {
       </div>
       <div className="relative w-full md:w-fit">
         <Image
-          className="-mb-36 hidden brightness-[.2] md:block items-center justify-center content-center"
+          className="-mb-48 hidden content-center items-center justify-center brightness-[.2] md:block"
           src="/assets/game/evil-sloth.svg"
           alt="Bear"
-          width={600}
+          width={500}
           height={600}
           onClick={handleClick}
           onLoad={handleImageLoad}
           id="hitBear"
           priority
-          
         />
         <Image
-          className="md:hidden brightness-[.1] -mb-72"
+          className="-mb-72 brightness-[.1] md:hidden"
           src={blinkBearImg.src}
           alt="Bear"
           id="hitBearMobile"
@@ -230,7 +238,7 @@ const HitBear = () => {
         <img
           ref={hitMarkerRefB as React.RefObject<HTMLImageElement>}
           src={boomImgB.src}
-          className="absolute z-50 hidden w-20 "
+          className="absolute z-50 hidden w-40 "
           alt="Hit Marker"
           style={{
             transform: "translate(-50%, -50%)",
@@ -239,7 +247,7 @@ const HitBear = () => {
         <img
           ref={hitMarkerRefC as React.RefObject<HTMLImageElement>}
           src={boomImgC.src}
-          className="absolute z-50 hidden w-20 "
+          className="absolute z-50 hidden w-40 "
           alt="Hit Marker"
           style={{
             transform: "translate(-50%, -50%)",
@@ -248,7 +256,7 @@ const HitBear = () => {
         <img
           ref={hitMarkerRefA as React.RefObject<HTMLImageElement>}
           src={boomImgA.src}
-          className="absolute z-50 hidden w-20 "
+          className="absolute z-50 hidden w-40 "
           alt="Hit Marker"
           style={{
             transform: "translate(-50%, -50%)",
@@ -294,7 +302,7 @@ const HitBear = () => {
       <img
         src="/assets/game/desktop-footer.png"
         alt="desktop"
-        className="absolute bottom-0 z-50 hidden object-cover h-[40vh] w-full md:block"
+        className="absolute bottom-0 z-50 hidden h-[40vh] w-full object-cover md:block"
       />
     </main>
   );
