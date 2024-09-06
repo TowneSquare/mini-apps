@@ -76,12 +76,12 @@ const HitBear = () => {
     if (loaded) {
       const tll = gsap.timeline();
       gsap.to("#hitBear", {
-        marginBottom: "208px",
+        marginBottom: "12vh",
         duration: 5,
         filter: "brightness(1)",
       });
       gsap.to("#hitBearMobile", {
-        marginBottom: "60px",
+        marginBottom: "5vh",
         duration: 5,
         filter: "brightness(1)",
       });
@@ -160,7 +160,7 @@ const HitBear = () => {
           {
             scale: 1.5,
             opacity: 1,
-            duration: 0.1,
+            duration: 0.001,
             ease: "elastic.out",
             onComplete: () => {
               gsap.to(marker, {
@@ -287,14 +287,14 @@ const HitBear = () => {
         <h1>him</h1>
       </div>
       <img
-        className="absolute bottom-0 z-50 h-[30%] w-full md:hidden"
+        className="absolute bottom-0 z-50 h-[38vh] w-full md:hidden"
         src={frontImg.src}
         alt=""
       />
       <img
         src="/assets/game/desktop-footer.png"
         alt="desktop"
-        className="absolute bottom-0 z-50 hidden object-contain w-full md:block"
+        className="absolute bottom-0 z-50 hidden object-cover h-[40vh] w-full md:block"
       />
     </main>
   );
