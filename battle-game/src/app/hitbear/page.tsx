@@ -73,7 +73,7 @@ const HitBear = () => {
   });
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && evilBlood) {
       const tll = gsap.timeline();
       gsap.to("#hitBear", {
         marginBottom: "1.5vh",
@@ -116,43 +116,43 @@ const HitBear = () => {
   console.log(isClickable, "clickable");
 
   useEffect(() => {
-    // Enable the button when the component mounts
     setIsClickable(true);
+    // Enable the button when the component mounts
+    if (evilBlood <= 0) {
+      const countdownInterval = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev > 1) return prev - 1;
+          clearInterval(countdownInterval);
+          setIsClickable(false);
 
-    const countdownInterval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev > 1) return prev - 1;
-        clearInterval(countdownInterval);
-        setIsClickable(false);
-
-        gsap.to("#hitBear", {
-          marginBottom: "-144px",
-          duration: 5,
-          filter: "brightness(.2)",
-          onComplete: () => {
-            router.push("/youMadeIt");
-          },
+          gsap.to("#hitBear", {
+            marginBottom: "-144px",
+            duration: 5,
+            filter: "brightness(.2)",
+            onComplete: () => {
+              router.push("/youMadeIt");
+            },
+          });
+          gsap.to("#hitBearMobile", {
+            marginBottom: "-288px",
+            duration: 5,
+            filter: "brightness(.1)",
+            onComplete: () => {
+              router.push("/youMadeIt");
+            },
+          });
+          return 0;
         });
-        gsap.to("#hitBearMobile", {
-          marginBottom: "-288px",
-          duration: 5,
-          filter: "brightness(.1)",
-          onComplete: () => {
-            router.push("/youMadeIt");
-          },
-        });
-        return 0;
       });
-    }, 1000);
-
-    // Cleanup interval when the component unmounts
-    return () => clearInterval(countdownInterval);
-  }, []);
+      // Cleanup interval when the component unmounts
+      return () => clearInterval(countdownInterval);
+    }
+  }, [evilBlood]);
 
   const handleClick = (event: any) => {
     if (isClickable) {
       const { clientX, clientY } = event;
-      battleClickHandler();
+
       // Get the click position relative to the image
       const rect = event.target.getBoundingClientRect();
       const x = clientX - rect.left;
@@ -182,6 +182,7 @@ const HitBear = () => {
             },
           },
         );
+        battleClickHandler();
       }
     }
   };
@@ -193,7 +194,7 @@ const HitBear = () => {
         className="absolute flex flex-col items-center justify-center w-full top-1"
       >
         <span className="mb-1 text-2xl text-center text-white ">
-          HP:{evilBlood}
+          HP:{evilBlood <= 0 ? 0 : evilBlood}
         </span>
         <div className="relative mx-auto h-10 w-72 skew-x-[-38deg] rounded-lg border-4 border-black bg-[#9ba3b9]">
           <div

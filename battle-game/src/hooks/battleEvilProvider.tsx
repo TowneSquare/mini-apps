@@ -19,7 +19,7 @@ export const useBattleEvil = () => {
 export const BattleEvilProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [battleBlood, setBattleBlood] = useState(0);
+  const [battleBlood, setBattleBlood] = useState(1);
   const [evilBlood, setEvilBlood] = useState(0);
   const [battleRoundStart, setBattleRoundStart] = useState(false);
   const [checkHitTimer, setCheckHitTimer] = useState<number | undefined>(
@@ -41,7 +41,7 @@ export const BattleEvilProvider: React.FC<{ children: React.ReactNode }> = ({
       setEvilBlood(data.value);
     }
   }, [data]);
-  
+
   const setEvilBloodRemote = () => {
     trigger();
     // clear battle blood
@@ -66,26 +66,28 @@ export const BattleEvilProvider: React.FC<{ children: React.ReactNode }> = ({
 
     setCheckHitTimer(timer);
   };
-  useEffect(() => {
-    setEvilBlood((prev) => prev - battleBlood);
+  // useEffect(() => {
+  //   setEvilBlood((prev) => prev - 1);
 
-    if (battleBlood > 0) {
-      if (battleBlood > 50) {
-        // clear timer
-        if (checkHitTimer) {
-          clearTimeout(checkHitTimer);
-          setCheckHitTimer(undefined);
-        }
-        setEvilBloodRemote();
-        setBattleRoundStart(false);
-      } else {
-        checkHit();
-      }
-    }
-  }, [battleBlood]);
+  //   // if (battleBlood > 0) {
+  //   //   if (battleBlood > 50) {
+  //   //     // clear timer
+  //   //     if (checkHitTimer) {
+  //   //       clearTimeout(checkHitTimer);
+  //   //       setCheckHitTimer(undefined);
+  //   //     }
+  //   //     setEvilBloodRemote();
+  //   //     setBattleRoundStart(false);
+  //   //   } else {
+  //   //     checkHit();
+  //   //   }
+  //   // }
+  // }, [battleBlood]);
 
   const battleClickHandler = () => {
-    setBattleBlood((prev) => prev + 1);
+    // setBattleBlood((prev) => prev + 1);
+    setEvilBlood((prev) => prev - 1);
+    trigger();
   };
   return (
     <BattleEvilContext.Provider value={{ evilBlood, battleClickHandler }}>
