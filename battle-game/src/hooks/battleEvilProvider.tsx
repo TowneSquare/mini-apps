@@ -29,7 +29,7 @@ export const BattleEvilProvider: React.FC<{ children: React.ReactNode }> = ({
   const { data, error, isLoading } = useSWR(
     "https://battle-app.deno.dev/?app_name=battle_game&key=blood",
     fetcher,
-    { refreshInterval: 5000, refreshWhenHidden: true },
+    { refreshInterval: 1000, refreshWhenHidden: true },
   );
   const { trigger } = useSWRMutation(
     `https://battle-app.deno.dev/blood_reduce?count=${battleBlood}`,

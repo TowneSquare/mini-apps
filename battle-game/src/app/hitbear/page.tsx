@@ -12,7 +12,7 @@ import boomImgC from "@/public/assets/game/boomC.png";
 import { useRouter } from "next/navigation";
 
 import bgImg from "@/public/assets/game/bg.svg";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
 import Header from "@/src/components/Header";
@@ -72,48 +72,56 @@ const HitBear = () => {
     scrollTop: 0,
   });
 
-  useEffect(() => {
-    if (loaded && evilBlood) {
-      const tll = gsap.timeline();
-      gsap.to("#hitBear", {
-        marginBottom: "1.5vh",
-        duration: 1,
-        filter: "brightness(0.2)",
-        onComplete: () => {
+  useMemo(() => {
+    setTimeout(() => {
+      if (evilBlood > 0) {
+        if (loaded) {
+          const tll = gsap.timeline();
           gsap.to("#hitBear", {
-            marginBottom: "10.5vh",
-            duration: 3,
-            filter: "brightness(0.8)",
-            width: 700,
-            onComplete: () => {},
+            marginBottom: "1.5vh",
+            duration: 1,
+            filter: "brightness(0.2)",
+            onComplete: () => {
+              gsap.to("#hitBear", {
+                marginBottom: "10.5vh",
+                duration: 3,
+                filter: "brightness(0.8)",
+                width: 700,
+                onComplete: () => {},
+              });
+            },
           });
-        },
-      });
-      gsap.to("#hitBearMobile", {
-        marginBottom: "5vh",
-        duration: 5,
-        filter: "brightness(1)",
-      });
-      tll.to(countdownRefs[countdownRefs.length - 1].current, {
-        opacity: 0,
-        duration: 1,
-        display: "none",
-      });
-      // tl.delay(1);
-      for (let index = 0; index < countdownRefs.length - 1; index++) {
-        const ref = countdownRefs[countdownRefs.length - 2 - index].current;
-        tll
-          .to(ref, { opacity: 1, duration: 1, display: "block" })
-          .set(ref, { opacity: 0, display: "none" });
+          gsap.to("#hitBearMobile", {
+            marginBottom: "5vh",
+            duration: 5,
+            filter: "brightness(1)",
+          });
+          tll.to(countdownRefs[countdownRefs.length - 1].current, {
+            opacity: 0,
+            duration: 1,
+            display: "none",
+          });
+          // tl.delay(1);
+          for (let index = 0; index < countdownRefs.length - 1; index++) {
+            const ref = countdownRefs[countdownRefs.length - 2 - index].current;
+            tll
+              .to(ref, { opacity: 1, duration: 1, display: "block" })
+              .set(ref, { opacity: 0, display: "none" });
+          }
+          tll
+            .to(hitHimRef.current, {
+              opacity: 1,
+              duration: 2,
+              display: "block",
+            })
+            .set(hitHimRef.current, { opacity: 0, display: "none" });
+        }
+      } else {
+        router.push("/youMadeIt");
       }
-      tll
-        .to(hitHimRef.current, { opacity: 1, duration: 2, display: "block" })
-        .set(hitHimRef.current, { opacity: 0, display: "none" });
-      setShowOuch(false);
-    }
+    });
   }, [loaded]);
 
-  console.log(isClickable, "clickable");
 
   useEffect(() => {
     setIsClickable(true);
