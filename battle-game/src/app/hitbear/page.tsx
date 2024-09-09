@@ -199,7 +199,7 @@ const HitBear = () => {
           <div
             className="relative h-full overflow-hidden rounded-sm bg-[#9a000c]"
             style={{
-              width: `${Number((evilBlood / 100000).toFixed(2)) * 100}` + "%",
+              width: `${Number((evilBlood / 50).toFixed(2)) * 100}` + "%",
             }}
           >
             <div className=" -bottom-[85%] h-full w-full bg-red-400/80" />
