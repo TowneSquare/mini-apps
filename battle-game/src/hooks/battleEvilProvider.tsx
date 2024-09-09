@@ -20,7 +20,7 @@ export const BattleEvilProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [battleBlood, setBattleBlood] = useState(0);
-  const [evilBlood, setEvilBlood] = useState(10000);
+  const [evilBlood, setEvilBlood] = useState(0);
   const [battleRoundStart, setBattleRoundStart] = useState(false);
   const [checkHitTimer, setCheckHitTimer] = useState<number | undefined>(
     undefined,
@@ -85,7 +85,7 @@ export const BattleEvilProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [battleBlood]);
 
   const battleClickHandler = () => {
-    setBattleBlood((prev) => prev + 10);
+    setBattleBlood((prev) => prev + 1);
   };
   return (
     <BattleEvilContext.Provider value={{ evilBlood, battleClickHandler }}>
