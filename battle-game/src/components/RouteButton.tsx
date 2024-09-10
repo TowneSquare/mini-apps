@@ -7,14 +7,18 @@ export const RouteButton = ({
   disabled,
   animateClass = "",
   bottomClass = "bottom-0",
+  gameStartTime
 }: {
   path: string;
   title: string;
   disabled?: boolean;
   animateClass?: string;
   bottomClass?: string;
+  gameStartTime:number
 }) => {
   const router = useRouter();
+   const isStartGame = !(gameStartTime - Math.floor(Date.now()) <= 30000);
+   console.log(isStartGame, gameStartTime, Math.floor(Date.now()), "tartTime")
   return (
     <div
       className={
@@ -28,13 +32,13 @@ export const RouteButton = ({
       }}
     >
       <button
-        disabled={disabled}
+        disabled={disabled || isStartGame}
         type="button"
         onClick={() => router.push(path)}
         className="w-full h-full font-extrabold text-white bg-bggreen rounded-xl"
         style={{
-          backgroundColor: disabled ? "#426767" : "#82cacb",
-          color: disabled ? "#949494" : "white",
+          backgroundColor: disabled || isStartGame ? "#426767" : "#82cacb",
+          color: disabled || isStartGame ? "#949494" : "white",
         }}
       >
         {title}

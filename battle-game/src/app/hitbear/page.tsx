@@ -17,7 +17,7 @@ import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
 
 const HitBear = () => {
   const bearRef = useRef(null);
-  const countdownRefs = [...Array(5)].map((_, i) => useRef(null));
+  const countdownRefs = [...Array(30)].map((_, i) => useRef(null));
   const [loaded, setLoaded] = useState(false);
 
   const hitHimRef = useRef(null);
@@ -48,7 +48,7 @@ const HitBear = () => {
       });
     }
   }, [loaded]);
-  const containerRef = useRef<HTMLDivElement>(null); // Ref for the container
+  
   const hitMarkerRefA = useRef<HTMLDivElement>(null);
   const hitMarkerRefB = useRef<HTMLDivElement>(null);
   const hitMarkerRefC = useRef<HTMLDivElement>(null);
@@ -77,12 +77,12 @@ const HitBear = () => {
           const tll = gsap.timeline();
           gsap.to("#hitBear", {
             marginBottom: "1.5vh",
-            duration: 1,
+            duration: 10,
             filter: "brightness(0.2)",
             onComplete: () => {
               gsap.to("#hitBear", {
                 marginBottom: "10.5vh",
-                duration: 3,
+                duration: 20,
                 filter: "brightness(0.8)",
                 width: 700,
                 onComplete: () => {},
@@ -91,7 +91,7 @@ const HitBear = () => {
           });
           gsap.to("#hitBearMobile", {
             marginBottom: "5vh",
-            duration: 5,
+            duration: 30,
             filter: "brightness(1)",
           });
           tll.to(countdownRefs[countdownRefs.length - 1].current, {
@@ -133,7 +133,7 @@ const HitBear = () => {
 
             gsap.to("#hitBear", {
               marginBottom: "-144px",
-              duration: 5,
+              duration: 10,
               filter: "brightness(.2)",
               onComplete: () => {
                 router.push("/youMadeIt");
@@ -141,7 +141,7 @@ const HitBear = () => {
             });
             gsap.to("#hitBearMobile", {
               marginBottom: "-288px",
-              duration: 5,
+              duration: 10,
               filter: "brightness(.1)",
               onComplete: () => {
                 router.push("/youMadeIt");
@@ -207,7 +207,7 @@ const HitBear = () => {
           <div
             className="relative h-full overflow-hidden rounded-sm bg-[#9a000c]"
             style={{
-              width: `${Number((evilBlood / 50).toFixed(2)) * 100}` + "%",
+              width: `${Number((evilBlood / 1000).toFixed(2)) * 100}` + "%",
             }}
           >
             <div className=" -bottom-[85%] h-full w-full bg-red-400/80" />

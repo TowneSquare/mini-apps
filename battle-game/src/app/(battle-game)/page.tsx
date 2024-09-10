@@ -7,15 +7,20 @@ import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 import { BattleCard } from "./BattleCard";
 import { useSlothBallData } from "@/src/hooks";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useCountdown } from "@/src/hooks/useCountdown";
 
 export default function BattleGamePage() {
-
-  const {account, connected} = useWallet()
+  const { account, connected } = useWallet();
 
   const slothBallData = useSlothBallData({
-    accountAddress: account?.address
-  })
-  const eligible = slothBallData.data && slothBallData.data.length > 0
+    accountAddress: account?.address,
+  });
+
+  const eligible = slothBallData.data && slothBallData.data.length > 0;
+  const gameStartTime = 1725971640000;
+  const timeInfo = useCountdown({ deadlineTime: gameStartTime });
+ 
+
   return (
     <>
       <main className="w-full h-full pb-10 bg-no-repeat bg-contain bg-oval-pattern">
@@ -40,18 +45,28 @@ export default function BattleGamePage() {
         </div>
 
         <BattleCard
-          eligible = {eligible}
-          gameStartTime={1723475243000}
+          eligible={eligible}
+          gameStartTime={gameStartTime}
           evolveNumber={slothBallData.data?.length}
           connected={connected}
         />
-
-        <RouteButton
-          disabled={!eligible}
-          title="BATTLE (30 SEC)"
-          path="/hitbear"
-          bottomClass="bottom-8"
-        />
+        {gameStartTime - Math.floor(Date.now()) <= 30000 && !(gameStartTime - Math.floor(Date.now()) <= 0) ? (
+          <RouteButton
+            disabled={!eligible}
+            title={`Battle ${timeInfo.secondsStr}`}
+            path="/hitbear"
+            bottomClass="bottom-8"
+            gameStartTime={gameStartTime}
+          />
+        ) : (
+          <RouteButton
+            disabled={!eligible}
+            title={`Battle`}
+            path="/hitbear"
+            bottomClass="bottom-8"
+            gameStartTime={gameStartTime}
+          />
+        )}
       </main>
     </>
   );

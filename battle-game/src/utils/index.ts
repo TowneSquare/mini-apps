@@ -15,11 +15,10 @@ export const revealAnimation = (selector: string) => {
   tl.restart();
 
   return tl.to(`#${selector}`, {
-    rotationY: 360,
+    rotationY: 180,
     ease: "power1",
     transformOrigin: "50% 0",
     duration: 1,
-    repeat: 0,
     zIndex: 100,
     transition: "ease",
   });

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { CountDownCard } from "./MintCard";
 
 export const BattleCard: React.FC<{
@@ -6,12 +7,15 @@ export const BattleCard: React.FC<{
   evolveNumber?: number;
   connected: boolean;
 }> = ({ eligible, gameStartTime, evolveNumber, connected }) => {
-  const isStartGame = gameStartTime > Math.floor(Date.now() / 1000);
-  console.log(Math.floor(Date.now() / 1000), "start");
+  const [isStartTime, setIsStarttime] = useState<boolean>(true);
+  useEffect(() => {
+    const isStartGame = gameStartTime > Math.floor(Date.now());
+    setIsStarttime(isStartGame);
+  }, [Math.floor(Date.now())]);
 
   return (
     <>
-      {!isStartGame ? (
+      {gameStartTime - Math.floor(Date.now()) > 30000? (
         <div className="z-[2] mx-auto mb-5 w-11/12 rounded-xl md:w-[40%]">
           <div className="rounded-t-xl bg-[#29294f] px-4 pt-2">
             <div className="flex items-center justify-between w-full h-12">
@@ -71,7 +75,7 @@ export const BattleCard: React.FC<{
               )}
             </div>
             <div className="flex flex-col items-center justify-center w-full px-3 h-60">
-              <p className="text-white text-[29px] font-bold">Goodluck</p>
+              <p className="text-[29px] font-bold text-white">Goodluck</p>
             </div>
           </div>
           <div className="px-4 py-5 bg-white rounded-b-xl">
