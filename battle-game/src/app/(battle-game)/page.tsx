@@ -17,7 +17,7 @@ export default function BattleGamePage() {
   });
 
   const eligible = slothBallData.data && slothBallData.data.length > 0;
-  const gameStartTime = 1725971640000;
+  const gameStartTime = 1726045200000;
   const timeInfo = useCountdown({ deadlineTime: gameStartTime });
  
 
