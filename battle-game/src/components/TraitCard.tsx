@@ -65,7 +65,7 @@ export const TraitCard: React.FC<{
         <div
           id={`${traitName}`}
           onClick={revealTrait}
-          className={`carousel-item relative mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED] hover:cursor-pointer hover:bg-[#B7CBEB] ${reveal ? "animate-rotate-y animate-once" : ""}`}
+          className={`carousel-item relative mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED] hover:cursor-pointer hover:bg-[#B7CBEB]`}
         >
           <div className="relative flex  h-72 w-72 flex-col justify-center rounded-3xl border-2 border-[#536A8D]/50">
             <h1 className="text-center text-4xl font-bold text-[#3F5679]">
@@ -85,7 +85,6 @@ export const TraitCard: React.FC<{
         <div className="relative flex">
           {loaded && (
             <div
-              id={`${traitName}`}
               className={`carousel-item relative mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED] hover:bg-[#B7CBEB]`}
             >
               <div className="relative flex  h-72 w-72 flex-col justify-center rounded-3xl border-2 border-[#536A8D]/50">
@@ -126,7 +125,6 @@ export const TraitCard: React.FC<{
           )}
           <div
             className={`${loaded ? "hidden" : "block"} carousel-item mx-2 flex w-full flex-col items-center justify-center`}
-            ref={container}
           >
             <div className="flex flex-col items-center justify-center mb-4 bg-white border-2 h-80 w-80 rounded-3xl">
               <Image

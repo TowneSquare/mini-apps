@@ -12,15 +12,17 @@ export const revealAnimation = (selector: string) => {
   //     repeat: 1,
   //   });
 
-  tl.restart();
-
   return tl.to(`#${selector}`, {
     rotationY: 180,
     ease: "power1",
-    transformOrigin: "50% 0",
+    transformOrigin: "50% 50%",
     duration: 1,
     zIndex: 100,
     transition: "ease",
+    yoyo: false,
+    onComplete: () => {
+      tl.revert();
+    },
   });
 };
 

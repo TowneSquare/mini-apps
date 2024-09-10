@@ -94,54 +94,54 @@ export const RevealCarousel = () => {
     return useTraitData({ digitalAssetAddress: traits.traitTokenId }).data;
   });
 
-  const TRAITS_DETAILS = useTraitsDetails({
-    digitalAssetAddresses: traitDetails,
-  }).data;
+  // const TRAITS_DETAILS = useTraitsDetails({
+  //   digitalAssetAddresses: traitDetails,
+  // }).data;
 
-  // const TRAITS_DETAILS = [
-  //   {
-  //     traitName: "BACKGROUND",
-  //     traitUri:
-  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Pink.png",
-  //     tokenName: "Pink #26",
-  //   },
-  //   {
-  //     traitName: "BODY",
-  //     traitUri:
-  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Wheat.png",
-  //     tokenName: "Cool Sloth #748",
-  //   },
-  //   {
-  //     traitName: "MOUTH",
-  //     traitUri:
-  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Band%20aid.png",
-  //     tokenName: "Band aid #31",
-  //   },
-  //   {
-  //     traitName: "EYES",
-  //     traitUri:
-  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Checkered%20sunglasses.png",
-  //     tokenName: "Checkered sunglasses #23",
-  //   },
-  //   {
-  //     traitName: "HATS",
-  //     traitUri:
-  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Laurel%20crown.png",
-  //     tokenName: "Laurel crown #32",
-  //   },
-  //   {
-  //     traitName: "CLOTHING",
-  //     traitUri:
-  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Aligator%20suit.png",
-  //     tokenName: "Aligator suit #30",
-  //   },
-  //   {
-  //     traitName: "BADGES",
-  //     traitUri:
-  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Diamond%20hands%20badge.png",
-  //     tokenName: "Diamond hands badge #24",
-  //   },
-  // ];
+  const TRAITS_DETAILS = [
+    {
+      traitName: "BACKGROUND",
+      traitUri:
+        "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Pink.png",
+      tokenName: "Pink #26",
+    },
+    {
+      traitName: "BODY",
+      traitUri:
+        "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Wheat.png",
+      tokenName: "Cool Sloth #748",
+    },
+    {
+      traitName: "MOUTH",
+      traitUri:
+        "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Band%20aid.png",
+      tokenName: "Band aid #31",
+    },
+    {
+      traitName: "EYES",
+      traitUri:
+        "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Checkered%20sunglasses.png",
+      tokenName: "Checkered sunglasses #23",
+    },
+    {
+      traitName: "HATS",
+      traitUri:
+        "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Laurel%20crown.png",
+      tokenName: "Laurel crown #32",
+    },
+    {
+      traitName: "CLOTHING",
+      traitUri:
+        "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Aligator%20suit.png",
+      tokenName: "Aligator suit #30",
+    },
+    {
+      traitName: "BADGES",
+      traitUri:
+        "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Diamond%20hands%20badge.png",
+      tokenName: "Diamond hands badge #24",
+    },
+  ];
 
   const showComposeButton = revealedTraits.length == 7;
   /// NOTE: It is important to sort the array to make sure they are in order for composing
