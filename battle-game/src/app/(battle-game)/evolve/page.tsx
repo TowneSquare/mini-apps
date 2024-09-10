@@ -46,9 +46,7 @@ export default function EvolvePage() {
         className="relative flex min-h-[calc(100vh-4rem)] flex-col bg-cover pb-2"
       >
         <CommonPageHeader className="z-10" />
-        <p className="px-8 mb-16 text-3xl font-extrabold text-center text-white mt-14">
-          Evolve your Slothballs!
-        </p>
+       
         <SlothCarousel />
       </main>
     </>

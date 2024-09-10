@@ -15,6 +15,7 @@ import type React from "react";
 import { WalletSelectorModelProvider } from "../provider/WalletModelProvider";
 import QueryProvider from "../provider/QueryProvider";
 import ReduxProvider from "../provider/ReduxProvider";
+import { CommonPageHeader } from "../components/CommonPageHeader";
 
 const exo_2 = Exo_2({ subsets: ["latin"] });
 
@@ -36,7 +37,7 @@ function WalletSelector({
             <WalletSelectorModelProvider>
               <QueryProvider>
                 <BattleEvilProvider>
-                  <main className="h-full bg-[#4c6299]">
+                  <main className="h-full bg-[#4c6299] overflow-hidden">
                     <Header />
                     {children}
                   </main>

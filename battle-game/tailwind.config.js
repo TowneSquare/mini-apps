@@ -122,6 +122,7 @@ module.exports = {
       backgroundImage: {
         "oval-pattern": "url('/assets/oval-bg.png')",
         "you-made-it": "url('/assets/you-made-it.png')",
+        "shine-circle-bg":"url('/assets/reveal-bg.png')"
       },
     },
   },

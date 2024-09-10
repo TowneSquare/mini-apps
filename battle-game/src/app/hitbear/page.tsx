@@ -11,12 +11,9 @@ import boomImgB from "@/public/assets/game/boomB.png";
 import boomImgC from "@/public/assets/game/boomC.png";
 import { useRouter } from "next/navigation";
 
-import bgImg from "@/public/assets/game/bg.svg";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
-import Header from "@/src/components/Header";
-import { useMouse } from "react-use";
 
 const HitBear = () => {
   const bearRef = useRef(null);
@@ -32,6 +29,7 @@ const HitBear = () => {
   const [showOuch, setShowOuch] = useState(false);
   const [isClickable, setIsClickable] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15);
+  
 
   useEffect(() => {
     if (bearRef.current) {
@@ -72,7 +70,7 @@ const HitBear = () => {
     scrollTop: 0,
   });
 
-  useMemo(() => {
+  useEffect(() => {
     setTimeout(() => {
       if (evilBlood > 0) {
         if (loaded) {
@@ -122,39 +120,40 @@ const HitBear = () => {
     });
   }, [loaded]);
 
-
   useEffect(() => {
-    setIsClickable(true);
-    // Enable the button when the component mounts
-    if (evilBlood <= 0) {
-      const countdownInterval = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev > 1) return prev - 1;
-          clearInterval(countdownInterval);
-          setIsClickable(false);
+    setTimeout(() => {
+      setIsClickable(true);
+      // Enable the button when the component mounts
+      if (evilBlood <= 0) {
+        const countdownInterval = setInterval(() => {
+          setTimeLeft((prev) => {
+            if (prev > 1) return prev - 1;
+            clearInterval(countdownInterval);
+            setIsClickable(false);
 
-          gsap.to("#hitBear", {
-            marginBottom: "-144px",
-            duration: 5,
-            filter: "brightness(.2)",
-            onComplete: () => {
-              router.push("/youMadeIt");
-            },
+            gsap.to("#hitBear", {
+              marginBottom: "-144px",
+              duration: 5,
+              filter: "brightness(.2)",
+              onComplete: () => {
+                router.push("/youMadeIt");
+              },
+            });
+            gsap.to("#hitBearMobile", {
+              marginBottom: "-288px",
+              duration: 5,
+              filter: "brightness(.1)",
+              onComplete: () => {
+                router.push("/youMadeIt");
+              },
+            });
+            return 0;
           });
-          gsap.to("#hitBearMobile", {
-            marginBottom: "-288px",
-            duration: 5,
-            filter: "brightness(.1)",
-            onComplete: () => {
-              router.push("/youMadeIt");
-            },
-          });
-          return 0;
         });
-      });
-      // Cleanup interval when the component unmounts
-      return () => clearInterval(countdownInterval);
-    }
+        // Cleanup interval when the component unmounts
+        return () => clearInterval(countdownInterval);
+      }
+    }, 2000);
   }, [evilBlood]);
 
   const handleClick = (event: any) => {

@@ -19,7 +19,7 @@ export const revealAnimation = (selector: string) => {
     ease: "power1",
     transformOrigin: "50% 0",
     duration: 1,
-    repeat: 1,
+    repeat: 0,
     zIndex: 100,
     transition: "ease",
   });

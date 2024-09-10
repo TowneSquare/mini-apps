@@ -18,6 +18,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { clearRevealedTraits, revealTraits } from "@/src/store/trait";
 import { useTraitData, useTraitsDetails } from "@/src/hooks";
+import { CommonPageHeader } from "@/src/components/CommonPageHeader";
+import towneSqaureLogo from "@/public/assets/townespace_logo.png"
 
 export interface TraitsProps {
   traitName: string;
@@ -46,6 +48,7 @@ export const RevealCarousel = () => {
   const [composed, setComposed] = useState<boolean>(false);
   const [uri, setUri] = useState<string>("");
   const [isComposing, setIsComposing] = useState(false);
+  const [flipped, setFlipped] = useState<Array<boolean>>(Array(8).fill(false));
 
   // const SlothBallData = useSlothBallData({
   //   accountAddress: account?.address,
@@ -95,6 +98,51 @@ export const RevealCarousel = () => {
     digitalAssetAddresses: traitDetails,
   }).data;
 
+  // const TRAITS_DETAILS = [
+  //   {
+  //     traitName: "BACKGROUND",
+  //     traitUri:
+  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Pink.png",
+  //     tokenName: "Pink #26",
+  //   },
+  //   {
+  //     traitName: "BODY",
+  //     traitUri:
+  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Wheat.png",
+  //     tokenName: "Cool Sloth #748",
+  //   },
+  //   {
+  //     traitName: "MOUTH",
+  //     traitUri:
+  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Band%20aid.png",
+  //     tokenName: "Band aid #31",
+  //   },
+  //   {
+  //     traitName: "EYES",
+  //     traitUri:
+  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Checkered%20sunglasses.png",
+  //     tokenName: "Checkered sunglasses #23",
+  //   },
+  //   {
+  //     traitName: "HATS",
+  //     traitUri:
+  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Laurel%20crown.png",
+  //     tokenName: "Laurel crown #32",
+  //   },
+  //   {
+  //     traitName: "CLOTHING",
+  //     traitUri:
+  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Aligator%20suit.png",
+  //     tokenName: "Aligator suit #30",
+  //   },
+  //   {
+  //     traitName: "BADGES",
+  //     traitUri:
+  //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Diamond%20hands%20badge.png",
+  //     tokenName: "Diamond hands badge #24",
+  //   },
+  // ];
+
   const showComposeButton = revealedTraits.length == 7;
   /// NOTE: It is important to sort the array to make sure they are in order for composing
   const sortedRevealedTraits = [...revealedTraits].sort(
@@ -134,11 +182,18 @@ export const RevealCarousel = () => {
           coolSlothName: composableObject?.token_name,
         }),
       });
-      console.log(traitsUri);
+      console.log(traitsUri, account?.address);
       const { ipfsHash, message } = await res.json();
       const URI = `${PINATA_GATEWAY}/${ipfsHash}`;
+      console.log(
+        traitsUri,
+        account?.address,
+        composableObject?.token_data_id,
+        traitObject,
+        URI,
+        "payload",
+      );
       setUri(URI);
-      console.log(ipfsHash, message, URI, "genie");
       const tx = await signAndSubmitTransaction({
         sender: account?.address,
         data: {
@@ -151,7 +206,6 @@ export const RevealCarousel = () => {
           ],
         },
       });
-      setUri(URI);
       setIsComposing(false);
       setComposed(true);
     } catch (error) {
@@ -163,61 +217,62 @@ export const RevealCarousel = () => {
   return (
     <>
       {!composed ? (
-        <div className="relative flex flex-col content-center justify-center h-screen my-auto">
+        <div className="relative flex flex-col h-screen">
           <div>
-            <p className="px-8 mt-2 mb-3 text-3xl font-extrabold text-center text-white">
+            <p className="px-8 mt-10 text-3xl font-extrabold text-center text-white md:mt-28">
               Reveal and compose your Sloth!
             </p>
 
-            <div className="flex items-center justify-center h-full px-5 overflow-x-scroll md:ml-60 md:mr-64">
-              <div className="h-full space-x-8 carousel rounded-box pr-60 first:pl-60">
-                {TRAITS_DETAILS?.map((trait, index) => (
-                  <TraitCard
-                    key={index}
-                    traitName={trait.traitName}
-                    tokenName={trait.tokenName}
-                    traitUri={trait.traitUri}
-                    id={index}
-                    revealAnimation={() => {
-                      revealAnimation(`${trait.traitName}`);
-                    }}
-                  />
-                ))}
-                <div className="flex flex-col items-center">
-                  <div className="carousel-item mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
-                    <h1 className="text-4xl font-bold text-[#3F5679]">
-                      Bonus Trait
-                    </h1>
-                    <p className="mt-6 text-lg text-[#3F5679]">See it on </p>
-                    <p className="text-lg text-[#3F5679]">
-                      Town{" "}
-                      <span className="text-lg italic text-[#9264F8]">
-                        space
-                      </span>
-                    </p>
+            <div className="flex flex-col mt-10 md:mt-20">
+              <div className="flex items-center justify-center h-full px-5 overflow-x-scroll md:ml-60 md:mr-64">
+                {TRAITS_DETAILS?.length && (
+                  <div className="h-full space-x-8 carousel rounded-box pr-60 first:pl-60">
+                    {TRAITS_DETAILS?.map((trait, index) => (
+                      <TraitCard
+                        key={index}
+                        traitName={trait.traitName}
+                        tokenName={trait.tokenName}
+                        traitUri={trait.traitUri}
+                        id={index}
+                        revealAnimation={() => {
+                          revealAnimation(`${trait.traitName}`);
+                        }}
+                      />
+                    ))}
+                    <div className="flex flex-col items-center">
+                      <div className="carousel-item mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
+                        <h1 className="text-4xl font-bold text-[#3F5679]">
+                          Bonus Trait
+                        </h1>
+                        <p className="mt-6 text-lg text-[#3F5679]">
+                          See it on{" "}
+                        </p>
+                        <Image src={towneSqaureLogo} width={197} height={34} alt="Townesquare_logo"/>
+                      </div>
+                    </div>
                   </div>
-                  {showComposeButton && (
-                    <Button
-                      variant="secondary"
-                      className="mt-10 h-16 w-[92%] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-xl font-bold text-white animate-duration-[2000ms]"
-                      onClick={() => {
-                        composeCoolSloth();
-                      }}
-                    >
-                      {isComposing ? "COMPOSING" : "COMPOSE COOLSLOTH"}
-                    </Button>
-                  )}
-                </div>
+                )}
               </div>
+              {showComposeButton && (
+                <Button
+                  variant="secondary"
+                  className="mx-auto mt-10 h-16 w-[328px] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-center text-xl font-bold text-white animate-duration-[2000ms]"
+                  onClick={() => {
+                    composeCoolSloth();
+                  }}
+                >
+                  {isComposing ? "COMPOSING" : "COMPOSE COOL SLOTH"}
+                </Button>
+              )}
             </div>
           </div>
         </div>
       ) : (
-        <div className="relative flex flex-col items-center h-full py-5 justify-evenly">
-          <p className="px-8 mt-5 text-3xl font-extrabold text-center text-white bg-center">
+        <div className="relative flex flex-col items-center justify-center h-full py-5 overflow-scroll">
+          <p className="px-8 mt-10 text-3xl font-extrabold text-center text-white md:mt-24">
             Here is your Sloth! Cool right?
           </p>
-          <div className="flex justify-center mt-10 rounded-3xl">
+          <div className="flex justify-center mt-10 rounded-3xl md:mt-24">
             <Image
               src={uri}
               priority
@@ -230,9 +285,12 @@ export const RevealCarousel = () => {
               className="rounded-3xl"
             />
           </div>
+          <p className="px-8 mt-5 text-3xl font-extrabold text-center text-white">
+            {composableObject?.token_name}
+          </p>
           <Button
             variant="secondary"
-            className="mt-10 h-16 w-[92%] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-xl font-bold text-white animate-duration-[2000ms] md:w-[50%]"
+            className="mt-10 h-24 w-[348px] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-xl font-bold text-white animate-duration-[2000ms] md:mt-24"
             onClick={() => {
               router.push("/evolve");
               setTimeout(() => {
@@ -241,6 +299,7 @@ export const RevealCarousel = () => {
               }, 5000);
             }}
           >
+
             CONTINUE
           </Button>
         </div>

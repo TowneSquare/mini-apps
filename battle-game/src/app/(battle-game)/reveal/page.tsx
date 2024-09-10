@@ -19,24 +19,31 @@ export default function RevealPage() {
   //   gsap.to("#ImgBg", {rotation: 360, transformOrigin: "center", ease: "elastic", duration: 30, repeat: -1});
   // }, {scope: container})
   return (
-    <div className="relative flex h-fit w-screen items-center justify-center bg-[#4c6299]">
-      <div
-        id="ImgBg"
-        className="absolute h-full w-screen rounded-full animate-duration-[2000ms]"
-      >
-        <Image
-          src={BgFallImg.src}
-          fill
-          alt="shining-bg"
-          style={{
-            objectFit: "contain",
-          }}
-          priority
-        />
+    <>
+      <CommonPageHeader className="z-10" />
+      <div className="relative flex h-screen w-screen items-center justify-center bg-[#4c6299]">
+        <div
+          id="ImgBg"
+          className="absolute flex h-[1032px] w-[1032px] justify-center animate-spin  animate-duration-[100000ms] animate-infinite overflow-hidden rounded-[50%]"
+        >
+          <Image
+            src={BgFallImg.src}
+            width={1000}
+            height={1000}
+            alt="shining-bg"
+            style={{
+              objectFit: "cover",
+              borderRadius: "50%",
+              objectPosition: "50% 50%",
+            }}
+            priority
+            className=""
+          />
+        </div>
+        <div className="w-full h-full">
+          <RevealCarousel />
+        </div>
       </div>
-      <div className="w-full h-full">
-        <RevealCarousel />
-      </div>
-    </div>
+    </>
   );
 }
