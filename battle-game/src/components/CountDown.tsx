@@ -15,19 +15,19 @@ export const CountDown: React.FC<{
         bgcolor
       }
     >
-      <div className="flex flex-col items-center justify-center px-3 py-2">
+      <div className="flex flex-col items-center justify-center px-6 py-2 font-normal">
         <span className="text-xl">{timeInfo.day}</span>
         <span>Days</span>
       </div>
-      <div className="flex flex-col items-center justify-center px-3 py-2">
+      <div className="flex flex-col items-center justify-center px-6 py-2">
         <span className="text-xl">{timeInfo.hoursStr}</span>
         <span>Hours</span>
       </div>
-      <div className="flex flex-col items-center justify-center px-3 py-2">
+      <div className="flex flex-col items-center justify-center px-6 py-2">
         <span className="text-xl">{timeInfo.minutesStr}</span>
         <span>Minutes</span>
       </div>
-      <div className="flex flex-col items-center justify-center px-3 py-2">
+      <div className="flex flex-col items-center justify-center px-6 py-2">
         <span className="text-xl">{timeInfo.secondsStr}</span>
         <span>Seconds</span>
       </div>

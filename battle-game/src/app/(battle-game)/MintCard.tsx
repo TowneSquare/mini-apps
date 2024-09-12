@@ -139,7 +139,7 @@ export const CountDownCard: React.FC<{
     <div className="flex flex-col items-center justify-center w-full mb-5">
       <h1 className="text-lg font-bold text-white">{cardName}</h1>
       <span className="text-lg font-light text-white mb-7">
-        {`${startDate[1]} ${startDate[2]}⋅${startTimeArray[0]}:${startTimeArray[1]} UTC`}
+        {`${startDate[1]} ${startDate[2]}⋅${startTimeArray[0]}:${startTimeArray[1]} GMT`}
       </span>
       <CountDown deadlineTime={startTime} bgcolor={bgcolor} />
     </div>
