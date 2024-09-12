@@ -8,6 +8,7 @@ import { BattleCard } from "./BattleCard";
 import { useSlothBallData } from "@/src/hooks";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useCountdown } from "@/src/hooks/useCountdown";
+import { GAME_START_TIME } from "@/src/config/constants";
 
 export default function BattleGamePage() {
   const { account, connected } = useWallet();
@@ -17,8 +18,8 @@ export default function BattleGamePage() {
   });
 
   const eligible = slothBallData.data && slothBallData.data.length > 0;
-  const gameStartTime = 1726045200000;
-  const timeInfo = useCountdown({ deadlineTime: gameStartTime });
+
+  const timeInfo = useCountdown({ deadlineTime: GAME_START_TIME });
  
 
   return (
@@ -46,25 +47,25 @@ export default function BattleGamePage() {
 
         <BattleCard
           eligible={eligible}
-          gameStartTime={gameStartTime}
+          gameStartTime={GAME_START_TIME}
           evolveNumber={slothBallData.data?.length}
           connected={connected}
         />
-        {gameStartTime - Math.floor(Date.now()) <= 30000 && !(gameStartTime - Math.floor(Date.now()) <= 0) ? (
+        {GAME_START_TIME - Math.floor(Date.now()) <= 30000 && !(GAME_START_TIME - Math.floor(Date.now()) <= 0) ? (
           <RouteButton
             disabled={!eligible}
             title={`Battle ${timeInfo.secondsStr}`}
-            path="/hitbear"
+            
             bottomClass="bottom-8"
-            gameStartTime={gameStartTime}
+            gameStartTime={GAME_START_TIME}
           />
         ) : (
           <RouteButton
             disabled={!eligible}
             title={`Battle`}
-            path="/hitbear"
+            
             bottomClass="bottom-8"
-            gameStartTime={gameStartTime}
+            gameStartTime={GAME_START_TIME}
           />
         )}
       </main>

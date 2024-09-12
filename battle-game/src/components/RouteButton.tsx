@@ -1,28 +1,28 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
 export const RouteButton = ({
-  path,
   title,
   disabled,
   animateClass = "",
   bottomClass = "bottom-0",
-  gameStartTime
+  gameStartTime,
 }: {
-  path: string;
   title: string;
   disabled?: boolean;
   animateClass?: string;
   bottomClass?: string;
-  gameStartTime:number
+  gameStartTime: number;
 }) => {
   const router = useRouter();
-   const isStartGame = !(gameStartTime - Math.floor(Date.now()) <= 30000);
-   console.log(isStartGame, gameStartTime, Math.floor(Date.now()), "tartTime")
+  const { evilBlood } = useBattleEvil();
+  const isStartGame = !(gameStartTime - Math.floor(Date.now()) <= 30000);
+
   return (
     <div
       className={
-        " mt-4 mx-auto h-20 w-11/12 rounded-2xl md:w-[40%] bg-[#29294f] px-5 py-4 " +
+        " mx-auto mt-4 h-20 w-11/12 rounded-2xl bg-[#29294f] px-5 py-4 md:w-[40%] " +
         bottomClass +
         " " +
         animateClass
@@ -34,8 +34,10 @@ export const RouteButton = ({
       <button
         disabled={disabled || isStartGame}
         type="button"
-        onClick={() => router.push(path)}
-        className="w-full h-full font-extrabold text-white bg-bggreen rounded-xl"
+        onClick={() => {
+          evilBlood <= 0 ? router.push("/evolve") : router.push("/hitbear");
+        }}
+        className="w-full h-full font-extrabold text-white rounded-xl bg-bggreen"
         style={{
           backgroundColor: disabled || isStartGame ? "#426767" : "#82cacb",
           color: disabled || isStartGame ? "#949494" : "white",
