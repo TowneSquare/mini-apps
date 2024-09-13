@@ -294,7 +294,7 @@ export const RevealCarousel = () => {
     <>
       {!composed ? (
         <div id="carouScroll" className="relative flex flex-col h-screen">
-          <p className="text-red-600"> Top </p>
+          
           <div>
             <p className="px-8 mt-10 text-3xl font-extrabold text-center text-white md:mt-28">
               Reveal and compose your Sloth!
