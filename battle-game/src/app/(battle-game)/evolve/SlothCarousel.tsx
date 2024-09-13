@@ -4,6 +4,7 @@ import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 import { useSlothBallData } from "@/src/hooks";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useRef, useEffect } from "react";
 import { DAPP_ADDRESS, MODULE_NAME, APTOS } from "@/src/config/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -12,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { updateTrait } from "@/src/store/trait";
 import { useRouter } from "next/navigation";
 import towneSqaureWhiteLogo from "@/public/assets/townespace_logo_white.png";
+import { Draggable } from "@/src/components/Draggable";
 
 export const SlothCarousel = () => {
   const { account, signAndSubmitTransaction } = useWallet();
@@ -23,18 +25,10 @@ export const SlothCarousel = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isEvolving, setIsEvolving] = useState<string>("");
+   const Ref = useRef(null);
+    const carouselRef = useRef<HTMLDivElement | null>(null);
 
-  console.log(SlothBallData.data);
-  // const evolve = async () => {
-  //   const res = await signAndSubmitTransaction({
-  //     sender: accountAddress,
-  //     data: {
-  //       function: `${DAPP_ADDRESS}::${MODULE_NAME}::unveil`,
-  //       typeArguments: [],
-  //       functionArguments: [tokens],
-  //     },
-  //   });
-  // }
+  
 
   const evolve = useMutation({
     mutationFn: async ({ token, id }: { token: string[]; id: string }) => {
@@ -75,6 +69,27 @@ export const SlothCarousel = () => {
       });
     },
   });
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+
+    const handleWheel = (event: WheelEvent) => {
+      if (carousel) {
+        event.preventDefault(); // Prevent default vertical scroll
+        carousel.scrollLeft += event.deltaY; // Scroll horizontally by deltaY
+      }
+    };
+
+    if (carousel) {
+      carousel.addEventListener('wheel', handleWheel);
+    }
+
+    return () => {
+      if (carousel) {
+        carousel.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, []);
   return (
     <section>
       {SlothBallData.data && SlothBallData.data?.length > 0 ? (
@@ -83,16 +98,13 @@ export const SlothCarousel = () => {
             Evolve your Slothballs!
           </p>
           <div className="flex items-center justify-center overflow-x-scroll md:ml-60 md:mr-64">
-            <div className="carousel rounded-box">
+            <Draggable innerRef={Ref} rootClass="drag">
+            <div  ref={carouselRef} className="flex w-screen overflow-x-scroll no-scrollbar rounded-box">
               {SlothBallData.data?.map((slothBall, index) => (
                 <div
                   key={slothBall.current_token_data?.token_name}
                   className="flex flex-col items-center justify-between pt-6 pb-3 mx-2 bg-white border-2 border-b-8 border-black carousel-item w-80 rounded-3xl"
                 >
-                  {/* <div className="flex flex-col items-center justify-center justify-self-start">
-          <span className="text-3xl font-black">Congratulations</span>
-          <span className="mt-2 text-xl font-semibold">you minted</span>
-        </div> */}
                   <div className="relative flex flex-col items-center justify-center mb-5 justify-self-center">
                     <div className="w-64 mb-5 h-72">
                       <img
@@ -120,6 +132,7 @@ export const SlothCarousel = () => {
                 </div>
               ))}
             </div>
+            </Draggable>
           </div>
         </div>
       ) : (

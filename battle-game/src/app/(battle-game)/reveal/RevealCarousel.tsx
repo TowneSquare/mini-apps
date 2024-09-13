@@ -5,7 +5,8 @@ import { useGSAP } from "@gsap/react";
 import { revealAnimation } from "@/src/utils";
 import { Button } from "@/src/components/ui/button";
 import { TraitCard } from "@/src/components/TraitCard";
-import { useState } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import {
   COMPOSABLE_TOKEN_ENTRY,
   COMPOSABLE_TOKEN_ENTRY_MODULE_ADDRESS_TESTNET,
@@ -19,7 +20,9 @@ import { useRouter } from "next/navigation";
 import { clearRevealedTraits, revealTraits } from "@/src/store/trait";
 import { useTraitData, useTraitsDetails } from "@/src/hooks";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
+import { Draggable } from "@/src/components/Draggable";
 import towneSqaureLogo from "@/public/assets/townespace_logo.png";
+import { useEvent, useMouseWheel } from "react-use";
 
 export interface TraitsProps {
   traitName: string;
@@ -35,7 +38,7 @@ export enum TRAIT_NAME {
   CLOTHING = "Clothing",
   BADGES = "Badge",
 }
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(ScrollTrigger);
 
 export const RevealCarousel = () => {
   const traits = useAppSelector((state) => state.traitState.traits);
@@ -49,6 +52,27 @@ export const RevealCarousel = () => {
   const [uri, setUri] = useState<string>("");
   const [isComposing, setIsComposing] = useState(false);
   const [flipped, setFlipped] = useState<Array<boolean>>(Array(8).fill(false));
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const mouseWheel = useMouseWheel()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY); // Update the scroll position
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   if (carouselRef.current) {
+  //     carouselRef.current.scrollLeft = scrollPosition; // Move horizontally based on vertical scroll
+  //   }
+  // }, [scrollPosition]);
 
   // const SlothBallData = useSlothBallData({
   //   accountAddress: account?.address,
@@ -212,51 +236,111 @@ export const RevealCarousel = () => {
       setIsComposing(false);
     }
   };
+// console.log(mouseWheel, "mmmm")
+//   useEffect(() => {
+    
+//     ScrollTrigger.create({
+//       trigger: "#carouScroll",
+//       start: "top top",
+//       pin: "#pinned",
+//       end: "+=3500",
+//       onUpdate: () => {
+//         if (carouselRef.current) {
+//           carouselRef.current.scrollLeft = mouseWheel; // Move horizontally based on vertical scroll
+//         }
+//       },
+//     });
+
+//     // gsap.to("#carouScroll", {
+//     //   xPercent: -100,
+//     //   ease: "none",
+//     //   scrollTrigger: {
+//     //     trigger: "#start",
+//     //     pin: true,
+//     //     scrub: 1,
+//     //     //snap: 1 / (sections.length - 1),
+//     //     // base vertical scrolling on how wide the container is so it feels more natural.
+//     //     end: "+=3500",
+//     //   },
+//     // });
+
+//     //ScrollTrigger.refresh();
+//   }, []);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+
+    const handleWheel = (event: WheelEvent) => {
+      if (carousel) {
+        event.preventDefault(); // Prevent default vertical scroll
+        carousel.scrollLeft += event.deltaY; // Scroll horizontally by deltaY
+      }
+    };
+
+    if (carousel) {
+      carousel.addEventListener('wheel', handleWheel);
+    }
+
+    return () => {
+      if (carousel) {
+        carousel.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, []);
+
+  const Ref = useRef(null);
 
   return (
     <>
       {!composed ? (
-        <div className="relative flex flex-col h-screen">
+        <div id="carouScroll" className="relative flex flex-col h-screen">
+          <p className="text-red-600"> Top </p>
           <div>
             <p className="px-8 mt-10 text-3xl font-extrabold text-center text-white md:mt-28">
               Reveal and compose your Sloth!
             </p>
 
             <div className="flex flex-col mt-10 md:mt-20">
-              <div className="flex items-center justify-center h-full px-5 overflow-x-scroll md:ml-60 md:mr-64">
-                {TRAITS_DETAILS?.length && (
-                  <div className="h-full space-x-8 carousel rounded-box pr-60 first:pl-60">
-                    {TRAITS_DETAILS?.map((trait, index) => (
-                      <TraitCard
-                        key={index}
-                        traitName={trait.traitName}
-                        tokenName={trait.tokenName}
-                        traitUri={trait.traitUri}
-                        id={index}
-                        revealAnimation={() => {
-                          revealAnimation(`${trait.traitName}`);
-                        }}
-                      />
-                    ))}
-                    <div className="flex flex-col items-center">
-                      <div className="carousel-item mx-2 flex h-72 w-72 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
-                        <h1 className="md:text-4xl text-2xl font-bold text-[#3F5679]">
-                          Bonus Trait
-                        </h1>
-                        <p className="mt-6 text-lg text-[#3F5679]">
-                          See it on{" "}
-                        </p>
-                        <Image
-                          src={towneSqaureLogo}
-                          width={197}
-                          height={34}
-                          alt="Townesquare_logo"
+              <Draggable innerRef={Ref} rootClass="drag">
+                <div
+                  ref={carouselRef}
+                  id="piinned"
+                  className="no-scrollbar flex w-[1000px] items-center justify-center overflow-x-scroll px-5 md:ml-60 md:mr-64"
+                >
+                  {TRAITS_DETAILS?.length && (
+                    <div  className="flex w-full h-full space-x-4 overscroll-none rounded-box pr-60 first:pl-60 md:space-x-8">
+                      {TRAITS_DETAILS?.map((trait, index) => (
+                        <TraitCard
+                          key={index}
+                          traitName={trait.traitName}
+                          tokenName={trait.tokenName}
+                          traitUri={trait.traitUri}
+                          id={index}
+                          revealAnimation={() => {
+                            revealAnimation(`${trait.traitName}`);
+                          }}
                         />
+                      ))}
+                      <div className="flex flex-col items-center">
+                        <div className="carousel-item mx-2 flex h-72 w-72 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED] md:h-80 md:w-80">
+                          <h1 className="text-2xl font-bold text-[#3F5679] md:text-4xl">
+                            Bonus Trait
+                          </h1>
+                          <p className="mt-6 text-lg text-[#3F5679]">
+                            See it on{" "}
+                          </p>
+                          <Image
+                            src={towneSqaureLogo}
+                            width={197}
+                            height={34}
+                            alt="Townesquare_logo"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              </Draggable>
               {showComposeButton && (
                 <Button
                   variant="secondary"
