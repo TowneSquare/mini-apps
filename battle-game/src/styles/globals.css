@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -65,10 +67,6 @@
     --ring: 212.7 26.8% 83.9%;
   }
 
-  /* @font-face {
-    font-family: E ;
-    src: url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
-  } */
 }
 
 @layer base {
@@ -80,6 +78,10 @@
   }
 }
 
+
+.rotateY {
+  transform: rotateY(360deg);
+}
 
 /* .draggable {
   display: inline-flex;

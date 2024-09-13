@@ -13,15 +13,16 @@ export const revealAnimation = (selector: string) => {
   //   });
 
   return tl.to(`#${selector}`, {
-    rotationY: 180,
+    rotationY: 360,
     ease: "power1",
     transformOrigin: "50% 50%",
-    duration: 1,
     zIndex: 100,
     transition: "ease",
     yoyo: false,
-    onComplete: () => {
-      tl.revert();
+    onStart: () => {
+      gsap.to(`#${selector}`, {
+        rotationY: 0,
+      });
     },
   });
 };

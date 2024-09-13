@@ -1968,3 +1968,14 @@ transform: translate(0%,-60%) rotate(360deg) }  }
 .ld.ld-wrench {
   animation: ld-wrench 1s infinite linear; ; 
 }
+
+@keyframes rotate-y {
+  0% {
+    
+    transform: rotateY(180deg);
+  }
+
+  100% {
+    transform: rotateY(360deg);
+  }
+}

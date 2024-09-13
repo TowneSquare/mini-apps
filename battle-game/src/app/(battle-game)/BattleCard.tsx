@@ -15,7 +15,7 @@ export const BattleCard: React.FC<{
 
   return (
     <>
-      {gameStartTime - Math.floor(Date.now()) > 30000? (
+      {isStartTime ? (
         <div className="z-[2] mx-auto mb-5 w-11/12 rounded-xl md:w-[40%]">
           <div className="rounded-t-xl bg-[#29294f] px-4 pt-2">
             <div className="flex items-center justify-between w-full h-12">

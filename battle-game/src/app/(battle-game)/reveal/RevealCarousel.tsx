@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { clearRevealedTraits, revealTraits } from "@/src/store/trait";
 import { useTraitData, useTraitsDetails } from "@/src/hooks";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
-import towneSqaureLogo from "@/public/assets/townespace_logo.png"
+import towneSqaureLogo from "@/public/assets/townespace_logo.png";
 
 export interface TraitsProps {
   traitName: string;
@@ -27,13 +27,13 @@ export interface TraitsProps {
 }
 
 export enum TRAIT_NAME {
-  BACKGROUND = "BACKGROUND",
-  BODY = "BODY",
-  MOUTH = "MOUTH",
-  EYES = "EYES",
-  HATS = "HATS",
-  CLOTHING = "CLOTHING",
-  BADGES = "BADGES",
+  BACKGROUND = "Background",
+  BODY = "Body",
+  MOUTH = "Mouth",
+  EYES = "Eyes",
+  HATS = "Hats",
+  CLOTHING = "Clothing",
+  BADGES = "Badge",
 }
 gsap.registerPlugin(useGSAP);
 
@@ -68,21 +68,20 @@ export const RevealCarousel = () => {
       traitTokenId: traits?.cool_sloths[0],
     },
     {
-      traitName: TRAIT_NAME.MOUTH,
-      traitTokenId: traits?.mouths[0],
+      traitName: TRAIT_NAME.CLOTHING,
+      traitTokenId: traits?.clothings[0],
+    },
+    {
+      traitName: TRAIT_NAME.HATS,
+      traitTokenId: traits?.hats[0],
     },
     {
       traitName: TRAIT_NAME.EYES,
       traitTokenId: traits?.eyes[0],
     },
     {
-      traitName: TRAIT_NAME.HATS,
-      traitTokenId: traits?.hats[0],
-    },
-
-    {
-      traitName: TRAIT_NAME.CLOTHING,
-      traitTokenId: traits?.clothings[0],
+      traitName: TRAIT_NAME.MOUTH,
+      traitTokenId: traits?.mouths[0],
     },
     {
       traitName: TRAIT_NAME.BADGES,
@@ -124,7 +123,7 @@ export const RevealCarousel = () => {
   //     tokenName: "Checkered sunglasses #23",
   //   },
   //   {
-  //     traitName: "HATS",
+  //     traitName: "Hats",
   //     traitUri:
   //       "https://bafybeidczv6obpjiky2iircpdpqa4jqn3flzjfbf454in6abmjrnlyekdm.ipfs.w3s.link/Laurel%20crown.png",
   //     tokenName: "Laurel crown #32",
@@ -240,14 +239,19 @@ export const RevealCarousel = () => {
                       />
                     ))}
                     <div className="flex flex-col items-center">
-                      <div className="carousel-item mx-2 flex h-80 w-80 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
-                        <h1 className="text-4xl font-bold text-[#3F5679]">
+                      <div className="carousel-item mx-2 flex h-72 w-72 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED]">
+                        <h1 className="md:text-4xl text-2xl font-bold text-[#3F5679]">
                           Bonus Trait
                         </h1>
                         <p className="mt-6 text-lg text-[#3F5679]">
                           See it on{" "}
                         </p>
-                        <Image src={towneSqaureLogo} width={197} height={34} alt="Townesquare_logo"/>
+                        <Image
+                          src={towneSqaureLogo}
+                          width={197}
+                          height={34}
+                          alt="Townesquare_logo"
+                        />
                       </div>
                     </div>
                   </div>
@@ -299,7 +303,6 @@ export const RevealCarousel = () => {
               }, 5000);
             }}
           >
-
             CONTINUE
           </Button>
         </div>

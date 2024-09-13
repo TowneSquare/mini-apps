@@ -15,7 +15,7 @@ export const CountDown: React.FC<{
         bgcolor
       }
     >
-      <div className="flex flex-col items-center justify-center px-6 py-2 font-normal">
+      <div className="flex flex-col items-center justify-center px-6 py-2">
         <span className="text-xl">{timeInfo.day}</span>
         <span>Days</span>
       </div>
