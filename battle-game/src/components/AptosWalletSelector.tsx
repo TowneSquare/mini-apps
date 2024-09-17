@@ -23,7 +23,7 @@ import {
   CaretUpOutlined,
   RightOutlined,
 } from "@ant-design/icons";
-import DrawTitlePNG from "@/public/assets/draw_title.png";
+import DrawTitlePNG from "@/public/assets/draw_title.svg";
 import WalletPromptPNG from "@/public/assets/wallet-prompt.png";
 import { useMediaQuery } from "react-responsive";
 

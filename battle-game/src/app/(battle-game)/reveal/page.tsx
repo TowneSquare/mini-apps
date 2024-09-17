@@ -20,11 +20,11 @@ export default function RevealPage() {
   // }, {scope: container})
   return (
     <>
-      <CommonPageHeader className="z-10" />
-      <div className="relative flex h-screen w-screen items-center justify-center bg-[#4c6299]">
+      <div className="relative flex h-fit w-screen flex-col items-center justify-center bg-[#4c6299]">
+        <CommonPageHeader className="z-10" />
         <div
           id="ImgBg"
-          className="absolute flex h-[1032px] w-[1032px] justify-center animate-spin  animate-duration-[100000ms] animate-infinite overflow-hidden rounded-[50%]"
+          className="absolute bottom-0 top-0 flex h-[900px] w-[900px] animate-spin justify-center overflow-hidden rounded-[50%] animate-duration-[100000ms] animate-infinite"
         >
           <Image
             src={BgFallImg.src}
@@ -40,9 +40,7 @@ export default function RevealPage() {
             className=""
           />
         </div>
-        <div className="w-full h-full">
-          <RevealCarousel />
-        </div>
+        <RevealCarousel />
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 "use client";
 import gsap from "gsap";
 import frontImg from "@/public/assets/game/front.png";
-import blinkBearImg from "@/public/assets/game/blinkBear.png";
+import mobileSloth from "@/public/assets/game/mobile-sloth.png";
 import boomImgA from "@/public/assets/game/boomA.png";
 import boomImgB from "@/public/assets/game/boomB.png";
 import boomImgC from "@/public/assets/game/boomC.png";
@@ -11,14 +11,20 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useBattleEvil } from "@/src/hooks/battleEvilProvider";
 import { GAME_START_TIME } from "@/src/config/constants";
+import { useAppDispatch } from "@/src/store/hooks";
+import { updateHeaderState } from "@/src/store/app";
 
 const HitBear = () => {
   const { evilBlood, battleClickHandler } = useBattleEvil();
+  const dispatch = useAppDispatch()
   const router = useRouter();
 
   const [isClickable, setIsClickable] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15);
   const [loaded, setLoaded] = useState(false);
+  // const [countDown, setCountDown] = useState(
+  //   10
+  // );
   const [countDown, setCountDown] = useState(
     Math.floor((GAME_START_TIME - Math.floor(Date.now())) / 1000),
   );
@@ -80,14 +86,15 @@ const HitBear = () => {
                 duration: countDown / 2,
                 filter: "brightness(0.8)",
                 width: 700,
-                onComplete: () => {},
               });
+             // dispatch(updateHeaderState(true))
             },
           });
           gsap.to("#hitBearMobile", {
-            marginBottom: "5vh",
+            marginBottom: "-300px",
             duration: countDown,
             filter: "brightness(1)",
+            width:600
           });
           if (countdownRefs) {
             tll.to(countdownRefs[countdownRefs?.length - 1].current, {
@@ -129,7 +136,7 @@ const HitBear = () => {
           if (prev > 1) return prev - 1;
           clearInterval(countdownInterval);
           setIsClickable(false);
-
+          //dispatch(updateHeaderState(false))
           gsap.to("#hitBear", {
             marginBottom: "-144px",
             duration: 10,
@@ -139,7 +146,7 @@ const HitBear = () => {
             },
           });
           gsap.to("#hitBearMobile", {
-            marginBottom: "-288px",
+            marginBottom: "-600px",
             duration: 10,
             filter: "brightness(.1)",
             onComplete: () => {
@@ -153,6 +160,13 @@ const HitBear = () => {
       return () => clearInterval(countdownInterval);
     }
   }, [evilBlood]);
+
+  useEffect(() => {
+  //  if(countDown < 0){
+  //   dispatch(updateHeaderState(true))
+  //  }
+  }, [countDown])
+  
 
   const handleClick = (event: any) => {
     if (isClickable) {
@@ -196,7 +210,7 @@ const HitBear = () => {
     <main className="relative flex items-center justify-center w-screen h-screen">
       <div
         ref={healthRef}
-        className="absolute flex flex-col items-center justify-center w-full top-1"
+        className="absolute z-50 flex flex-col items-center justify-center w-full top-1"
       >
         <span className="mb-1 text-2xl text-center text-white ">
           HP:{evilBlood <= 0 ? 0 : evilBlood}
@@ -228,8 +242,8 @@ const HitBear = () => {
               priority
             />
             <Image
-              className="-mb-72 brightness-[.1] md:hidden"
-              src={blinkBearImg.src}
+              className="-mb-[600px] brightness-[.1] md:hidden"
+              src={mobileSloth.src}
               alt="Bear"
               id="hitBearMobile"
               style={{
@@ -238,7 +252,7 @@ const HitBear = () => {
               }}
               width={600}
               height={600}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              //sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               onClick={handleClick}
               onLoad={handleImageLoad}
               priority
@@ -262,15 +276,15 @@ const HitBear = () => {
               priority
             />
             <Image
-              className="mb-20 md:hidden"
-              src={blinkBearImg.src}
+              className="-mb-[300px] md:hidden"
+              src={mobileSloth.src}
               alt="Bear"
               style={{
                 width: "100%",
                 height: "auto",
               }}
-              width={600}
-              height={600}
+              width={700}
+              height={700}
               onClick={handleClick}
               onLoad={handleImageLoad}
               id="hitBearMobile"
@@ -281,7 +295,7 @@ const HitBear = () => {
         <img
           ref={hitMarkerRefB as React.RefObject<HTMLImageElement>}
           src={boomImgB.src}
-          className="absolute z-50 hidden w-40 "
+          className="absolute z-40 hidden w-40 "
           alt="Hit Marker"
           style={{
             transform: "translate(-50%, -50%)",
@@ -290,7 +304,7 @@ const HitBear = () => {
         <img
           ref={hitMarkerRefC as React.RefObject<HTMLImageElement>}
           src={boomImgC.src}
-          className="absolute z-50 hidden w-40 "
+          className="absolute z-40 hidden w-40 "
           alt="Hit Marker"
           style={{
             transform: "translate(-50%, -50%)",
@@ -299,7 +313,7 @@ const HitBear = () => {
         <img
           ref={hitMarkerRefA as React.RefObject<HTMLImageElement>}
           src={boomImgA.src}
-          className="absolute z-50 hidden w-40 "
+          className="absolute z-40 hidden w-40 "
           alt="Hit Marker"
           style={{
             transform: "translate(-50%, -50%)",
@@ -338,8 +352,8 @@ const HitBear = () => {
         <h1>him</h1>
       </div>
       <img
-        className="absolute bottom-0 z-50 h-[38vh] w-full md:hidden"
-        src={frontImg.src}
+        className="absolute bottom-0 z-50 w-full h-auto md:hidden"
+        src="/assets/game/mobile_footer.png"
         alt=""
       />
       <img

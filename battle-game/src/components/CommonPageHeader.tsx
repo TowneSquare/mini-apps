@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { CloseOutlined } from "@ant-design/icons";
-import HeaderBg from "@/public/assets/header_icon.png";
+import HeaderBg from "@/public/assets/cs_logo.svg";
 import { useRouter } from "next/navigation";
 
 export const CommonPageHeader = ({

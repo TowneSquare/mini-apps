@@ -54,7 +54,7 @@ export const RevealCarousel = () => {
   const [flipped, setFlipped] = useState<Array<boolean>>(Array(8).fill(false));
   const [scrollPosition, setScrollPosition] = useState(0);
   const carouselRef = useRef<HTMLDivElement | null>(null);
-  const mouseWheel = useMouseWheel()
+  const mouseWheel = useMouseWheel();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -208,14 +208,14 @@ export const RevealCarousel = () => {
       console.log(traitsUri, account?.address);
       const { ipfsHash, message } = await res.json();
       const URI = `${PINATA_GATEWAY}/${ipfsHash}`;
-      console.log(
-        traitsUri,
-        account?.address,
-        composableObject?.token_data_id,
-        traitObject,
-        URI,
-        "payload",
-      );
+      // console.log(
+      //   traitsUri,
+      //   account?.address,
+      //   composableObject?.token_data_id,
+      //   traitObject,
+      //   URI,
+      //   "payload",
+      // );
       setUri(URI);
       const tx = await signAndSubmitTransaction({
         sender: account?.address,
@@ -236,36 +236,36 @@ export const RevealCarousel = () => {
       setIsComposing(false);
     }
   };
-// console.log(mouseWheel, "mmmm")
-//   useEffect(() => {
-    
-//     ScrollTrigger.create({
-//       trigger: "#carouScroll",
-//       start: "top top",
-//       pin: "#pinned",
-//       end: "+=3500",
-//       onUpdate: () => {
-//         if (carouselRef.current) {
-//           carouselRef.current.scrollLeft = mouseWheel; // Move horizontally based on vertical scroll
-//         }
-//       },
-//     });
+  // console.log(mouseWheel, "mmmm")
+  //   useEffect(() => {
 
-//     // gsap.to("#carouScroll", {
-//     //   xPercent: -100,
-//     //   ease: "none",
-//     //   scrollTrigger: {
-//     //     trigger: "#start",
-//     //     pin: true,
-//     //     scrub: 1,
-//     //     //snap: 1 / (sections.length - 1),
-//     //     // base vertical scrolling on how wide the container is so it feels more natural.
-//     //     end: "+=3500",
-//     //   },
-//     // });
+  //     ScrollTrigger.create({
+  //       trigger: "#carouScroll",
+  //       start: "top top",
+  //       pin: "#pinned",
+  //       end: "+=3500",
+  //       onUpdate: () => {
+  //         if (carouselRef.current) {
+  //           carouselRef.current.scrollLeft = mouseWheel; // Move horizontally based on vertical scroll
+  //         }
+  //       },
+  //     });
 
-//     //ScrollTrigger.refresh();
-//   }, []);
+  //     // gsap.to("#carouScroll", {
+  //     //   xPercent: -100,
+  //     //   ease: "none",
+  //     //   scrollTrigger: {
+  //     //     trigger: "#start",
+  //     //     pin: true,
+  //     //     scrub: 1,
+  //     //     //snap: 1 / (sections.length - 1),
+  //     //     // base vertical scrolling on how wide the container is so it feels more natural.
+  //     //     end: "+=3500",
+  //     //   },
+  //     // });
+
+  //     //ScrollTrigger.refresh();
+  //   }, []);
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -278,12 +278,12 @@ export const RevealCarousel = () => {
     };
 
     if (carousel) {
-      carousel.addEventListener('wheel', handleWheel);
+      carousel.addEventListener("wheel", handleWheel);
     }
 
     return () => {
       if (carousel) {
-        carousel.removeEventListener('wheel', handleWheel);
+        carousel.removeEventListener("wheel", handleWheel);
       }
     };
   }, []);
@@ -293,22 +293,23 @@ export const RevealCarousel = () => {
   return (
     <>
       {!composed ? (
-        <div id="carouScroll" className="relative flex flex-col h-screen">
-          
-          <div>
-            <p className="px-8 mt-10 text-3xl font-extrabold text-center text-white md:mt-28">
-              Reveal and compose your Sloth!
-            </p>
-
-            <div className="flex flex-col mt-10 md:mt-20">
+        <div
+          id="carouScroll"
+          className="relative grid h-screen grid-rows-[20vh,80vh]"
+        >
+          <p className="px-8 mt-5 text-xl font-extrabold text-center text-white md:mt-28 md:text-3xl">
+            Reveal and compose your Sloth!
+          </p>
+          <div className="flex flex-col items-center">
+            <div className="flex flex-col md:mt-10">
               <Draggable innerRef={Ref} rootClass="drag">
                 <div
                   ref={carouselRef}
                   id="piinned"
-                  className="no-scrollbar flex w-[1000px] items-center justify-center overflow-x-scroll px-5 md:ml-60 md:mr-64"
+                  className="no-scrollbar pl-30 pr-30 flex w-[350px] items-center justify-center overflow-x-scroll md:ml-60 md:mr-64 md:w-[700px] md:px-5"
                 >
                   {TRAITS_DETAILS?.length && (
-                    <div  className="flex w-full h-full space-x-4 overscroll-none rounded-box pr-60 first:pl-60 md:space-x-8">
+                    <div className="flex w-full h-full space-x-2 overscroll-none rounded-box pr-60 first:pl-24 md:space-x-8 md:first:pl-60">
                       {TRAITS_DETAILS?.map((trait, index) => (
                         <TraitCard
                           key={index}
@@ -318,11 +319,12 @@ export const RevealCarousel = () => {
                           id={index}
                           revealAnimation={() => {
                             revealAnimation(`${trait.traitName}`);
+                            8;
                           }}
                         />
                       ))}
-                      <div className="flex flex-col items-center">
-                        <div className="carousel-item mx-2 flex h-72 w-72 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED] md:h-80 md:w-80">
+                      <div className="flex flex-col items-center mr-5">
+                        <div className="carousel-item mx-1 flex h-60 w-60 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED] md:h-80 md:w-80">
                           <h1 className="text-2xl font-bold text-[#3F5679] md:text-4xl">
                             Bonus Trait
                           </h1>
@@ -341,54 +343,57 @@ export const RevealCarousel = () => {
                   )}
                 </div>
               </Draggable>
-              {showComposeButton && (
-                <Button
-                  variant="secondary"
-                  className="mx-auto mt-10 h-16 w-[328px] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-center text-xl font-bold text-white animate-duration-[2000ms]"
-                  onClick={() => {
-                    composeCoolSloth();
-                  }}
-                >
-                  {isComposing ? "COMPOSING" : "COMPOSE COOL SLOTH"}
-                </Button>
-              )}
             </div>
+            {showComposeButton && (
+              <Button
+                variant="secondary"
+                className="mx-auto mt-5 h-16 w-[328px] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-center text-xl font-bold text-white animate-duration-[2000ms] md:mt-10"
+                onClick={() => {
+                  composeCoolSloth();
+                }}
+              >
+                {isComposing ? "COMPOSING" : "COMPOSE COOL SLOTH"}
+              </Button>
+            )}
           </div>
         </div>
       ) : (
-        <div className="relative flex flex-col items-center justify-center h-full py-5 overflow-scroll">
-          <p className="px-8 mt-10 text-3xl font-extrabold text-center text-white md:mt-24">
+        <div className="relative grid h-screen grid-rows-[10vh,75vh]">
+          <p className="px-8 mt-10 text-xl font-extrabold text-center text-white md:text-3xl">
             Here is your Sloth! Cool right?
           </p>
-          <div className="flex justify-center mt-10 rounded-3xl md:mt-24">
-            <Image
-              src={uri}
-              priority
-              width={500}
-              height={500}
-              alt="CoolSloth"
-              style={{
-                objectFit: "cover",
+          <div className="flex flex-col items-center justify-evenly">
+            <div className="flex flex-col items-center justify-center rounded-3xl">
+              <Image
+                src={uri}
+                priority
+                width={450}
+                height={500}
+                alt="CoolSloth"
+                style={{
+                  objectFit: "contain",
+                }}
+                className="w-[300px] rounded-3xl md:w-[450px]"
+              />
+              <p className="mt-2 text-3xl font-extrabold text-center text-white ">
+                {composableObject?.token_name}
+              </p>
+            </div>
+
+            <Button
+              variant="secondary"
+              className="h-16 w-[348px] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-xl font-bold text-white animate-duration-[2000ms]"
+              onClick={() => {
+                router.push("/evolve");
+                setTimeout(() => {
+                  setComposed(false);
+                  dispatch(clearRevealedTraits());
+                }, 5000);
               }}
-              className="rounded-3xl"
-            />
+            >
+              CONTINUE
+            </Button>
           </div>
-          <p className="px-8 mt-5 text-3xl font-extrabold text-center text-white">
-            {composableObject?.token_name}
-          </p>
-          <Button
-            variant="secondary"
-            className="mt-10 h-24 w-[348px] animate-fade rounded-xl border-2 border-b-8 border-black bg-[#6BCDCB] text-xl font-bold text-white animate-duration-[2000ms] md:mt-24"
-            onClick={() => {
-              router.push("/evolve");
-              setTimeout(() => {
-                setComposed(false);
-                dispatch(clearRevealedTraits());
-              }, 5000);
-            }}
-          >
-            CONTINUE
-          </Button>
         </div>
       )}
     </>

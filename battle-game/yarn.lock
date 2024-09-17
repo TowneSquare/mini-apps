@@ -2024,6 +2024,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@okwallet/aptos-wallet-adapter@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@okwallet/aptos-wallet-adapter/-/aptos-wallet-adapter-0.0.7.tgz#78f3320464991e12857fa2b5b28713b26abb6924"
+  integrity sha512-n6Uhh8uzj6pRRXppKYUPRDxzb3x/wH9xy3uXqYMbjJbiPb5LrWhm8LYYkRpw3ZFFNH3B/taMILd2qygzWVDH5w==
+
 "@open-rpc/client-js@^1.8.1":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@open-rpc/client-js/-/client-js-1.8.1.tgz#73b5a5bf237f24b14c3c89205b1fca3aea213213"

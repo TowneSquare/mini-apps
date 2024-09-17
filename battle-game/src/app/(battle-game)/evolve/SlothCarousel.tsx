@@ -159,12 +159,13 @@ export const SlothCarousel = () => {
               />
             </div>
             <div className="flex items-center justify-center mt-10 mb-4">
-              <Button
-              className="h-14 w-[328px] content-center text-lg"
-              variant="secondary"
+              <Link
+              className="h-14 w-[328px] font-bold rounded-lg content-center text-center text-lg border-2 bg-bggreen text-primary-foreground border-black border-b-4 active:border-b-0"
+              href="https://townespace.xyz/"
+              target="_blank"
             >
               GO TO TOWNESPACE
-            </Button>
+            </Link>
             </div>
           </div>
         </div>

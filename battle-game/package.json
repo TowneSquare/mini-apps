@@ -18,6 +18,7 @@
     "@martianwallet/aptos-wallet-adapter": "^0.0.4",
     "@mizuwallet-sdk/core": "^1.2.0",
     "@nightlylabs/aptos-wallet-adapter-plugin": "^0.2.12",
+    "@okwallet/aptos-wallet-adapter": "^0.0.7",
     "@openblockhq/aptos-wallet-adapter": "^0.1.5",
     "@pontem/wallet-adapter-plugin": "^0.2.0",
     "@radix-ui/react-slot": "^1.0.2",
