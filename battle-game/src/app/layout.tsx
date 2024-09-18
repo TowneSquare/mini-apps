@@ -37,7 +37,7 @@ function WalletSelector({
             <WalletSelectorModelProvider>
               <QueryProvider>
                 <BattleEvilProvider>
-                  <main className="h-screen bg-[#4c6299] overflow-hidden">
+                  <main className=" bg-[#4c6299] overflow-hidden">
                     <Header />
                     {children}
                   </main>

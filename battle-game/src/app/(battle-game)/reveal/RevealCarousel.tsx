@@ -183,11 +183,7 @@ export const RevealCarousel = () => {
     })
     .splice(1, 1)[0];
 
-  //    const layers = [
-  //   "https://bafybeiafcvv5u3lntqbuuiu35kf6vzktkatprtsqlxwcyjjtl57bijlp7q.ipfs.w3s.link/Zombie.png",
-  //   "https://bafybeiafcvv5u3lntqbuuiu35kf6vzktkatprtsqlxwcyjjtl57bijlp7q.ipfs.w3s.link/Ripped%20shirt.png",
-  //   "https://bafybeiafcvv5u3lntqbuuiu35kf6vzktkatprtsqlxwcyjjtl57bijlp7q.ipfs.w3s.link/Mingos%20crown.png",
-  // ];
+ 
 
   //console.log(, "garri")
   const traitObject = traitDetails
