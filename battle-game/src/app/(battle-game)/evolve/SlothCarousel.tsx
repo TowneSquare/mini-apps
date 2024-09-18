@@ -142,9 +142,9 @@ export const SlothCarousel = () => {
           </p>
           <div className="md:w-[700px] w-[90%] rounded-3xl border-2 border-b-8 border-black bg-black/40 px-6 py-9 md:px-20 md:py-10">
             <p className="mb-5 text-xl font-normal text-center text-white">
-              Now, visit{" "}
-              <span className="font-bold text-[#6BCDCB]">Townespace</span> to
-              reveal the exciting bonus trait you've unlocked.{" "}
+              Now, follow{" "}
+              <span className="font-bold text-[#6BCDCB]">@Townespace</span> to
+              wait for the exciting bonus trait you've unlocked.{" "}
             </p>
             <p className="text-xl font-normal text-center text-white">
               Once there, you can compose this bonus trait onto your Sloth and
@@ -161,10 +161,10 @@ export const SlothCarousel = () => {
             <div className="flex items-center justify-center mt-10 mb-4">
               <Link
               className="h-14 w-[328px] font-bold rounded-lg content-center text-center text-lg border-2 bg-bggreen text-primary-foreground border-black border-b-4 active:border-b-0"
-              href="https://townespace.xyz/"
+              href="https://x.com/townespace"
               target="_blank"
             >
-              GO TO TOWNESPACE
+              FOLLOW @TOWNESPACE ON X
             </Link>
             </div>
           </div>
