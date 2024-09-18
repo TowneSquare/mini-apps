@@ -22,6 +22,7 @@ import { useTraitData, useTraitsDetails } from "@/src/hooks";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 import { Draggable } from "@/src/components/Draggable";
 import towneSqaureLogo from "@/public/assets/townespace_logo.png";
+import bonusTrait from "@/public/assets/bonus_trait.svg";
 import { useEvent, useMouseWheel } from "react-use";
 
 export interface TraitsProps {
@@ -325,18 +326,26 @@ export const RevealCarousel = () => {
                       ))}
                       <div className="flex flex-col items-center mr-5">
                         <div className="carousel-item mx-1 flex h-60 w-60 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED] md:h-80 md:w-80">
-                          <h1 className="text-2xl font-bold text-[#3F5679] md:text-4xl">
-                            Bonus Trait
-                          </h1>
-                          <p className="mt-6 text-lg text-[#3F5679]">
-                            See it on{" "}
-                          </p>
-                          <Image
-                            src={towneSqaureLogo}
-                            width={197}
-                            height={34}
-                            alt="Townesquare_logo"
-                          />
+                          <div className="relative flex items-center  h-56 w-56 flex-col justify-center rounded-3xl border-2 border-[#536A8D]/50 md:h-72 md:w-72">
+                            <Image
+                              src={bonusTrait}
+                              width={113}
+                              height={83}
+                              alt="Townesquare_logo"
+                            />
+                            <h1 className="text-2xl font-bold text-[#3F5679] md:text-4xl">
+                              Bonus Trait
+                            </h1>
+                            <p className="mt-6 text-lg font-bold text-[#3F5679]">
+                              Coming soon on
+                            </p>
+                            <Image
+                              src={towneSqaureLogo}
+                              width={197}
+                              height={34}
+                              alt="Townesquare_logo"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
