@@ -207,7 +207,7 @@ const HitBear = () => {
   };
 
   return (
-    <main className="relative flex items-center justify-center w-screen h-screen">
+    <main className="relative flex items-center justify-center w-screen min-h-screen">
       <div
         ref={healthRef}
         className="absolute z-50 flex flex-col items-center justify-center w-full top-1"
@@ -276,7 +276,7 @@ const HitBear = () => {
               priority
             />
             <Image
-              className="-mb-[300px] md:hidden"
+              className="-mb-[300px] z-40 md:hidden"
               src={mobileSloth.src}
               alt="Bear"
               style={{
@@ -352,9 +352,9 @@ const HitBear = () => {
         <h1>him</h1>
       </div>
       <img
-        className="absolute bottom-0 z-50 w-full h-auto md:hidden"
-        src="/assets/game/mobile_footer.png"
-        alt=""
+        className="absolute bottom-0 z-50 w-full object-cover h-[16vh] md:hidden"
+        src="/assets/game/mobile-footer.png"
+        alt="mobile-footer"
       />
       <img
         src="/assets/game/desktop-footer.png"
