@@ -16,7 +16,7 @@ import { updateHeaderState } from "@/src/store/app";
 
 const HitBear = () => {
   const { evilBlood, battleClickHandler } = useBattleEvil();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const [isClickable, setIsClickable] = useState(false);
@@ -77,31 +77,30 @@ const HitBear = () => {
         if (loaded) {
           const tll = gsap.timeline();
           gsap.to("#hitBear", {
-            marginBottom: "1.5vh",
+            marginBottom: "-100px",
             duration: countDown / 2,
             filter: "brightness(0.2)",
             onComplete: () => {
               gsap.to("#hitBear", {
-                marginBottom: "10.5vh",
+                marginBottom: "-50px",
                 duration: countDown / 2,
                 filter: "brightness(0.8)",
-                width: 700,
+                width: 800,
               });
-             // dispatch(updateHeaderState(true))
+              // dispatch(updateHeaderState(true))
             },
           });
           gsap.to("#hitBearMobile", {
-            marginBottom: "-300px",
+            marginBottom: "0px",
             duration: countDown,
             filter: "brightness(1)",
-            width:600
+            width: 600,
           });
           if (countdownRefs) {
             tll.to(countdownRefs[countdownRefs?.length - 1].current, {
               opacity: 0,
               duration: 1,
               display: "none",
-              
             });
             // tl.delay(1);
             for (let index = 0; index < countdownRefs?.length - 1; index++) {
@@ -109,7 +108,7 @@ const HitBear = () => {
                 countdownRefs[countdownRefs?.length - 2 - index].current;
               tll
                 .to(ref, { opacity: 1, duration: 1, display: "block" })
-                .set(ref, { opacity: 0, display: "none"});
+                .set(ref, { opacity: 0, display: "none" });
             }
           }
           tll
@@ -138,17 +137,17 @@ const HitBear = () => {
           setIsClickable(false);
           //dispatch(updateHeaderState(false))
           gsap.to("#hitBear", {
-            marginBottom: "-144px",
+            marginBottom: "-300px",
             duration: 10,
-            filter: "brightness(.2)",
+            filter: "brightness(.09)",
             onComplete: () => {
               router.push("/youMadeIt");
             },
           });
           gsap.to("#hitBearMobile", {
-            marginBottom: "-600px",
+            marginBottom: "-300px",
             duration: 10,
-            filter: "brightness(.1)",
+            filter: "brightness(0.09)",
             onComplete: () => {
               router.push("/youMadeIt");
             },
@@ -162,11 +161,10 @@ const HitBear = () => {
   }, [evilBlood]);
 
   useEffect(() => {
-  //  if(countDown < 0){
-  //   dispatch(updateHeaderState(true))
-  //  }
-  }, [countDown])
-  
+    //  if(countDown < 0){
+    //   dispatch(updateHeaderState(true))
+    //  }
+  }, [countDown]);
 
   const handleClick = (event: any) => {
     if (isClickable) {
@@ -206,6 +204,8 @@ const HitBear = () => {
     }
   };
 
+
+
   return (
     <main className="relative flex items-center justify-center w-screen min-h-screen">
       <div
@@ -227,31 +227,27 @@ const HitBear = () => {
           </div>
         </div>
       </div>
-      <div className="relative w-full md:w-fit">
+      <div className="absolute w-full bottom-[30px] md:bottom-[30vh] md:w-fit">
         {countDown > 0 && (
           <>
             <Image
-              className="-mb-48 hidden content-center items-center justify-center brightness-[.2] md:block"
+              className="hidden -mb-[250px] content-center items-center justify-center brightness-[.2] md:block"
               src="/assets/game/evil-sloth.svg"
               alt="Bear"
-              width={500}
-              height={500}
+              width={600}
+              height={600}
               onClick={handleClick}
               onLoad={handleImageLoad}
               id="hitBear"
               priority
             />
             <Image
-              className="-mb-[600px] brightness-[.1] md:hidden"
+              className="-mb-[300px] brightness-[.1] md:hidden"
               src={mobileSloth.src}
               alt="Bear"
               id="hitBearMobile"
-              style={{
-                width: "100%",
-                height: "auto",
-              }}
-              width={600}
-              height={600}
+              width={500}
+              height={500}
               //sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               onClick={handleClick}
               onLoad={handleImageLoad}
@@ -262,7 +258,7 @@ const HitBear = () => {
         {countDown < 0 && (
           <>
             <Image
-              className="items-center content-center justify-center hidden mb-28 md:block"
+              className="items-center content-center justify-center hidden md:block"
               src="/assets/game/evil-sloth.svg"
               alt="Bear"
               width={700}
@@ -276,15 +272,15 @@ const HitBear = () => {
               priority
             />
             <Image
-              className="-mb-[300px] z-40 md:hidden"
+              className={`z-40 md:hidden`}
               src={mobileSloth.src}
               alt="Bear"
               style={{
                 width: "100%",
-                height: "auto",
+                objectFit:"cover"
               }}
-              width={700}
-              height={700}
+              width={800}
+              height={600}
               onClick={handleClick}
               onLoad={handleImageLoad}
               id="hitBearMobile"
@@ -326,7 +322,7 @@ const HitBear = () => {
             key={i}
             ref={ref}
             className={
-              `absolute top-52 z-20 hidden w-3/4 text-center text-[15rem] text-white` +
+              `absolute top-[10rem] md:top-[15rem] z-50 hidden w-3/4 text-center text-[15rem] text-white` +
               ` ${i === countdownRefs.length - 1 ? "hidden opacity-100" : "opacity-0"}`
             }
             style={{
@@ -341,7 +337,7 @@ const HitBear = () => {
       })}
       <div
         ref={hitHimRef}
-        className="absolute top-[15rem] z-20 w-full text-center text-[9rem] font-bold leading-[8rem] text-white opacity-0"
+        className="absolute  top-[10rem] md:top-[15rem] z-50 w-full text-center text-[9rem] font-bold leading-[8rem] text-white opacity-0"
         style={{
           textShadow:
             "8px 8px 0 #000, 8px -8px 0 #000, -8px 8px 0 #000, -8px -8px 0 #000, 0 8px 0 #000, 0 -8px 0 #000, 8px 0 #000, -8px 0 #000",
@@ -352,14 +348,14 @@ const HitBear = () => {
         <h1>him</h1>
       </div>
       <img
-        className="absolute bottom-0 z-50 w-full object-cover h-[16vh] md:hidden"
+        className="absolute bottom-0 z-20 h-[150px] w-full object-cover md:hidden"
         src="/assets/game/mobile-footer.png"
         alt="mobile-footer"
       />
       <img
         src="/assets/game/desktop-footer.png"
         alt="desktop"
-        className="absolute bottom-0 z-50 hidden h-[40vh] w-full object-cover md:block"
+        className="absolute bottom-0 z-20 hidden h-[40vh] w-full object-cover md:block"
       />
     </main>
   );

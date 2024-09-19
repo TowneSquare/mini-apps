@@ -20,7 +20,7 @@ export default function RevealPage() {
   // }, {scope: container})
   return (
     <>
-      <div className="relative flex h-fit w-screen flex-col items-center justify-center bg-[#4c6299]">
+      <div className="relative flex h-fit w-screen flex-col items-center justify-between bg-[#4c6299]">
         <CommonPageHeader className="z-10" />
         <div
           id="ImgBg"

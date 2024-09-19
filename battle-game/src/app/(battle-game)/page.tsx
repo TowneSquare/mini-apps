@@ -53,7 +53,7 @@ export default function BattleGamePage() {
         />
         {GAME_START_TIME - Math.floor(Date.now()) <= 30000 && !(GAME_START_TIME - Math.floor(Date.now()) <= 0) ? (
           <RouteButton
-            disabled={!eligible}
+            //disabled={!eligible}
             title={`Battle ${timeInfo.secondsStr}`}
             
             bottomClass="bottom-8"
@@ -61,7 +61,7 @@ export default function BattleGamePage() {
           />
         ) : (
           <RouteButton
-            disabled={!eligible}
+            //disabled={!eligible}
             title={`Battle`}
             
             bottomClass="bottom-8"

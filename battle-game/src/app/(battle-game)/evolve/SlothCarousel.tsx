@@ -160,7 +160,7 @@ export const SlothCarousel = () => {
             </div>
             <div className="flex items-center justify-center mt-10 mb-4">
               <Link
-              className="h-14 w-[328px] font-bold rounded-lg content-center text-center text-lg border-2 bg-bggreen text-primary-foreground border-black border-b-4 active:border-b-0"
+              className="h-14 w-[328px] font-bold rounded-lg content-center flex justify-center items-center text-center text-lg border-2 bg-bggreen text-primary-foreground border-black border-b-4 active:border-b-0"
               href="https://x.com/townespace"
               target="_blank"
             >

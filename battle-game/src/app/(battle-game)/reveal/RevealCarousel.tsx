@@ -363,11 +363,13 @@ export const RevealCarousel = () => {
           </div>
         </div>
       ) : (
-        <div className="relative grid h-screen grid-rows-[10vh,75vh]">
-          <p className="px-8 mt-10 text-xl font-extrabold text-center text-white md:text-3xl">
+        <div className="relative grid h-screen grid-rows-[20vh,80vh]">
+          <div className="flex items-center justify-center h-full">
+            <p className="px-8 mt-10 text-2xl font-extrabold text-center text-white md:text-3xl">
             Here is your Sloth! Cool right?
           </p>
-          <div className="flex flex-col items-center justify-evenly">
+          </div>
+          <div className="flex flex-col items-center my-3 justify-evenly">
             <div className="flex flex-col items-center justify-center rounded-3xl">
               <Image
                 src={uri}
@@ -380,8 +382,8 @@ export const RevealCarousel = () => {
                 }}
                 className="w-[300px] rounded-3xl md:w-[450px]"
               />
-              <p className="mt-2 text-3xl font-extrabold text-center text-white ">
-                {composableObject?.token_name}
+              <p className="mt-2 text-2xl font-extrabold text-center text-white md:mt-6 md:text-3xl ">
+                {composableObject?.token_name} 
               </p>
             </div>
 
