@@ -21,7 +21,7 @@ export default function RevealPage() {
   return (
     <>
       <div className="relative flex h-fit w-screen flex-col items-center justify-between bg-[#4c6299]">
-        <CommonPageHeader className="z-10" />
+        {/* <CommonPageHeader className="z-10 hidden " /> */}
         <div
           id="ImgBg"
           className="absolute bottom-0 top-0 flex h-[900px] w-[900px] animate-spin justify-center overflow-hidden rounded-[50%] animate-duration-[100000ms] animate-infinite"

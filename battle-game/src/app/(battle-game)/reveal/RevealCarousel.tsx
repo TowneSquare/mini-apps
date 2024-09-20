@@ -25,6 +25,7 @@ import towneSqaureLogo from "@/public/assets/townespace_logo.png";
 import bonusTrait from "@/public/assets/bonus_trait.svg";
 import { useEvent, useMouseWheel } from "react-use";
 import Link from "next/link";
+import { updateHeaderState } from "@/src/store/app";
 
 export interface TraitsProps {
   traitName: string;
@@ -285,6 +286,9 @@ export const RevealCarousel = () => {
   }, []);
 
   const Ref = useRef(null);
+   useEffect(() => {
+     dispatch(updateHeaderState(true))
+  }, []);
 
   return (
     <>
@@ -334,17 +338,12 @@ export const RevealCarousel = () => {
                             <p className="mt-6 text-lg font-bold text-[#3F5679]">
                               Coming soon on
                             </p>
-                            <Link
-                              href="https://x.com/townespace"
-                              target="_blank"
-                            >
-                              <Image
+                            <Image
                                 src={towneSqaureLogo}
                                 width={197}
                                 height={34}
                                 alt="Townesquare_logo"
                               />
-                            </Link>
                           </div>
                         </div>
                       </div>
