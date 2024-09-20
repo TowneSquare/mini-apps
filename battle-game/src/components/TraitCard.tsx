@@ -129,7 +129,7 @@ export const TraitCard: React.FC<{
             className={`${loaded ? "hidden" : "block"} carousel-item flex w-full flex-col items-center justify-center md:mx-2`}
             id={`${traitName}`}
             style={{
-              transform: "rotateY(180deg)",
+              transform: "rotateY(0deg)",
             }}
           >
             <div className="flex flex-col items-center justify-center w-56 h-56 mb-4 bg-white border-2 rounded-3xl md:h-80 md:w-80">

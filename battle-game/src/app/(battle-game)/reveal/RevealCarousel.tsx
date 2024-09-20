@@ -24,6 +24,7 @@ import { Draggable } from "@/src/components/Draggable";
 import towneSqaureLogo from "@/public/assets/townespace_logo.png";
 import bonusTrait from "@/public/assets/bonus_trait.svg";
 import { useEvent, useMouseWheel } from "react-use";
+import Link from "next/link";
 
 export interface TraitsProps {
   traitName: string;
@@ -183,8 +184,6 @@ export const RevealCarousel = () => {
     })
     .splice(1, 1)[0];
 
- 
-
   //console.log(, "garri")
   const traitObject = traitDetails
     .filter((traitDetail) => traitDetail.traitName !== TRAIT_NAME.BODY)
@@ -322,7 +321,7 @@ export const RevealCarousel = () => {
                       ))}
                       <div className="flex flex-col items-center mr-5">
                         <div className="carousel-item mx-1 flex h-60 w-60 flex-col items-center justify-center rounded-3xl border-2 border-b-8 border-black bg-[#C7D6ED] md:h-80 md:w-80">
-                          <div className="relative flex items-center  h-56 w-56 flex-col justify-center rounded-3xl border-2 border-[#536A8D]/50 md:h-72 md:w-72">
+                          <div className="relative flex h-56  w-56 flex-col items-center justify-center rounded-3xl border-2 border-[#536A8D]/50 md:h-72 md:w-72">
                             <Image
                               src={bonusTrait}
                               width={113}
@@ -335,12 +334,17 @@ export const RevealCarousel = () => {
                             <p className="mt-6 text-lg font-bold text-[#3F5679]">
                               Coming soon on
                             </p>
-                            <Image
-                              src={towneSqaureLogo}
-                              width={197}
-                              height={34}
-                              alt="Townesquare_logo"
-                            />
+                            <Link
+                              href="https://x.com/townespace"
+                              target="_blank"
+                            >
+                              <Image
+                                src={towneSqaureLogo}
+                                width={197}
+                                height={34}
+                                alt="Townesquare_logo"
+                              />
+                            </Link>
                           </div>
                         </div>
                       </div>
@@ -366,8 +370,8 @@ export const RevealCarousel = () => {
         <div className="relative grid h-screen grid-rows-[20vh,80vh]">
           <div className="flex items-center justify-center h-full">
             <p className="px-8 mt-10 text-2xl font-extrabold text-center text-white md:text-3xl">
-            Here is your Sloth! Cool right?
-          </p>
+              Here is your Sloth! Cool right?
+            </p>
           </div>
           <div className="flex flex-col items-center my-3 justify-evenly">
             <div className="flex flex-col items-center justify-center rounded-3xl">
@@ -383,7 +387,7 @@ export const RevealCarousel = () => {
                 className="w-[300px] rounded-3xl md:w-[450px]"
               />
               <p className="mt-2 text-2xl font-extrabold text-center text-white md:mt-6 md:text-3xl ">
-                {composableObject?.token_name} 
+                {composableObject?.token_name}
               </p>
             </div>
 
