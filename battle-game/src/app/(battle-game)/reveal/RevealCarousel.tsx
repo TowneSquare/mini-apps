@@ -9,6 +9,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import {
   COMPOSABLE_TOKEN_ENTRY,
+  COMPOSABLE_TOKEN_ENTRY_MODULE_ADDRESS_MAINNET,
   COMPOSABLE_TOKEN_ENTRY_MODULE_ADDRESS_TESTNET,
   EQUIP_TRAITS,
   PINATA_GATEWAY,
@@ -202,7 +203,7 @@ export const RevealCarousel = () => {
           coolSlothName: composableObject?.token_name,
         }),
       });
-      console.log(traitsUri, account?.address);
+      console.log(traitsUri, "URI");
       const { ipfsHash, message } = await res.json();
       const URI = `${PINATA_GATEWAY}/${ipfsHash}`;
       // console.log(
@@ -217,7 +218,7 @@ export const RevealCarousel = () => {
       const tx = await signAndSubmitTransaction({
         sender: account?.address,
         data: {
-          function: `${COMPOSABLE_TOKEN_ENTRY_MODULE_ADDRESS_TESTNET}::${COMPOSABLE_TOKEN_ENTRY}::${EQUIP_TRAITS}`,
+          function: `${COMPOSABLE_TOKEN_ENTRY_MODULE_ADDRESS_MAINNET}::${COMPOSABLE_TOKEN_ENTRY}::${EQUIP_TRAITS}`,
           typeArguments: [],
           functionArguments: [
             composableObject?.token_data_id,
@@ -229,7 +230,6 @@ export const RevealCarousel = () => {
       setIsComposing(false);
       setComposed(true);
     } catch (error) {
-      console.log(error, "compose error");
       setIsComposing(false);
     }
   };

@@ -24,6 +24,11 @@ const nextConfig = {
         hostname: "rose-gentle-halibut-945.mypinata.cloud",
         pathname: "**",
       },
+       {
+        protocol: "https",
+        hostname: "aquamarine-electoral-hyena-268.mypinata.cloud",
+        pathname: "**",
+      },
       {
         protocol: "https",
         hostname:
@@ -40,6 +45,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "aptoslabs.com",
         pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "**",
       },
     ],
     // domains: [

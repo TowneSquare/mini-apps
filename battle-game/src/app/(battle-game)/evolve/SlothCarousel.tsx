@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSlothBallData } from "@/src/hooks";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useRef, useEffect, useMemo } from "react";
-import { DAPP_ADDRESS, MODULE_NAME, APTOS } from "@/src/config/constants";
+import { DAPP_ADDRESS_TESTNET, DAPP_ADDRESS_MAINNET, MODULE_NAME, APTOS } from "@/src/config/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { UserTransactionResponse } from "@/src/types";
@@ -35,7 +35,7 @@ export const SlothCarousel = () => {
       const res = await signAndSubmitTransaction({
         sender: account?.address,
         data: {
-          function: `${DAPP_ADDRESS}::${MODULE_NAME}::unveil`,
+          function: `${DAPP_ADDRESS_MAINNET}::${MODULE_NAME}::unveil`,
           typeArguments: [],
           functionArguments: [token],
         },
@@ -49,7 +49,7 @@ export const SlothCarousel = () => {
           dispatch(
             updateTrait(
               result.events.find(
-                (event) => event.type == `${DAPP_ADDRESS}::unveil::Unveiled`,
+                (event) => event.type == `${DAPP_ADDRESS_MAINNET}::unveil::Unveiled`,
               )?.data,
             ),
           );

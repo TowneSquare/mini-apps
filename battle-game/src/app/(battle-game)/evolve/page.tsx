@@ -4,7 +4,7 @@ import BgFallImg from "@/public/assets/battle-game/bg-fall.png";
 import type { StaticImageData } from "next/image";
 import { CommonPageHeader } from "@/src/components/CommonPageHeader";
 import { SlothCarousel } from "./SlothCarousel";
-import { APTOS_NODE_URL, DAPP_ADDRESS } from "../../../config/constants";
+import { APTOS_NODE_URL, DAPP_ADDRESS_TESTNET } from "../../../config/constants";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { Provider, Types } from "aptos";
 import { useEffect, useState } from "react";
@@ -21,8 +21,8 @@ export default function EvolvePage() {
   const { account } = useWallet();
   console.log("account:", account);
   const client = new Provider({ fullnodeUrl: APTOS_NODE_URL });
-  const typeCoollistInfo = `${DAPP_ADDRESS}::pre_mint::CoolListInfo`;
-  const typePublicInfo = `${DAPP_ADDRESS}::pre_mint::PublicInfo`;
+  const typeCoollistInfo = `${DAPP_ADDRESS_TESTNET}::pre_mint::CoolListInfo`;
+  const typePublicInfo = `${DAPP_ADDRESS_TESTNET}::pre_mint::PublicInfo`;
   const [mintList, setMintList] = useState<SlothsData>([]); // State to store the list of IDs
 
 // Depend on account to re-run when account changes

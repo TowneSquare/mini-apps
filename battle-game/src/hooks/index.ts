@@ -1,6 +1,7 @@
 import { TRAIT_NAME } from "../app/(battle-game)/reveal/RevealCarousel";
 import {
   APTOS,
+  SLOTHBALL_COLLECTION_ADDRESS_MAINNET,
   SLOTHBALL_COLLECTION_ADDRESS_TESTNET,
 } from "../config/constants";
 import { useQuery } from "@tanstack/react-query";
@@ -11,13 +12,12 @@ export const useSlothBallData = ({
   accountAddress?: string;
 }) => {
   const getSlothballData = async () => {
-    console.log(SLOTHBALL_COLLECTION_ADDRESS_TESTNET, "ggg");
     if (!accountAddress) {
       return [];
     }
     const res = await APTOS.getAccountOwnedTokensFromCollectionAddress({
       accountAddress: accountAddress,
-      collectionAddress: SLOTHBALL_COLLECTION_ADDRESS_TESTNET,
+      collectionAddress: SLOTHBALL_COLLECTION_ADDRESS_MAINNET,
     });
 
     return res;
