@@ -232,7 +232,7 @@ const HitBear = () => {
           <>
             <Image
               className="hidden -mb-[250px] content-center items-center justify-center brightness-[.2] md:block"
-              src="/assets/game/evil-sloth.svg"
+              src="/assets/game/evil-sloth.png"
               alt="Bear"
               width={600}
               height={600}
@@ -259,7 +259,7 @@ const HitBear = () => {
           <>
             <Image
               className="items-center content-center justify-center hidden md:block"
-              src="/assets/game/evil-sloth.svg"
+              src="/assets/game/evil-sloth.png"
               alt="Bear"
               width={700}
               height={750}
