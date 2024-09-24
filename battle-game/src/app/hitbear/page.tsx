@@ -1,6 +1,5 @@
 "use client";
 import gsap from "gsap";
-import frontImg from "@/public/assets/game/front.png";
 import mobileSloth from "@/public/assets/game/mobile-sloth.png";
 import boomImgA from "@/public/assets/game/boomA.png";
 import boomImgB from "@/public/assets/game/boomB.png";
