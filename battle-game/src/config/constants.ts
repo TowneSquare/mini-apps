@@ -39,7 +39,7 @@ export const APTOS_SIGNER_URL = "https://aptos-signer.vercel.app/?msg=";
 export const STATE_SEED = "hero_signer";
 const aptosConfig = new AptosConfig({ network: Network.MAINNET });
 export const APTOS = new Aptos(aptosConfig);
-export const GAME_START_TIME = 1727272800000
+export const GAME_START_TIME = 1727280000000
 // use to gen resource account.
 
 // console.log(NETWORK, DAPP_ADDRESS,PINATA_JWT, PINATA_GATEWAY,  "constants")
