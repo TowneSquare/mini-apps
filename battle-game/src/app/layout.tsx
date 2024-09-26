@@ -48,7 +48,7 @@ function WalletSelector({
           </WalletProvider>
         </ReduxProvider>
       </body>
-      <GoogleAnalytics gaId="GTM-5Q8K7SRD" />
+      <GoogleAnalytics gaId="G-866CR1590Z" />
     </html>
   );
 }
