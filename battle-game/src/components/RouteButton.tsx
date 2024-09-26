@@ -35,7 +35,7 @@ export const RouteButton = ({
         disabled={disabled || isStartGame}
         type="button"
         onClick={() => {
-          evilBlood <= 0 ? router.push("/evolve") : router.push("/hitbear");
+          router.push("/evolve");
         }}
         className="w-full h-full font-extrabold text-white rounded-xl bg-bggreen"
         style={{
