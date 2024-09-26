@@ -16,6 +16,7 @@ import { WalletSelectorModelProvider } from "../provider/WalletModelProvider";
 import QueryProvider from "../provider/QueryProvider";
 import ReduxProvider from "../provider/ReduxProvider";
 import { CommonPageHeader } from "../components/CommonPageHeader";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const exo_2 = Exo_2({ subsets: ["latin"] });
 
@@ -47,6 +48,7 @@ function WalletSelector({
           </WalletProvider>
         </ReduxProvider>
       </body>
+      <GoogleAnalytics gaId="GTM-5Q8K7SRD" />
     </html>
   );
 }

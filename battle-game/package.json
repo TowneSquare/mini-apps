@@ -17,6 +17,7 @@
     "@gsap/react": "^2.1.1",
     "@martianwallet/aptos-wallet-adapter": "^0.0.4",
     "@mizuwallet-sdk/core": "^1.2.0",
+    "@next/third-parties": "^14.2.13",
     "@nightlylabs/aptos-wallet-adapter-plugin": "^0.2.12",
     "@okwallet/aptos-wallet-adapter": "^0.0.7",
     "@openblockhq/aptos-wallet-adapter": "^0.1.5",
