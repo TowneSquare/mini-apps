@@ -5,7 +5,12 @@ import Link from "next/link";
 import { useSlothBallData } from "@/src/hooks";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useRef, useEffect, useMemo } from "react";
-import { DAPP_ADDRESS_TESTNET, DAPP_ADDRESS_MAINNET, MODULE_NAME, APTOS } from "@/src/config/constants";
+import {
+  DAPP_ADDRESS_TESTNET,
+  DAPP_ADDRESS_MAINNET,
+  MODULE_NAME,
+  APTOS,
+} from "@/src/config/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { UserTransactionResponse } from "@/src/types";
@@ -49,7 +54,8 @@ export const SlothCarousel = () => {
           dispatch(
             updateTrait(
               result.events.find(
-                (event) => event.type == `${DAPP_ADDRESS_MAINNET}::unveil::Unveiled`,
+                (event) =>
+                  event.type == `${DAPP_ADDRESS_MAINNET}::unveil::Unveiled`,
               )?.data,
             ),
           );
@@ -97,10 +103,10 @@ export const SlothCarousel = () => {
     <section>
       {SlothBallData.data && SlothBallData.data?.length > 0 ? (
         <div>
-          <p className="px-8 mb-16 text-3xl font-extrabold text-center text-white mt-[24px] md:mt-14">
+          <p className="mb-16 mt-[24px] px-8 text-center text-3xl font-extrabold text-white md:mt-14">
             Evolve your Slothballs!
           </p>
-          <div className="flex items-center justify-center overflow-x-scroll mt-[24px] md:ml-60 md:mr-64">
+          <div className="mt-[24px] flex items-center justify-center overflow-x-scroll md:ml-60 md:mr-64">
             <Draggable innerRef={Ref} rootClass="drag">
               <div
                 ref={carouselRef}
@@ -148,13 +154,13 @@ export const SlothCarousel = () => {
           </p>
           <div className="w-[90%] rounded-3xl border-2 border-b-8 border-black bg-black/40 px-6 py-9 md:w-[700px] md:px-20 md:py-10">
             <p className="mb-5 text-xl font-normal text-center text-white">
-              Now, follow{" "}
-              <span className="font-bold text-[#6BCDCB]">@Townespace</span> to
-              wait for the exciting bonus trait you've unlocked.{" "}
+              Head over to{" "}
+              <Link href="https://townespace.xyz/" target="_blank" className="font-bold text-[#6BCDCB]">Townespace</Link> to 
+              customize your Cool Sloths!.
+              <p>Add or remove traits to make it one-of-a-kind!.</p>
             </p>
             <p className="text-xl font-normal text-center text-white">
-              Once there, you can compose this bonus trait onto your Sloth and
-              make it even more unique!
+             Need new traits? Find them on <Link className="font-bold text-[#6BCDCB]" href="https://wapal.io/collection/cool-sloths1" target="_blank">Wapal</Link>
             </p>
             <div className="flex justify-center mt-12">
               <Image
@@ -167,10 +173,10 @@ export const SlothCarousel = () => {
             <div className="flex items-center justify-center mt-10 mb-4">
               <Link
                 className="flex h-14 w-[328px] content-center items-center justify-center rounded-lg border-2 border-b-4 border-black bg-bggreen text-center text-lg font-bold text-primary-foreground active:border-b-0"
-                href="https://x.com/townespace"
+                href="https://townespace.xyz/" 
                 target="_blank"
               >
-                FOLLOW @TOWNESPACE ON X
+                GO TO TOWNESPACE
               </Link>
             </div>
           </div>
